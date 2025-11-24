@@ -8,9 +8,9 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {{ range $images }}
       
-      {{ $image := .Fill "1000x800 center" }}
+      {{ $image := .Fill "1200x900 center" }}
       
-      <div class="relative w-full aspect-[3/4] group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+      <div class="relative w-full aspect-[4/3] group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
         
         <a href="{{ .RelPermalink }}" target="_blank" class="absolute inset-0 w-full h-full">
           <img src="{{ $image.RelPermalink }}" 
