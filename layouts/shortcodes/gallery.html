@@ -1,27 +1,37 @@
+{{/* layouts/shortcodes/gallery.html */}}
 {{ $album := .Get "album" }}
+{{/* 确保能找到图片，如果找不到会显示错误提示 */}}
 {{ $images := resources.Match (printf "media/albums/%s/*" $album) }}
 
 {{ if gt (len $images) 0 }}
-<div class="my-12">
+<div style="width: 90vw; position: relative; left: 50%; margin-left: -45vw;" class="my-12">
+  
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {{ range $images }}
-
-      {{ $image := .Resize "1500x" }}
-
-      <div class="relative w-full h-64 group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
-        <a href="{{ .Permalink }}" target="_blank" class="absolute inset-0 w-full h-full">
-          <img
-            src="{{ $image.Permalink }}"
-            alt="{{ .Name }}"
-            loading="lazy"
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
+      
+      {{ $image := .Fill "1200x900 center" }}
+      
+      <div class="relative w-full aspect-[4/3] group overflow-hidden rounded-xl shadow-md bg-gray-100">
+        
+        <a href="{{ .RelPermalink }}" target="_blank" class="block absolute inset-0 w-full h-full" style="margin: 0; padding: 0; border: none;">
+          <img src="{{ $image.RelPermalink }}" 
+               width="{{ $image.Width }}" 
+               height="{{ $image.Height }}" 
+               alt="{{ .Name }}" 
+               loading="lazy"
+               class="block w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+               style="margin: 0; padding: 0; border: none; object-position: center;" />
         </a>
+        
+        <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
       </div>
-
     {{ end }}
   </div>
 </div>
 {{ else }}
-  <p class="text-red-500 text-center">❌ No images found at “media/albums/{{ $album }}/*”</p>
+  <div class="text-center p-10 border-2 border-red-500 border-dashed text-red-500 rounded-xl my-10">
+    <p class="font-bold text-xl mb-2">⚠️ Gallery Error</p>
+    <p>No images found in: <code>assets/media/albums/{{ $album }}/</code></p>
+    <p class="text-sm mt-2 text-gray-500">Please check if your folder name matches <code>{{ $album }}</code> exactly.</p>
+  </div>
 {{ end }}
