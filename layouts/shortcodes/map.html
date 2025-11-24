@@ -1,14 +1,19 @@
 {{/* layouts/shortcodes/map.html */}}
 {{ $lat := float (.Get "lat") }}
 {{ $lon := float (.Get "lon") }}
-{{/* 计算简单的边界框 */}}
+{{/* 计算边界框 */}}
 {{ $delta := 0.005 }}
 {{ $min_lon := sub $lon $delta }}
 {{ $min_lat := sub $lat $delta }}
 {{ $max_lon := add $lon $delta }}
 {{ $max_lat := add $lat $delta }}
 
-<div class="map-container my-6 rounded-xl overflow-hidden shadow-md h-96 w-full">
+强制宽度为屏幕宽度的100%
+     position: relative;    --> 相对定位
+     left: 50%;             -->以此为中心
+     margin-left: -50vw;    --> 向左拉回屏幕的一半，实现强制居中且撑满
+-->
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;" class="h-[60vh] my-12 shadow-2xl">
   <iframe 
     width="100%" 
     height="100%" 
@@ -17,9 +22,14 @@
     marginheight="0" 
     marginwidth="0" 
     src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-    style="border: 0">
+    style="border: 0; display: block;">
   </iframe>
-  <div class="text-xs text-gray-500 mt-1 text-center">
-    <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=15/{{ $lat }}/{{ $lon }}" target="_blank">View Larger Map</a>
+  
+  <div class="absolute bottom-4 right-4 z-10">
+    <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=15/{{ $lat }}/{{ $lon }}" 
+       target="_blank" 
+       class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-lg text-sm font-medium hover:bg-gray-50 transition duration-300 no-underline">
+      📍 View Larger Map
+    </a>
   </div>
 </div>
