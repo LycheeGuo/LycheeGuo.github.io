@@ -91,7 +91,7 @@ sections:
       # Reduce spacing
       spacing:
         padding: [0, 0, 0, 0]
-- block: markdown
+  - block: markdown
     content:
       title: Gallery
       subtitle: ''
@@ -101,7 +101,7 @@ sections:
       columns: '1'
 
   - block: markdown
-    content:
+     content:
       title: Location
       subtitle: 'Sino Building, CUHK'
       text: |-
