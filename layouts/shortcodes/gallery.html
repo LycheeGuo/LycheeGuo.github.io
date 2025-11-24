@@ -7,10 +7,10 @@
   
   <div class="grid grid-cols-1 md:grid-cols-3 gap-2 px-2">
     {{ range $images }}
-      {{/* 图片处理：统一调整大小以优化加载 */}}
-      {{ $image := .Resize "1200x center" }}
       
-      <div class="relative w-full aspect-[3/2] group overflow-hidden">
+      {{ $image := .Fill "1200x800 center" }}
+      
+      <div class="relative w-full aspect-[3/2] group overflow-hidden bg-gray-100">
         <a href="{{ .RelPermalink }}" target="_blank" class="block w-full h-full">
           <img src="{{ $image.RelPermalink }}" 
                width="{{ $image.Width }}" 
