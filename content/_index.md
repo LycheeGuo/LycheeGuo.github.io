@@ -96,6 +96,19 @@ sections:
       spacing:
         padding: [0, 0, 0, 0]
 
+  # ↓↓↓↓↓↓ 新增的 Projects 板块 ↓↓↓↓↓↓
+  - block: collection
+    content:
+      title: Projects
+      subtitle: ''
+      text: ''
+      filters:
+        folders:
+          - projects
+    design:
+      view: card      
+      columns: 2      
+
   - block: markdown
     content:
       title: Gallery
