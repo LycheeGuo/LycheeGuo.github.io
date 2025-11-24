@@ -1,17 +1,27 @@
 {{ $album := .Get "album" }}
-{{ $images := (readDir (print "static/media/albums/" $album)) }}
+{{ $images := resources.Match (printf "media/albums/%s/*" $album) }}
 
+{{ if gt (len $images) 0 }}
 <div class="my-12">
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {{ range $images }}
+
+      {{ $image := .Resize "1500x" }}
+
       <div class="relative w-full h-64 group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
-        <img
-          src="{{ printf "/media/albums/%s/%s" $album .Name }}"
-          alt="{{ .Name }}"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          loading="lazy"
-        />
+        <a href="{{ .Permalink }}" target="_blank" class="absolute inset-0 w-full h-full">
+          <img
+            src="{{ $image.Permalink }}"
+            alt="{{ .Name }}"
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        </a>
       </div>
+
     {{ end }}
   </div>
 </div>
+{{ else }}
+  <p class="text-red-500 text-center">❌ No images found at “media/albums/{{ $album }}/*”</p>
+{{ end }}
