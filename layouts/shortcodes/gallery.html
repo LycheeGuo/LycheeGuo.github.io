@@ -1,0 +1,20 @@
+{{/* layouts/shortcodes/gallery.html */}}
+{{ $album := .Get "album" }}
+{{/* 尝试查找 assets/media/albums/ 下的图片 */}}
+{{ $images := resources.Match (printf "media/albums/%s/*" $album) }}
+
+{{ if gt (len $images) 0 }}
+<div class="gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-6">
+  {{ range $images }}
+    {{/* 调整图片大小以优化加载速度 */}}
+    {{ $image := .Resize "600x" }}
+    <div class="gallery-item overflow-hidden rounded-xl shadow-md">
+      <a href="{{ .RelPermalink }}" target="_blank">
+        <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ .Name }}" class="w-full h-auto object-cover transition-transform duration-300 hover:scale-105">
+      </a>
+    </div>
+  {{ end }}
+</div>
+{{ else }}
+  <p class="text-red-500">Gallery Error: No images found in <code>assets/media/albums/{{ $album }}/</code></p>
+{{ end }}
