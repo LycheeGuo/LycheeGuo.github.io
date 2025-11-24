@@ -91,5 +91,21 @@ sections:
       # Reduce spacing
       spacing:
         padding: [0, 0, 0, 0]
+- block: markdown
+    content:
+      title: Gallery
+      subtitle: ''
+      text: |-
+        {{< gallery album="demo" >}}
+    design:
+      columns: '1'
 
+  - block: markdown
+    content:
+      title: Location
+      subtitle: 'Sino Building, CUHK'
+      text: |-
+        {{< map lat="22.415815" lon="114.207211" zoom="15" >}}
+    design:
+      columns: '1'
 ---
