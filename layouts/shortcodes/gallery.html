@@ -8,16 +8,18 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {{ range $images }}
       
-      {{ $image := .Fill "900x1200 center" }}
+      {{ $image := .Fill "1000x800 center" }}
       
-      <div class="relative w-full aspect-[3/4] group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 bg-gray-200">
-        <a href="{{ .RelPermalink }}" target="_blank" class="block w-full h-full">
+      <div class="relative w-full aspect-[3/4] group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+        
+        <a href="{{ .RelPermalink }}" target="_blank" class="absolute inset-0 w-full h-full">
           <img src="{{ $image.RelPermalink }}" 
                width="{{ $image.Width }}" 
                height="{{ $image.Height }}" 
                alt="{{ .Name }}" 
                loading="lazy"
-               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+               style="object-position: center;" />
         </a>
         
         <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
