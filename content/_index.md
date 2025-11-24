@@ -34,9 +34,9 @@ sections:
       title: '📚 My Research'
       subtitle: ''
       text: |-
-        Use this area to speak to your mission. I'm a research scientist in the Moonshot team at DeepMind. I blog about machine learning, deep learning, and moonshots.
+        My research focuses on understanding cognitive aging through the lens of cognitive reserve, social determinants, and neuroimaging biomarkers. I am particularly interested in how these factors interact to influence cognitive function and decline in older adults.
 
-        I apply a range of qualitative and quantitative methods to comprehensively investigate the role of science and technology in the economy.
+        My work combines longitudinal data analysis, neuroimaging techniques, and epidemiological methods to investigate the mechanisms underlying cognitive resilience in aging populations. I am passionate about translating research findings into practical interventions that can improve the health and well-being of older adults.
 
         Please reach out to collaborate 😃
     design:
@@ -101,7 +101,7 @@ sections:
       spacing:
         padding: [0, 0, 0, 0]
   - block: cta-card
-    demo: true # Only display this section in the Hugo Blox Builder demo site
+    demo: false # Only display this section in the Hugo Blox Builder demo site
     content:
       title: 👉 Build your own academic website like this
       text: |-
