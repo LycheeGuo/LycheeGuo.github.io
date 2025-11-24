@@ -8,7 +8,7 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {{ range $images }}
       
-      {{ $image := .Fill "1000x1000 center" }}
+      {{ $image := .Fill "1000x1100 center" }}
       
       <div class="relative w-full aspect-square group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
         <a href="{{ .RelPermalink }}" target="_blank" class="block w-full h-full">
