@@ -1,20 +1,30 @@
 {{/* layouts/shortcodes/gallery.html */}}
 {{ $album := .Get "album" }}
-{{/* 尝试查找 assets/media/albums/ 下的图片 */}}
 {{ $images := resources.Match (printf "media/albums/%s/*" $album) }}
 
 {{ if gt (len $images) 0 }}
-<div class="gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-6">
-  {{ range $images }}
-    {{/* 调整图片大小以优化加载速度 */}}
-    {{ $image := .Resize "600x" }}
-    <div class="gallery-item overflow-hidden rounded-xl shadow-md">
-      <a href="{{ .RelPermalink }}" target="_blank">
-        <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ .Name }}" class="w-full h-auto object-cover transition-transform duration-300 hover:scale-105">
-      </a>
-    </div>
-  {{ end }}
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;" class="overflow-hidden my-0">
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+    {{ range $images }}
+      {{/* 图片处理 */}}
+      {{ $image := .Resize "1000x1000 center" }}
+      
+      <div class="relative w-full aspect-[4/3] group overflow-hidden">
+        <a href="{{ .RelPermalink }}" target="_blank" class="block w-full h-full">
+          <img src="{{ $image.RelPermalink }}" 
+               width="{{ $image.Width }}" 
+               height="{{ $image.Height }}" 
+               alt="{{ .Name }}" 
+               loading="lazy"
+               class="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-110" />
+        </a>
+        
+        <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none"></div>
+      </div>
+    {{ end }}
+  </div>
 </div>
 {{ else }}
-  <p class="text-red-500">Gallery Error: No images found in <code>assets/media/albums/{{ $album }}/</code></p>
+  <p class="text-red-500 text-center py-10">Gallery Error: No images found in <code>assets/media/albums/{{ $album }}/</code></p>
 {{ end }}
