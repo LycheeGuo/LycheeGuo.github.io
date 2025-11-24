@@ -34,9 +34,9 @@ sections:
       title: '📚 My Research'
       subtitle: ''
       text: |-
-        Use this area to speak to your mission. I'm a research scientist in the Moonshot team at DeepMind. I blog about machine learning, deep learning, and moonshots.
+        My research interests focus on cognitive aging, particularly examining how cognitive reserve moderates the relationship between brain pathology and cognitive function in older adults. I investigate social determinants of health and their impact on cognitive outcomes using advanced neuroimaging techniques and longitudinal data analysis.
 
-        I apply a range of qualitative and quantitative methods to comprehensively investigate the role of science and technology in the economy.
+        I'm dedicated to understanding the mechanisms underlying healthy aging and developing evidence-based interventions to promote cognitive health in aging populations, especially in the context of Alzheimer's disease and related dementias.
 
         Please reach out to collaborate 😃
     design:
