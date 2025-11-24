@@ -1,6 +1,6 @@
 ---
 # Display name
-title: Lizhi Guo（郭立志）
+title: Lizhi Guo
 
 # Name pronunciation (optional)
 name_pronunciation: ''
