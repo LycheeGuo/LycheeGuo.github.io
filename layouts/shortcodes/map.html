@@ -1,35 +1,23 @@
-{{/* layouts/shortcodes/map.html */}}
-{{ $lat := float (.Get "lat") }}
-{{ $lon := float (.Get "lon") }}
-{{/* 计算边界框 */}}
-{{ $delta := 0.005 }}
-{{ $min_lon := sub $lon $delta }}
-{{ $min_lat := sub $lat $delta }}
-{{ $max_lon := add $lon $delta }}
-{{ $max_lat := add $lat $delta }}
+{{ $album := .Get "album" }}
+{{ $images := resources.Match (printf "media/albums/%s/*" $album) }}
 
-强制宽度为屏幕宽度的100%
-     position: relative;    --> 相对定位
-     left: 50%;             -->以此为中心
-     margin-left: -50vw;    --> 向左拉回屏幕的一半，实现强制居中且撑满
--->
-<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;" class="h-[60vh] my-12 shadow-2xl">
-  <iframe 
-    width="100%" 
-    height="100%" 
-    frameborder="0" 
-    scrolling="no" 
-    marginheight="0" 
-    marginwidth="0" 
-    src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-    style="border: 0; display: block;">
-  </iframe>
-  
-  <div class="absolute bottom-4 right-4 z-10">
-    <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=15/{{ $lat }}/{{ $lon }}" 
-       target="_blank" 
-       class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-lg text-sm font-medium hover:bg-gray-50 transition duration-300 no-underline">
-      📍 View Larger Map
-    </a>
+{{ if gt (len $images) 0 }}
+<div style="width: 80vw; position: relative; left: 50%; margin-left: -40vw;" class="overflow-hidden my-12">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+    {{ range $images }}
+      {{ $image := .Resize "1000x1000 center" }}
+      <div class="relative w-full aspect-[4/3] group overflow-hidden">
+        <a href="{{ .RelPermalink }}" target="_blank" class="block w-full h-full">
+          <img src="{{ $image.RelPermalink }}" 
+               width="{{ $image.Width }}" 
+               height="{{ $image.Height }}" 
+               alt="{{ .Name }}" 
+               loading="lazy"
+               class="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-110" />
+        </a>
+        <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none"></div>
+      </div>
+    {{ end }}
   </div>
 </div>
+{{ end }}
