@@ -58,3 +58,9 @@ features:
     enable: false
   privacy_pack:
     enable: false
+  # ↓↓↓↓↓↓ 新增的地图配置 ↓↓↓↓↓↓
+  map:
+    provider: 'mapnik' # 使用免费的 OpenStreetMap
+    api_key: ''
+    zoom: 15
+  # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
