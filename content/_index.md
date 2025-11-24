@@ -6,7 +6,9 @@ type: landing
 
 design:
   # Default section spacing
-  spacing: '3rem'
+  # ↓↓↓↓↓↓ 关键修改1：改为 '1rem' (极小间距)，如果觉得太挤可以改成 '2rem' ↓↓↓↓↓↓
+  spacing: '1rem'
+  # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 sections:
   - block: resume-biography-3
@@ -29,6 +31,10 @@ sections:
       avatar:
         size: medium # Options: small (150px), medium (200px, default), large (320px), xl (400px), xxl (500px)
         shape: circle # Options: circle (default), square, rounded
+      # ↓↓↓↓↓↓ 关键修改2：强制移除这个板块顶部的所有额外留白 ↓↓↓↓↓↓
+      spacing:
+        padding: ['0', '0', '0', '0']
+      # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
   - block: markdown
     content:
@@ -96,7 +102,6 @@ sections:
       spacing:
         padding: [0, 0, 0, 0]
 
-  # ↓↓↓↓↓↓ 新增的 Projects 板块 ↓↓↓↓↓↓
   - block: collection
     content:
       title: Projects
@@ -106,8 +111,8 @@ sections:
         folders:
           - projects
     design:
-      view: card      
-      columns: 2      
+      view: card
+      columns: 2
 
   - block: markdown
     content:
