@@ -1,5 +1,5 @@
 ---
-title: "The moderating effect of cognitive reserve on cognitive aging "
+title: "Cognitive Reserve"
 date: 2025-09-27T12:47:54.091Z
 summary: ""
 draft: false
