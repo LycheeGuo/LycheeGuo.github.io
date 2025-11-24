@@ -1,0 +1,7 @@
+<footer class="mx-auto mt-12 max-w-7xl px-6 lg:px-8 text-center text-sm text-gray-500">
+  <p>
+    {{- with site.Params.footer.copyright.notice -}}
+      {{- replace . "{year}" now.Year | markdownify -}}
+    {{- end -}}
+  </p>
+</footer>
