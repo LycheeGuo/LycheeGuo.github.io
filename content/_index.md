@@ -29,6 +29,7 @@ sections:
       avatar:
         size: medium # Options: small (150px), medium (200px, default), large (320px), xl (400px), xxl (500px)
         shape: circle # Options: circle (default), square, rounded
+
   - block: markdown
     content:
       title: '📚 My Research'
@@ -41,6 +42,7 @@ sections:
         Please reach out to collaborate 😃
     design:
       columns: '1'
+
   - block: collection
     id: papers
     content:
@@ -52,6 +54,7 @@ sections:
     design:
       view: article-grid
       columns: 2
+
   - block: collection
     content:
       title: Recent Publications
@@ -62,6 +65,7 @@ sections:
         exclude_featured: false
     design:
       view: citation
+
   - block: collection
     id: news
     content:
@@ -91,6 +95,7 @@ sections:
       # Reduce spacing
       spacing:
         padding: [0, 0, 0, 0]
+
   - block: markdown
     content:
       title: Gallery
@@ -101,7 +106,7 @@ sections:
       columns: '1'
 
   - block: markdown
-     content:
+    content:
       title: Location
       subtitle: 'Sino Building, CUHK'
       text: |-
