@@ -1,0 +1,25 @@
+{{/* layouts/shortcodes/map.html */}}
+{{ $lat := float (.Get "lat") }}
+{{ $lon := float (.Get "lon") }}
+{{/* 计算简单的边界框 */}}
+{{ $delta := 0.005 }}
+{{ $min_lon := sub $lon $delta }}
+{{ $min_lat := sub $lat $delta }}
+{{ $max_lon := add $lon $delta }}
+{{ $max_lat := add $lat $delta }}
+
+<div class="map-container my-6 rounded-xl overflow-hidden shadow-md h-96 w-full">
+  <iframe 
+    width="100%" 
+    height="100%" 
+    frameborder="0" 
+    scrolling="no" 
+    marginheight="0" 
+    marginwidth="0" 
+    src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
+    style="border: 0">
+  </iframe>
+  <div class="text-xs text-gray-500 mt-1 text-center">
+    <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=15/{{ $lat }}/{{ $lon }}" target="_blank">View Larger Map</a>
+  </div>
+</div>
