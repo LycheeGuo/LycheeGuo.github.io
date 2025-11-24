@@ -1,6 +1,6 @@
 ---
-title: Prospective association between social isolation, loneliness and lung
-  function among Chinese middle-aged and older adults
+title: "Prospective association between social isolation, loneliness and lung
+  function among Chinese middle-aged and older adults"
 publication_types:
   - "2"
 authors:
