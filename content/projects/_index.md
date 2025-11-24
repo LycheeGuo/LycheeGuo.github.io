@@ -17,7 +17,7 @@ sections:
           - projects
     design:
       view: article-grid
-      fill_image: false
+      fill_image: true
       columns: 2  # <--- 关键修改：改为 2，让卡片变宽，视觉更自适应
       show_date: false
       show_read_time: false
