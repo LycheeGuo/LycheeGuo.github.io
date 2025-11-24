@@ -1,5 +1,5 @@
 ---
-title: "\t Social isolation and cognitive decline among older adults with
+title: "Social isolation and cognitive decline among older adults with
   depressive symptoms: prospective findings from the China Health and Retirement
   Longitudinal Study"
 publication_types:
@@ -35,7 +35,7 @@ abstract: >-
 draft: false
 featured: false
 image:
-  filename: featured
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 date: 2021-03-08T10:18:14.655Z

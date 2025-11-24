@@ -29,9 +29,5 @@ abstract: Individuals with Down syndrome (DS) are at high risk of Alzheimer's
   detection and monitoring in DS.
 draft: false
 featured: false
-image:
-  filename: featured
-  focal_point: Smart
-  preview_only: false
 date: 2025-04-12T12:27:41.621Z
 ---

@@ -40,10 +40,6 @@ abstract: >-
   Social isolation is prospectively associated with worse lung function in middle-aged and older Chinese women but not men. The results highlight the importance of promoting social relationships in public health initiatives, especially in groups that are more vulnerable.
 draft: false
 featured: false
-image:
-  filename: featured
-  focal_point: Smart
-  preview_only: false
 summary: ""
 date: 2024-05-13T06:34:00.635Z
 ---

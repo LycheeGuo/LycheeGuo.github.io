@@ -32,9 +32,5 @@ abstract: >+
 
 draft: false
 featured: false
-image:
-  filename: featured
-  focal_point: Smart
-  preview_only: false
 date: 2025-04-10T14:36:13.880Z
 ---
