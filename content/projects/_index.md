@@ -14,7 +14,7 @@ sections:
       title: Selected Projects
       filters:
         folders:
-          - project
+          - projects
     design:
       view: article-grid
       fill_image: true   # <--- 改为 true，让图片填满卡片头部
