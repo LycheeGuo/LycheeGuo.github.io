@@ -53,6 +53,7 @@ education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
     icon: org-cuhk
+    icon_pack: custom   # <--- 关键：必须添加这一行
     date_start: 2023-08-01
     date_end: 2027-06-30
     summary: |
@@ -61,6 +62,7 @@ education:
   - area: Visiting PhD student
     institution: King's College London
     icon: org-kcl
+    icon_pack: custom   # <--- 关键：必须添加这一行
     date_start: 2025-08-01
     date_end: 2026-02-01
     summary: |
@@ -70,6 +72,7 @@ education:
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
     icon: org-gc
+    icon_pack: custom   # <--- 关键：必须添加这一行
     date_start: 2019-09-01
     date_end: 2022-01-30
     summary: |
@@ -78,11 +81,11 @@ education:
   - area: B.E in Material Forming & Control Engineering
     institution: Jilin University
     icon: org-x
+    icon_pack: custom   # <--- 关键：必须添加这一行
     date_start: 2014-09-01
     date_end: 2018-06-30
     summary: |
       * Major: Material forming & control engineering
-
 # Awards.
 #   Add/remove as many awards below as you like.
 #   Only `title`, `awarder`, and `date` are required.
