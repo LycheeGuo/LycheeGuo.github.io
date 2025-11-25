@@ -127,12 +127,14 @@ sections:
     design:
       columns: '1'
 
+# ↓↓↓↓↓↓ 复制这段代码覆盖原来的 contact 部分 ↓↓↓↓↓↓
   - block: contact
     id: contact
     content:
       title: Contact
       subtitle: ''
       
+      # 注意：下面这些属性必须缩进，属于 content 的子项
       email: 'guolz@link.cuhk.edu.hk'
       
       address:
@@ -151,6 +153,4 @@ sections:
       autolink: true
     design:
       columns: '2'
-
----
 ---
