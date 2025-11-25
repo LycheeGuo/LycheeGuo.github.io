@@ -6,9 +6,8 @@ type: landing
 
 design:
   # Default section spacing
-  # ↓↓↓↓↓↓ 关键修改1：改为 '1rem' (极小间距)，如果觉得太挤可以改成 '2rem' ↓↓↓↓↓↓
+  # 保持紧凑的间距
   spacing: '1rem'
-  # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 sections:
   - block: resume-biography-3
@@ -31,10 +30,9 @@ sections:
       avatar:
         size: medium # Options: small (150px), medium (200px, default), large (320px), xl (400px), xxl (500px)
         shape: circle # Options: circle (default), square, rounded
-      # ↓↓↓↓↓↓ 关键修改2：强制移除这个板块顶部的所有额外留白 ↓↓↓↓↓↓
+      # 强制移除顶部多余留白
       spacing:
         padding: ['0', '0', '0', '0']
-      # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
   - block: markdown
     content:
@@ -81,7 +79,7 @@ sections:
       # Page type to display. E.g. post, talk, publication...
       page_type: blog
       # Choose how many pages you would like to display (0 = all pages)
-      count: 3
+      count: 2
       # Filter on criteria
       filters:
         author: ''
@@ -98,6 +96,9 @@ sections:
     design:
       # Choose a layout view
       view: card
+      # ↓↓↓↓↓↓ 关键修改：强制改为 2 列显示 ↓↓↓↓↓↓
+      columns: '2'
+      # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
       # Reduce spacing
       spacing:
         padding: [0, 0, 0, 0]
