@@ -1,10 +1,20 @@
-{{/* ==================== 左侧：地图 ==================== */}}
+{{/* layouts/partials/hbx/blocks/contact/block.html */}}
+<section class="py-12 bg-white" id="contact">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    
+    <div class="mb-10">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Contact</h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      
+      {{/* ==================== 左侧：地图 (已包含 float 修复) ==================== */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
         {{/* 动态获取坐标并强制转换为浮点数 */}}
         {{ $lat := float .content.coordinates.latitude }}
         {{ $lon := float .content.coordinates.longitude }}
         
-        {{/* 计算地图显示范围 (Bounding Box), 0.005 大约对应 Zoom 15 */}}
+        {{/* 计算地图显示范围 */}}
         {{ $delta := 0.005 }}
         {{ $min_lon := sub $lon $delta }}
         {{ $min_lat := sub $lat $delta }}
@@ -30,3 +40,67 @@
           </a>
         </div>
       </div>
+
+      {{/* ==================== 右侧：联系信息 (按你要求的顺序) ==================== */}}
+      <div class="flex flex-col justify-center space-y-8">
+        
+        {{/* 1. Email (第一行) */}}
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+            </span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-medium text-gray-900">Email</h3>
+            <p class="mt-1 text-gray-600">
+              <a href="mailto:{{ .content.email }}" class="hover:text-indigo-600 hover:underline transition">
+                {{ .content.email }}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        {{/* 2. Directions / Office (第二行) */}}
+        {{ with .content.directions }}
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-medium text-gray-900">Office Location</h3>
+            <p class="mt-1 text-gray-600">{{ . }}</p>
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* 3. Address: Street -> City (第三行及以后) */}}
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            </span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-medium text-gray-900">Address</h3>
+            <div class="mt-1 text-gray-600">
+              {{/* 先显示街道 */}}
+              <p class="font-medium text-gray-800">{{ .content.address.street }}</p>
+              
+              {{/* 然后显示城市和地区 */}}
+              <p>
+                {{ .content.address.city }}{{ if .content.address.region }}, {{ .content.address.region }}{{ end }}
+              </p>
+              
+              {{/* 最后显示国家 */}}
+              <p>{{ .content.address.country }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
