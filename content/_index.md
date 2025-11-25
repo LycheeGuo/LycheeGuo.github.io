@@ -49,15 +49,6 @@ sections:
   #     columns: '1'
   # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-  - block: markdown
-    content:
-      title: Curriculum Vitae
-      subtitle: ''
-      text: |-
-        <iframe src="/uploads/resume.pdf" width="100%" height="800px" style="border: none;">
-        </iframe>
-    design:
-      columns: '1'
 
   - block: collection
     id: papers
@@ -91,7 +82,7 @@ sections:
       # Page type to display. E.g. post, talk, publication...
       page_type: blog
       # Choose how many pages you would like to display (0 = all pages)
-      count: 3
+      count: 1
       # Filter on criteria
       filters:
         author: ''
