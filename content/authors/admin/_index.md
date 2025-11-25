@@ -3,7 +3,7 @@
 title: Lizhi Guo
 
 # Name pronunciation (optional)
-name_pronunciation: ''
+name_pronunciation: 'he/him'
 
 # Full name (for SEO)
 first_name: Lizhi
