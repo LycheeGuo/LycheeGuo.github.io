@@ -122,7 +122,7 @@ sections:
     content:
       title: Contact
       subtitle: ''
-      email: 'guolz@link.cuhk.edu.hk'
+      Email: 'guolz@link.cuhk.edu.hk'
       address:
         street: 'Sino Building, CUHK'
         city: 'Shatin'
