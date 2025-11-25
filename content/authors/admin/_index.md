@@ -93,7 +93,7 @@ awards:
     awarder: The Chinese University of Hong Kong
     icon: hero/trophy
     summary: |
-      Awarded the prestigious National Scholarship for outstanding academic performance during postgraduate studies.
+      The award aims to support research collaboration between CUHK faculty members and their international peers in order to drive research excellence at the University, in addition to enriching the international learning experiences of students. 
   - title: National Scholarship for Postgraduates
     date: '2021-11-01'
     awarder: Ministry of Education of China
