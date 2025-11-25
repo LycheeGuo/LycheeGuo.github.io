@@ -73,6 +73,6 @@ map:
     country: 'Hong Kong'
   # Location for map marker
   coordinates:
-    latitude: '22.4150160580301'
-    longitude: '114.20748207408691'
+    latitude: '22.41562906172439'
+    longitude: '114.2071505214707'
 
