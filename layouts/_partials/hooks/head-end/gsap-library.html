@@ -1,3 +1,8 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{ $matter := resources.Get "js/matter.min.js" }}
+{{ if $matter }}
+<script src="{{ $matter.RelPermalink }}"></script>
+{{ else }}
+<script src="https://cdn.bootcdn.net/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+{{ end }}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" integrity="sha512-0rs8FoqnS3Nd31Jvvj5MX1L7fS6s8dJtXYT9r1Lcnj+nVXbwO3W9sWgj+YHuOqqO+2UeTjyhF7VjMCq3ZBD7gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
