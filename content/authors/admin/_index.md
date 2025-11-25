@@ -52,7 +52,7 @@ Research interests:
 education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
-    icon: 'org-cuhk'      
+    icon: "org-cuhk.svg"      
     date_start: 2023-08-01
     date_end: 2027-06-30
     summary: |
