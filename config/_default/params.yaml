@@ -71,6 +71,8 @@ map:
   api_key: ''
   # Map address for marker
   address:
+    Email: 'guolz@cuhk.edu.hk'
+    direction: 'Room 345, Department of Psychology'
     street: 'Sino Building, The Chinese University of Hong Kong'
     city: 'Shatin'
     region: 'NT'
