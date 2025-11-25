@@ -117,7 +117,7 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
- - block: contact
+  - block: contact
     id: contact
     content:
       title: Contact
