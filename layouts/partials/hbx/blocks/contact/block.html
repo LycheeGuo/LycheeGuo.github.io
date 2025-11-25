@@ -28,6 +28,7 @@
 */}}
 
 
+{{/* 修改点 1：将 bg-white 改为 bg-transparent 以实现背景透明 */}}
 <section class="py-12 bg-transparent" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
@@ -51,9 +52,12 @@
           {{ $max_lon := add $lon $delta }}
           {{ $max_lat := add $lat $delta }}
 
+          {{/* 修改点 2：iframe 增加 title 和 loading="lazy" 属性 */}}
           <iframe 
+            title="Map of The Chinese University of Hong Kong"
             width="100%" 
             height="100%" 
+            loading="lazy"
             frameborder="0" 
             scrolling="no" 
             marginheight="0" 
