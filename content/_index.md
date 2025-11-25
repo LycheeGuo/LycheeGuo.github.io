@@ -34,18 +34,30 @@ sections:
       spacing:
         padding: ['0', '0', '0', '0']
 
-#  - block: markdown
-#    content:
-#      title: '📚 My Research'
-#      subtitle: ''
-#      text: |-
- #       My research focuses on understanding cognitive aging through the lens of cognitive reserve, social determinants, and neuroimaging biomarkers. I am particularly interested in how these factors interact to influence cognitive function and decline in older adults.
+  # ↓↓↓↓↓↓ 已注释掉 My Research 板块 ↓↓↓↓↓↓
+  # - block: markdown
+  #   content:
+  #     title: '📚 My Research'
+  #     subtitle: ''
+  #     text: |-
+  #       My research focuses on understanding cognitive aging through the lens of cognitive reserve, social determinants, and neuroimaging biomarkers. I am particularly interested in how these factors interact to influence cognitive function and decline in older adults.
+  #
+  #       My work combines longitudinal data analysis, neuroimaging techniques, and epidemiological methods to investigate the mechanisms underlying cognitive resilience in aging populations. I am passionate about translating research findings into practical interventions that can improve the health and well-being of older adults.
+  #
+  #       Please reach out to collaborate 😃
+  #   design:
+  #     columns: '1'
+  # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
- #       My work combines longitudinal data analysis, neuroimaging techniques, and epidemiological methods to investigate the mechanisms underlying cognitive resilience in aging populations. I am passionate about translating research findings into practical interventions that can improve the health and well-being of older adults.
-
-   #     Please reach out to collaborate 😃
-   # design:
-    #  columns: '1'
+  - block: markdown
+    content:
+      title: Curriculum Vitae
+      subtitle: ''
+      text: |-
+        <iframe src="/uploads/resume.pdf" width="100%" height="800px" style="border: none;">
+        </iframe>
+    design:
+      columns: '1'
 
   - block: collection
     id: papers
@@ -79,7 +91,7 @@ sections:
       # Page type to display. E.g. post, talk, publication...
       page_type: blog
       # Choose how many pages you would like to display (0 = all pages)
-      count: 2
+      count: 3
       # Filter on criteria
       filters:
         author: ''
@@ -96,9 +108,8 @@ sections:
     design:
       # Choose a layout view
       view: card
-      # ↓↓↓↓↓↓ 关键修改：强制改为 2 列显示 ↓↓↓↓↓↓
+      # 强制改为 2 列显示
       columns: '2'
-      # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
       # Reduce spacing
       spacing:
         padding: [0, 0, 0, 0]
@@ -114,7 +125,7 @@ sections:
     design:
       view: card
       columns: 2
-      fill_image: true # 确保图片填满卡片
+      fill_image: true
 
   - block: markdown
     content:
@@ -125,12 +136,34 @@ sections:
     design:
       columns: '1'
 
-  - block: markdown
+  - block: contact
+    id: contact
     content:
-      title: Location
-      subtitle: 'Sino Building, CUHK'
-      text: |-
-        {{< map lat="22.415815" lon="114.207211" zoom="15" >}}
+      title: Contact
+      subtitle: ''
+      
+      email: guolz@link.cuhk.edu.hk
+      
+      address:
+        street: Shatin, NT
+        city: Hong Kong
+        region: ''
+        postcode: ''
+        country: ''
+        country_code: ''
+      
+      coordinates:
+        latitude: '22.415815479596894'
+        longitude: '114.20721093997439'
+      
+      directions: Sino Building, The Chinese University of Hong Kong
+      
+      autolink: true
+      
+      form:
+        provider: netlify
+        netlify:
+          captcha: false
     design:
-      columns: '1'
+      columns: '2'
 ---
