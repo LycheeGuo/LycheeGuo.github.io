@@ -1,35 +1,28 @@
-/* Particle Background Styles */
+/* Particle Background / Fireworks Styles */
 
 .morphing-shapes {
+    /* 固定定位，铺满全屏 */
     position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0; /* 放在背景层 */
-    /* pointer-events: none;  <-- 删除这一行，如果你想要鼠标能推开物体 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* 【关键修改 1】层级设高 */
+    /* 设为 99 确保它浮在文章内容之上，这样你就一定能看到烟花了 */
+    z-index: 99; 
+
+    /* 【关键修改 2】鼠标穿透 */
+    /* 让鼠标事件穿透这个层，这样你依然可以点击网页上的按钮和链接 */
+    /* 因为我们的 JS 是监听 document 的点击，所以即使穿透了，点击空白处依然能触发烟花 */
+    pointer-events: none;
+
+    overflow: hidden;
 }
 
-/* 让网页内容浮在 Canvas 之上 */
-body > * {
-    position: relative;
-    z-index: 1;
-    /* pointer-events: none; <-- 这会让文字无法点击，所以不能简单这么做 */
+/* 适配暗色模式 (可选，调整 Canvas 透明度防止太亮) */
+.dark .morphing-shapes {
+    opacity: 0.8;
 }
 
-/* 为了既能选中文本，又能玩背景物体，通常需要取舍。
-   如果背景只是装饰，建议在 JS 里去掉 mouseConstraint，
-   并在这里设置 .morphing-shapes { pointer-events: none; }
-   
-   如果你非常想要交互，必须把 Canvas 的 z-index 设高，
-   或者通过复杂的事件穿透处理。
-   
-   目前的推荐设置：背景仅作视觉效果，不抢占鼠标点击。
-*/
-.morphing-shapes {
-    pointer-events: none; 
-}
-
-/* Dark mode 适配 */
-.dark .morphing-shapes canvas {
-    opacity: 0.6; /* 夜间模式稍微暗一点 */
-}
+/* 移除旧的 .diagonal-line 和 .spline-curve 代码，保持整洁 */
