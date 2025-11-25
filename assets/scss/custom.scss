@@ -1,0 +1,16 @@
+/* 针对 Publication 单页的 Abstract 部分进行调整 */
+
+/* 1. 让左侧的 "Abstract" 标题占满整行 */
+.pub-row-heading {
+  flex: 0 0 100%;
+  max-width: 100%;
+  margin-bottom: 1rem; /* 标题和正文之间加点空隙 */
+}
+
+/* 2. 让右侧的摘要内容占满整行，并取消左边距 */
+.pub-row-content {
+  flex: 0 0 100%;
+  max-width: 100%;
+  margin-left: 0;
+  padding-left: 0;
+}
