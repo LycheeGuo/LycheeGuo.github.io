@@ -59,20 +59,13 @@ features:
   privacy_pack:
     enable: false
 # Map Block
+email: 'guolz@link.cuhk.edu.hk' 
 map:
-  # Map provider:
-  #   0: No map
-  #   1: Google Maps
-  #   2: Mapbox
-  #   3: OpenStreetMap
   engine: 3
-  # API key for your map provider (if required)
-  # See https://docs.hugoblox.com/getting-started/hugo-basics/#edit-configuration
   api_key: ''
-  # Map address for marker
   address:
-    Email: 'guolz@cuhk.edu.hk'
-    direction: 'Room 345, Department of Psychology'
+    email: 'guolz@cuhk.edu.hk'
+    directions: 'Room 345, Department of Psychology'
     street: 'Sino Building, The Chinese University of Hong Kong'
     city: 'Shatin'
     region: 'NT'
@@ -82,5 +75,4 @@ map:
   coordinates:
     latitude: '22.4150160580301'
     longitude: '114.20748207408691'
-  # Map zoom level
-  zoom: 16
+
