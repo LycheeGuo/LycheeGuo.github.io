@@ -8,19 +8,20 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
-      {{/* ==================== 左侧：地图 (已包含 float 修复) ==================== */}}
+      {{/* ==================== 左侧：地图模块 ==================== */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
-        {{/* 动态获取坐标并强制转换为浮点数 */}}
+        {{/* 1. 动态读取 _index.md 中的坐标，并强制转为浮点数以防报错 */}}
         {{ $lat := float .content.coordinates.latitude }}
         {{ $lon := float .content.coordinates.longitude }}
         
-        {{/* 计算地图显示范围 */}}
+        {{/* 2. 计算地图显示范围 (Bounding Box) */}}
         {{ $delta := 0.005 }}
         {{ $min_lon := sub $lon $delta }}
         {{ $min_lat := sub $lat $delta }}
         {{ $max_lon := add $lon $delta }}
         {{ $max_lat := add $lat $delta }}
 
+        {{/* 3. 嵌入 OpenStreetMap iframe */}}
         <iframe 
           width="100%" 
           height="100%" 
@@ -32,19 +33,20 @@
           style="border: 0; display: block; position: absolute; top: 0; left: 0;">
         </iframe>
         
+        {{/* 查看大图按钮 */}}
         <div class="absolute bottom-4 right-4 z-10">
             <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
               target="_blank" 
-              class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition">
+              class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition no-underline">
             View Larger Map
           </a>
         </div>
       </div>
 
-      {{/* ==================== 右侧：联系信息 (按你要求的顺序) ==================== */}}
+      {{/* ==================== 右侧：联系信息 ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         
-        {{/* 1. Email (第一行) */}}
+        {{/* 第一行: Email */}}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -61,7 +63,7 @@
           </div>
         </div>
 
-        {{/* 2. Directions / Office (第二行) */}}
+        {{/* 第二行: Office Location (Directions) */}}
         {{ with .content.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
@@ -76,7 +78,7 @@
         </div>
         {{ end }}
 
-        {{/* 3. Address: Street -> City (第三行及以后) */}}
+        {{/* 第三行: Address */}}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -86,15 +88,10 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Address</h3>
             <div class="mt-1 text-gray-600">
-              {{/* 先显示街道 */}}
               <p class="font-medium text-gray-800">{{ .content.address.street }}</p>
-              
-              {{/* 然后显示城市和地区 */}}
               <p>
                 {{ .content.address.city }}{{ if .content.address.region }}, {{ .content.address.region }}{{ end }}
               </p>
-              
-              {{/* 最后显示国家 */}}
               <p>{{ .content.address.country }}</p>
             </div>
           </div>
