@@ -1,0 +1,4 @@
+{{ $styles := resources.Get "css/particle-background.css" }}
+{{ if $styles }}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}">
+{{ end }}
