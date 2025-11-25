@@ -8,7 +8,6 @@ design:
   # Default section spacing
   # 保持紧凑的间距
   spacing: '1rem'
-
 sections:
   - block: resume-biography-3
     content:
@@ -33,7 +32,6 @@ sections:
       # 强制移除顶部多余留白
       spacing:
         padding: ['0', '0', '0', '0']
-
   # ↓↓↓↓↓↓ 已注释掉 My Research 板块 ↓↓↓↓↓↓
   # - block: markdown
   #   content:
@@ -48,8 +46,6 @@ sections:
   #   design:
   #     columns: '1'
   # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
-
   - block: collection
     id: papers
     content:
@@ -61,7 +57,6 @@ sections:
     design:
       view: article-grid
       columns: 2
-
   - block: collection
     content:
       title: Recent Publications
@@ -72,7 +67,6 @@ sections:
         exclude_featured: false
     design:
       view: citation
-
   - block: collection
     id: news
     content:
@@ -104,7 +98,6 @@ sections:
       # Reduce spacing
       spacing:
         padding: [0, 0, 0, 0]
-
   - block: collection
     content:
       title: Projects
@@ -116,7 +109,6 @@ sections:
     design:
       view: article-grid
       columns: 2
-
   - block: markdown
     content:
       title: Gallery
@@ -125,28 +117,22 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
-
   - block: contact
     id: contact
     content:
       title: Contact
       subtitle: ''
-
       email: 'guolz@link.cuhk.edu.hk'
-      
       address:
         street: 'Sino Building, CUHK'
         city: 'Shatin'
         region: 'NT'
         country: 'Hong Kong'
-        postcode: ''
-      
+        postcode: '' 
       coordinates:
         latitude: 22.415815
-        longitude: 114.207211
-      
-      directions: 'Room 345, Department of Psychology'
-      
+        longitude: 114.207211 
+      directions: 'Room 345, Department of Psychology'      
       autolink: true
     design:
       columns: '2'
