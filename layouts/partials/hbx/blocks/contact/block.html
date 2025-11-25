@@ -8,38 +8,20 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
-      {{/* ==================== 左侧：地图模块 (级联读取 + 类型安全) ==================== */}}
+      {{/* ==================== 左侧：地图 ==================== */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
         
-        {{/* 1. 初始化坐标 */}}
-        {{ $lat := 0.0 }}
-        {{ $lon := 0.0 }}
+        {{/* 直接读取 _index.md 里的 coordinates */}}
+        {{ $lat := float .content.coordinates.latitude }}
+        {{ $lon := float .content.coordinates.longitude }}
 
-        {{/* 2. 优先读取局部配置 (_index.md) */}}
-        {{ with .content.coordinates }}
-          {{ if and .latitude .longitude }}
-            {{ $lat = float .latitude }}
-            {{ $lon = float .longitude }}
-          {{ end }}
-        {{ end }}
-
-        {{/* 3. 如果局部没读到，尝试全局配置 (params.yaml) */}}
+        {{/* 如果没读到坐标（为0），给一个默认值防止地图白屏 (CUHK) */}}
         {{ if or (eq $lat 0.0) (eq $lon 0.0) }}
-          {{ with site.Params.map.coordinates }}
-            {{ if and .latitude .longitude }}
-              {{ $lat = float .latitude }}
-              {{ $lon = float .longitude }}
-            {{ end }}
-          {{ end }}
+            {{ $lat = 22.415815 }}
+            {{ $lon = 114.207211 }}
         {{ end }}
 
-        {{/* 4. 保底默认值 (CUHK) - 防止地图空白 */}}
-        {{ if or (eq $lat 0.0) (eq $lon 0.0) }}
-            {{ $lat = 22.415617172077784 }}
-            {{ $lon = 114.20714943976955 }}
-        {{ end }}
-
-        {{/* 5. 计算边界并显示 */}}
+        {{/* 计算显示范围 */}}
         {{ $delta := 0.005 }}
         {{ $min_lon := sub $lon $delta }}
         {{ $min_lat := sub $lat $delta }}
@@ -66,10 +48,11 @@
         </div>
       </div>
 
-      {{/* ==================== 右侧：联系信息 ==================== */}}
+      {{/* ==================== 右侧：信息 ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         
-        {{/* 1. Email 模块 */}}
+        {{/* 1. Email (只读 .content.email) */}}
+        {{ with .content.email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -79,16 +62,13 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Email</h3>
             <p class="mt-1 text-gray-600">
-              {{/* 逻辑：尝试读取 _index.md -> 尝试读取 params.yaml -> 显示未设置提示 */}}
-              {{ $email := .content.email | default site.Params.email | default "Email not set" }}
-              <a href="mailto:{{ $email }}" class="hover:text-indigo-600 hover:underline transition">
-                {{ $email }}
-              </a>
+              <a href="mailto:{{ . }}" class="hover:text-indigo-600 hover:underline transition">{{ . }}</a>
             </p>
           </div>
         </div>
+        {{ end }}
 
-        {{/* 2. Directions 模块 (已修改：直接读取，无备选) */}}
+        {{/* 2. Directions (只读 .content.directions) */}}
         {{ with .content.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
@@ -97,20 +77,14 @@
             </span>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900">directions</h3>
+            <h3 class="text-lg font-medium text-gray-900">Directions</h3>
             <p class="mt-1 text-gray-600">{{ . }}</p>
           </div>
         </div>
         {{ end }}
 
-        {{/* 3. Address 模块 */}}
-        {{/* 逻辑：构建地址对象，优先用局部，没有则用全局 */}}
-        {{ $addr_street := .content.address.street | default site.Params.map.address.street }}
-        {{ $addr_city := .content.address.city | default site.Params.map.address.city }}
-        {{ $addr_region := .content.address.region | default site.Params.map.address.region }}
-        {{ $addr_country := .content.address.country | default site.Params.map.address.country }}
-
-        {{ if or $addr_city $addr_country }}
+        {{/* 3. Address (只读 .content.address 下的字段) */}}
+        {{ if .content.address }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -120,11 +94,11 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Address</h3>
             <div class="mt-1 text-gray-600">
-              {{ if $addr_street }}<p class="font-medium text-gray-800">{{ $addr_street }}</p>{{ end }}
+              {{ with .content.address.street }}<p class="font-medium text-gray-800">{{ . }}</p>{{ end }}
               <p>
-                {{ $addr_city }}{{ if $addr_region }}, {{ $addr_region }}{{ end }}
+                {{ .content.address.city }}{{ if .content.address.region }}, {{ .content.address.region }}{{ end }}
               </p>
-              <p>{{ $addr_country }}</p>
+              {{ with .content.address.country }}<p>{{ . }}</p>{{ end }}
             </div>
           </div>
         </div>
