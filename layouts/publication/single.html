@@ -3,23 +3,49 @@
 <div class="mx-auto max-w-7xl px-6 lg:px-8 py-12">
   
   <div class="mx-auto max-w-3xl text-center">
+    
     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6">
       {{ .Title }}
     </h1>
 
     <div class="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-gray-500">
-       {{ partial "page_metadata" (dict "page" . "is_list" 0 "share" true) }}
+       {{ with .Params.authors }}
+         <span class="font-medium text-indigo-600">
+           {{ delimit . ", " }}
+         </span>
+       {{ end }}
+
+       {{ if .Date }}
+         <span class="text-gray-300">|</span>
+         <span>{{ .Date | time.Format ":date_long" }}</span>
+       {{ end }}
+       
+       {{ if .Params.publication }}
+         <span class="text-gray-300">|</span>
+         <span class="italic">{{ .Params.publication | markdownify }}</span>
+       {{ end }}
     </div>
 
-    <div class="mt-6">
-      {{ partial "page_links" (dict "page" . "is_list" 0) }}
-    </div>
+    <div class="mt-6 flex flex-wrap justify-center gap-2">
+      {{ if .Params.url_pdf }}
+        <a href="{{ .Params.url_pdf | relURL }}" target="_blank" class="inline-flex items-center rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium text-indigo-700 hover:bg-indigo-100 transition">
+          📄 PDF
+        </a>
+      {{ end }}
+      
+      {{ if .Params.doi }}
+        <a href="https://doi.org/{{ .Params.doi }}" target="_blank" class="inline-flex items-center rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
+          🔗 DOI
+        </a>
+      {{ end }}
+
+      </div>
   </div>
 
   {{ if .Params.abstract }}
   <div class="mx-auto max-w-3xl mt-10 p-6 bg-gray-50 rounded-2xl">
-    <h3 class="text-xl font-bold text-gray-900 mb-4">
-      {{ i18n "abstract" }}
+    <h3 class="text-xl font-bold text-gray-900 mb-4 w-full">
+      {{ i18n "abstract" | default "Abstract" }}
     </h3>
     <div class="prose max-w-none text-justify text-gray-600">
       {{ .Params.abstract | markdownify }}
@@ -36,28 +62,12 @@
   </div>
   {{ end }}
 
-  <div class="mx-auto max-w-3xl mt-10 grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-x-6 text-sm border-t border-gray-200 pt-6">
-    {{ if .Params.publication }}
-    <div>
-      <div class="font-semibold text-gray-900">{{ i18n "publication" }}</div>
-      <div class="text-gray-500">{{ .Params.publication | markdownify }}</div>
-    </div>
-    {{ end }}
-    
-    {{ if .Date }}
-    <div>
-      <div class="font-semibold text-gray-900">{{ i18n "date" }}</div>
-      <div class="text-gray-500">{{ .Date | time.Format ":date_long" }}</div>
-    </div>
-    {{ end }}
-  </div>
-
   <div class="mx-auto max-w-3xl mt-10 prose prose-indigo text-gray-700">
     {{ .Content }}
   </div>
 
   <div class="mx-auto max-w-3xl mt-12 pt-6 border-t border-gray-200">
-    {{ partial "page_footer" . }}
+    {{ partial "site_footer" . }}
   </div>
 
 </div>
