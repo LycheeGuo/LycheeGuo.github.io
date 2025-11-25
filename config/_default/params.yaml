@@ -80,7 +80,7 @@ map:
     country: 'Hong Kong'
   # Location for map marker
   coordinates:
-    latitude: '22.415815'
-    longitude: '114.207211'
+    latitude: '22.4150160580301'
+    longitude: '114.20748207408691'
   # Map zoom level
   zoom: 16
