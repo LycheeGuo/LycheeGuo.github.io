@@ -11,7 +11,7 @@ last_name: Guo
 
 # Status emoji
 status:
-  icon: 🍉
+  icon: 🎅
 
 # Is this the primary user of the site?
 superuser: true
