@@ -135,4 +135,35 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
+
+  - block: contact
+    id: contact
+    content:
+      title: Contact
+      subtitle: ''
+      
+      email: guolz@link.cuhk.edu.hk
+      
+      address:
+        street: Shatin, NT
+        city: Hong Kong
+        region: ''
+        postcode: ''
+        country: ''
+        country_code: ''
+      
+      coordinates:
+        latitude: '22.415815479596894'
+        longitude: '114.20721093997439'
+      
+      directions: Sino Building, The Chinese University of Hong Kong
+      
+      autolink: true
+      
+      form:
+        provider: netlify
+        netlify:
+          captcha: false
+    design:
+      columns: '2'
 ---
