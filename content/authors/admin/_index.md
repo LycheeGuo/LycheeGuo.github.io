@@ -25,7 +25,7 @@ role: PhD Candidate
 # Organizations/Affiliations to display in Biography blox
 organizations:
   - name: The Chinese University of Hong Kong
-    url: https://www.cuhk.edu.hk/chinese/index.html
+    url: https://www.cuhk.edu.hk
 
 # Social network links
 # Need to use another icon? Simply download the SVG icon to your `assets/media/icons/` folder.
@@ -42,8 +42,9 @@ profiles:
   - icon: academicons/cv
     url: uploads/resume.pdf
 
-interests:
+Research interests:
   - Cognitive Reserve
+  - Alzheimer's disease
   - Social determinant
   - Neuroimaging
   - Longitudinal analysis
@@ -52,24 +53,27 @@ education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
     icon: ""
-    date_start: 2023-09-01
+    date_start: 2023-08-01
     date_end: 2027-06-30
     summary: |
-      Research focus on cognition, cognitive reserve, social determinants, and imaging analysis in aging populations.
+      Research focus on cognitive reserve on cognitive aging.
+      * Major: Psychology
+      * Supervisor: [Prof. Helene Hoi-Lam FUNG](https://cumotivationandemotion.psy.cuhk.edu.hk/blog/), [Prof. Hanna Lu](https://thebrainx.com/)
   - area: Visiting PhD student
     institution: King's College London
     icon: ""
-    date_start: 2025-01-01
-    date_end: 2026-12-31
+    date_start: 2025-08-01
+    date_end: 2026-02-01
     summary: |
       Visiting research student.
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
     icon: ""
     date_start: 2019-09-01
-    date_end: 2022-06-30
+    date_end: 2022-01-30
     summary: |
-      Master's degree in Applied Psychology.
+      Master's degree in Applied Psychology
+      Supervisor: P.
   - area: B.E in Material Forming & Control Engineering
     institution: Jilin University
     icon: ""
