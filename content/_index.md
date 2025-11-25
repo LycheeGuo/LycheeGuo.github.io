@@ -117,30 +117,24 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
-- block: contact
+ - block: contact
     id: contact
     content:
       title: Contact
       subtitle: ''
       
-      # 1. 邮箱
       email: 'guolz@link.cuhk.edu.hk'
       
-      # 2. 办公地点/指引
       directions: 'Room 345, Department of Psychology'
-      
-      # 3. 详细地址
       address:
         street: 'Sino Building, The Chinese University of Hong Kong'
         city: 'Shatin'
         region: 'NT'
         country: 'Hong Kong'
         postcode: '' 
-      
-      # 4. 地图坐标
       coordinates:
-        latitude: 22.415815
-        longitude: 114.207211
+        latitude: 22.41561573970213
+        longitude: 114.20716648370569
       
       autolink: true
     design:
