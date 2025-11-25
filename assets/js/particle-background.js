@@ -1,11 +1,17 @@
 // Particle Background Animation System
 // Adds animated diagonal lines and spline curves to the page
 
-// Wait for GSAP to be loaded
+// Wait for GSAP to be loaded with timeout
+let gsapLoadRetries = 0;
+const MAX_RETRIES = 50; // 5 seconds max wait
+
 function initParticleBackground() {
     if (typeof gsap === 'undefined') {
-        console.warn('GSAP not loaded yet, retrying...');
-        setTimeout(initParticleBackground, 100);
+        if (gsapLoadRetries++ < MAX_RETRIES) {
+            setTimeout(initParticleBackground, 100);
+        } else {
+            console.error('GSAP failed to load after', MAX_RETRIES * 100, 'ms');
+        }
         return;
     }
 
@@ -13,10 +19,15 @@ function initParticleBackground() {
 
     // Configuration
     const config = {
+        colors: {
+            primary: 'rgba(59, 130, 246, 0.4)',
+            primaryDark: 'rgba(59, 130, 246, 0.3)'
+        },
         diagonalLines: {
             count: 5,
             opacity: 0.3,
             scaleX: 4.0,
+            width: Math.max(1200, window.innerWidth * 1.5), // Responsive width
             duration: 4,
             rotationDuration: 8
         },
@@ -46,7 +57,7 @@ function initParticleBackground() {
 
     // Create and animate diagonal lines
     function createDiagonalLines() {
-        const { count, opacity, scaleX, duration, rotationDuration } = config.diagonalLines;
+        const { count, opacity, scaleX, width, duration, rotationDuration } = config.diagonalLines;
         
         for (let i = 0; i < count; i++) {
             const line = document.createElement('div');
@@ -54,9 +65,9 @@ function initParticleBackground() {
             
             line.style.cssText = `
                 position: absolute;
-                background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.4), transparent);
+                background: linear-gradient(45deg, transparent, ${config.colors.primary}, transparent);
                 height: 3px;
-                width: 1200px;
+                width: ${width}px;
                 opacity: 0;
                 z-index: 1;
                 left: ${pos.x}%;
@@ -97,7 +108,7 @@ function initParticleBackground() {
                 position: absolute;
                 width: ${size}px;
                 height: ${size}px;
-                border: 3px solid rgba(59, 130, 246, 0.3);
+                border: 3px solid ${config.colors.primaryDark};
                 border-radius: 50%;
                 opacity: 0;
                 z-index: 1;
