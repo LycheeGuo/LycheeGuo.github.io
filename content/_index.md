@@ -122,17 +122,23 @@ sections:
     content:
       title: Contact
       subtitle: ''
-      Email: 'guolz@link.cuhk.edu.hk'
+      # ↓↓↓ 修改点 1: 必须是小写的 email ↓↓↓
+      email: 'guolz@link.cuhk.edu.hk'
+      
       address:
         street: 'Sino Building, CUHK'
         city: 'Shatin'
         region: 'NT'
         country: 'Hong Kong'
         postcode: '' 
+      
       coordinates:
         latitude: 22.415815
         longitude: 114.207211 
+      
+      # ↓↓↓ 这行决定了页面上 "Office Location" 显示的内容 ↓↓↓
       directions: 'Room 345, Department of Psychology'      
+      
       autolink: true
     design:
       columns: '2'
