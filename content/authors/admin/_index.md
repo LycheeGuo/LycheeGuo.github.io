@@ -52,43 +52,48 @@ Research interests:
 education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
-    icon: ""
+    icon: "org-cuhk"
     date_start: 2023-08-01
     date_end: 2027-06-30
     summary: |
-      Research focus on cognitive reserve on cognitive aging.
       * Major: Psychology
       * Supervisor: [Prof. Helene Hoi-Lam FUNG](https://cumotivationandemotion.psy.cuhk.edu.hk/blog/), [Prof. Hanna Lu](https://thebrainx.com/)
   - area: Visiting PhD student
     institution: King's College London
-    icon: ""
+    icon: "org-kcl"
     date_start: 2025-08-01
     date_end: 2026-02-01
     summary: |
-      Visiting research student.
+      * Visiting research student.
       * Major: Psychiatry
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
-    icon: ""
+    icon: "org-gc"
     date_start: 2019-09-01
     date_end: 2022-01-30
     summary: |
-      Master's degree in Applied Psychology
-      Supervisor: P.
+      * Major: Applied Psychology
+      * Supervisor: [Prof. Bin Yu](https://bin-team.netlify.app/)
   - area: B.E in Material Forming & Control Engineering
     institution: Jilin University
-    icon: ""
+    icon: "org-x"
     date_start: 2014-09-01
     date_end: 2018-06-30
     summary: |
-      Bachelor's degree in Engineering.
+      * Major: Material forming & control engineering
 
 # Awards.
 #   Add/remove as many awards below as you like.
 #   Only `title`, `awarder`, and `date` are required.
 #   Begin multi-line `summary` with YAML's `|` or `|2-` multi-line prefix and indent 2 spaces below.
 awards:
+  - title: PhD International Mobility for Partnerships and Collaborations Award
+    date: '2025-05-25'
+    awarder: The Chinese University of Hong Kong
+    icon: hero/trophy
+    summary: |
+      Awarded the prestigious National Scholarship for outstanding academic performance during postgraduate studies.
   - title: National Scholarship for Postgraduates
     date: '2021-11-01'
     awarder: Ministry of Education of China
