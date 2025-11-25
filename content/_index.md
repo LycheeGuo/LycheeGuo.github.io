@@ -106,13 +106,26 @@ sections:
         padding: [0, 0, 0, 0]
 
   - block: collection
+    id: featured_projects
     content:
-      title: Projects
-      subtitle: ''
-      text: ''
+      title: Featured Projects
       filters:
         folders:
           - project
+        featured_only: true
+    design:
+      view: card
+      columns: 2
+      fill_image: true
+
+  - block: collection
+    id: recent_projects
+    content:
+      title: Recent Projects
+      filters:
+        folders:
+          - project
+        exclude_featured: true
     design:
       view: card
       columns: 2
