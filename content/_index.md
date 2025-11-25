@@ -133,8 +133,8 @@ sections:
         postcode: '' 
       
       coordinates:
-        latitude: 22.41500771782513
-        longitude: 114.20748207408691
+        latitude: 22.41562906172439
+        longitude: 114.2071505214707
       
       # ↓↓↓ 这行决定了页面上 "Office Location" 显示的内容 ↓↓↓
       directions: 'Room 345, Department of Psychology'      
