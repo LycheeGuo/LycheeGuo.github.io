@@ -126,6 +126,7 @@ sections:
       email: 'guolz@link.cuhk.edu.hk'
       
       address:
+        directions: 'Room 345, Department of Psychology'     
         street: 'Sino Building, CUHK'
         city: 'Shatin'
         region: 'NT'
@@ -135,8 +136,7 @@ sections:
       coordinates:
         latitude: 22.41562906172439
         longitude: 114.2071505214707
-      
-      # ↓↓↓ 这行决定了页面上 "Office Location" 显示的内容 ↓↓↓
+
       directions: 'Room 345, Department of Psychology'      
       
       autolink: true
