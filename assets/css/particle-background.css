@@ -1,34 +1,35 @@
 /* Particle Background Styles */
-/* Fixed position container for particles */
+
 .morphing-shapes {
     position: fixed;
     inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0; /* 放在背景层 */
+    /* pointer-events: none;  <-- 删除这一行，如果你想要鼠标能推开物体 */
 }
 
-/* Diagonal lines animation */
-.diagonal-line {
-    position: absolute;
-}
-
-/* Spline curves animation */
-.spline-curve {
-    position: absolute;
-}
-
-/* Ensure body content stays above particles */
+/* 让网页内容浮在 Canvas 之上 */
 body > * {
     position: relative;
     z-index: 1;
+    /* pointer-events: none; <-- 这会让文字无法点击，所以不能简单这么做 */
 }
 
-/* Dark mode adjustments - use lighter colors */
-.dark .diagonal-line {
-    background: linear-gradient(45deg, transparent, rgba(96, 165, 250, 0.25), transparent) !important;
+/* 为了既能选中文本，又能玩背景物体，通常需要取舍。
+   如果背景只是装饰，建议在 JS 里去掉 mouseConstraint，
+   并在这里设置 .morphing-shapes { pointer-events: none; }
+   
+   如果你非常想要交互，必须把 Canvas 的 z-index 设高，
+   或者通过复杂的事件穿透处理。
+   
+   目前的推荐设置：背景仅作视觉效果，不抢占鼠标点击。
+*/
+.morphing-shapes {
+    pointer-events: none; 
 }
 
-.dark .spline-curve {
-    border-color: rgba(96, 165, 250, 0.2) !important;
+/* Dark mode 适配 */
+.dark .morphing-shapes canvas {
+    opacity: 0.6; /* 夜间模式稍微暗一点 */
 }
