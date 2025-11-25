@@ -34,18 +34,18 @@ sections:
       spacing:
         padding: ['0', '0', '0', '0']
 
-  - block: markdown
-    content:
-      title: '📚 My Research'
-      subtitle: ''
-      text: |-
-        My research focuses on understanding cognitive aging through the lens of cognitive reserve, social determinants, and neuroimaging biomarkers. I am particularly interested in how these factors interact to influence cognitive function and decline in older adults.
+#  - block: markdown
+#    content:
+#      title: '📚 My Research'
+#      subtitle: ''
+#      text: |-
+ #       My research focuses on understanding cognitive aging through the lens of cognitive reserve, social determinants, and neuroimaging biomarkers. I am particularly interested in how these factors interact to influence cognitive function and decline in older adults.
 
-        My work combines longitudinal data analysis, neuroimaging techniques, and epidemiological methods to investigate the mechanisms underlying cognitive resilience in aging populations. I am passionate about translating research findings into practical interventions that can improve the health and well-being of older adults.
+ #       My work combines longitudinal data analysis, neuroimaging techniques, and epidemiological methods to investigate the mechanisms underlying cognitive resilience in aging populations. I am passionate about translating research findings into practical interventions that can improve the health and well-being of older adults.
 
-        Please reach out to collaborate 😃
-    design:
-      columns: '1'
+   #     Please reach out to collaborate 😃
+   # design:
+    #  columns: '1'
 
   - block: collection
     id: papers
