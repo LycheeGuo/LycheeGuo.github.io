@@ -33,6 +33,11 @@
           {{ end }}
         {{ end }}
 
+        {{/* 4. 保底默认值 (CUHK) - 防止地图空白 */}}
+        {{ if or (eq $lat 0.0) (eq $lon 0.0) }}
+            {{ $lat = 22.415617172077784 }}
+            {{ $lon = 114.20714943976955 }}
+        {{ end }}
 
         {{/* 5. 计算边界并显示 */}}
         {{ $delta := 0.005 }}
@@ -61,7 +66,7 @@
         </div>
       </div>
 
-      {{/* ==================== 右侧：联系信息 (级联读取) ==================== */}}
+      {{/* ==================== 右侧：联系信息 ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         
         {{/* 1. Email 模块 */}}
@@ -83,10 +88,8 @@
           </div>
         </div>
 
-        {{/* 2. Office / Directions 模块 */}}
-        {{/* 逻辑：优先读取局部 directions -> 读取全局 map.address.street (作为备选) */}}
-        {{ $directions := .content.directions | default site.Params.map.address.street }}
-        {{ if $directions }}
+        {{/* 2. Directions 模块 (已修改：直接读取，无备选) */}}
+        {{ with .content.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -94,8 +97,8 @@
             </span>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900">Office Location</h3>
-            <p class="mt-1 text-gray-600">{{ $directions }}</p>
+            <h3 class="text-lg font-medium text-gray-900">Directions</h3>
+            <p class="mt-1 text-gray-600">{{ . }}</p>
           </div>
         </div>
         {{ end }}
