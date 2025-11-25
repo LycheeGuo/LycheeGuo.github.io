@@ -79,7 +79,7 @@ sections:
       # Page type to display. E.g. post, talk, publication...
       page_type: blog
       # Choose how many pages you would like to display (0 = all pages)
-      count: 2
+      count: 3
       # Filter on criteria
       filters:
         author: ''
@@ -114,6 +114,7 @@ sections:
     design:
       view: card
       columns: 2
+      fill_image: true # 确保图片填满卡片
 
   - block: markdown
     content:
