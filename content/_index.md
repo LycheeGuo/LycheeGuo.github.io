@@ -112,7 +112,7 @@ sections:
       text: ''
       filters:
         folders:
-          - projects
+          - project
     design:
       view: card
       columns: 2
