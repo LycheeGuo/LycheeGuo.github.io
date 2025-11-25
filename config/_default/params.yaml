@@ -58,21 +58,8 @@ features:
     enable: false
   privacy_pack:
     enable: false
-# Map Block
+  map:
+    provider: 'mapnik'
+    zoom: 15
 email: 'guolz@link.cuhk.edu.hk' 
-map:
-  engine: 3
-  api_key: ''
-  address:
-    email: 'guolz@cuhk.edu.hk'
-    directions: 'Room 345, Department of Psychology'
-    street: 'Sino Building, The Chinese University of Hong Kong'
-    city: 'Shatin'
-    region: 'NT'
-    postcode: ''
-    country: 'Hong Kong'
-  # Location for map marker
-  coordinates:
-    latitude: '22.41562906172439'
-    longitude: '114.2071505214707'
 
