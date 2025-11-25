@@ -5,19 +5,18 @@
 <section class="py-12 bg-white" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
-    {{/* 标题部分 */}}
     <div class="mb-10">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ $content.title | default "Contact" }}</h2>
-      {{ with $content.subtitle }}<p class="mt-2 text-lg text-gray-600">{{ . }}</p>{{ end }}
+      {{ if $content.subtitle }}<p class="mt-2 text-lg text-gray-600">{{ $content.subtitle }}</p>{{ end }}
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
-      {{/* 左侧：联系信息 */}}
+      {{/* --- 左侧：联系信息 --- */}}
       <div class="flex flex-col justify-center space-y-8">
         
-        {{/* 邮箱 */}}
-        {{ with $content.email }}
+        {{/* 邮箱 (直接读取) */}}
+        {{ if $content.email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -27,14 +26,14 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Email</h3>
             <p class="mt-1 text-gray-600">
-              <a href="mailto:{{ . }}" class="hover:text-indigo-600 hover:underline transition">{{ . }}</a>
+              <a href="mailto:{{ $content.email }}" class="hover:text-indigo-600 hover:underline transition">{{ $content.email }}</a>
             </p>
           </div>
         </div>
         {{ end }}
 
-        {{/* 地址 */}}
-        {{ with $content.address }}
+        {{/* 地址 (直接读取) */}}
+        {{ if $content.address }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -44,16 +43,16 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Address</h3>
             <div class="mt-1 text-gray-600">
-              <p>{{ .street }}</p>
-              <p>{{ .city }}{{ if .region }}, {{ .region }}{{ end }}</p>
-              <p>{{ .country }}</p>
+              <p>{{ $content.address.street }}</p>
+              <p>{{ $content.address.city }} {{ $content.address.region }}</p>
+              <p>{{ $content.address.country }}</p>
             </div>
           </div>
         </div>
         {{ end }}
 
-        {{/* 指引/办公地点 */}}
-        {{ with $content.directions }}
+        {{/* 指引 (直接读取) */}}
+        {{ if $content.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -62,46 +61,53 @@
           </div>
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Directions</h3>
-            <p class="mt-1 text-gray-600">{{ . }}</p>
+            <p class="mt-1 text-gray-600">{{ $content.directions }}</p>
           </div>
         </div>
         {{ end }}
       </div>
 
-      {{/* 右侧：地图 (自动读取 coordinates) */}}
+      {{/* --- 右侧：地图 --- */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
         {{ if $content.coordinates }}
+          {{/* 强制转换类型，防止字符串/浮点数不匹配 */}}
           {{ $lat := float $content.coordinates.latitude }}
           {{ $lon := float $content.coordinates.longitude }}
-          {{/* 简单的边界计算 */}}
-          {{ $delta := 0.005 }}
-          {{ $min_lon := sub $lon $delta }}
-          {{ $min_lat := sub $lat $delta }}
-          {{ $max_lon := add $lon $delta }}
-          {{ $max_lat := add $lat $delta }}
           
-          <iframe 
-            width="100%" 
-            height="100%" 
-            frameborder="0" 
-            scrolling="no" 
-            marginheight="0" 
-            marginwidth="0" 
-            src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-            style="border: 0; display: block; position: absolute; top: 0; left: 0;">
-          </iframe>
-          
-          {{/* 查看大图按钮 */}}
-          <div class="absolute bottom-4 right-4 z-10">
-             <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
-               target="_blank" 
-               class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition">
-              View Larger Map
-            </a>
-          </div>
+          {{/* 只有当经纬度不为0时才显示地图 */}}
+          {{ if and (ne $lat 0.0) (ne $lon 0.0) }}
+            {{ $delta := 0.005 }}
+            {{ $min_lon := sub $lon $delta }}
+            {{ $min_lat := sub $lat $delta }}
+            {{ $max_lon := add $lon $delta }}
+            {{ $max_lat := add $lat $delta }}
+            
+            <iframe 
+              width="100%" 
+              height="100%" 
+              frameborder="0" 
+              scrolling="no" 
+              marginheight="0" 
+              marginwidth="0" 
+              src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
+              style="border: 0; display: block; position: absolute; top: 0; left: 0;">
+            </iframe>
+            
+            <div class="absolute bottom-4 right-4 z-10">
+               <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
+                 target="_blank" 
+                 class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition">
+                View Larger Map
+              </a>
+            </div>
+          {{ else }}
+             <div class="flex items-center justify-center h-full text-gray-400 p-4 text-center">
+              Map Error: Coordinates appear to be zero. <br>Lat: {{ $lat }}, Lon: {{ $lon }}
+            </div>
+          {{ end }}
         {{ else }}
           <div class="flex items-center justify-center h-full text-gray-400">
-            Map coordinates not set
+            Map coordinates not found in front matter.
           </div>
         {{ end }}
       </div>
