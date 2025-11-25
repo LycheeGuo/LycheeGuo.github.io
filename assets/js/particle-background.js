@@ -1,18 +1,19 @@
-// Particle Background: Falling Outline Icons
-// Version: SVG Outlines & Continuous Falling
+// Particle Background: Interactive Fireworks
+// Click -> Explode -> Fall & Bounce -> Fade Out
 
 let checkCount = 0;
 const maxChecks = 50;
 
 function initPhysicsBackground() {
-    // 确保 Matter.js 和 PathSVG 都加载完成
+    // 检查依赖是否加载 (Matter.js 和 pathSeg)
+    // 如果你在国内，pathSeg 有时会加载失败，这里做了重试
     if (typeof Matter === 'undefined' || !window.pathSegList) {
         checkCount++;
         if (checkCount < maxChecks) {
             setTimeout(initPhysicsBackground, 100);
             return;
         } else {
-            console.error('Matter.js or PathSeg failed to load.');
+            console.error('Dependencies failed to load. Check pathseg.js and matter.js');
             return;
         }
     }
@@ -25,16 +26,17 @@ function initPhysicsBackground() {
           Bodies = Matter.Bodies,
           Svg = Matter.Svg,
           Vertices = Matter.Vertices,
-          Events = Matter.Events;
+          Events = Matter.Events,
+          Body = Matter.Body;
 
     // 1. 创建引擎
     const engine = Engine.create();
     const world = engine.world;
     
-    // 设置重力，稍微慢一点，营造飘落感
-    engine.gravity.y = 0.25; 
+    // 设置正常重力，让它们自然下落
+    engine.gravity.y = 1; 
 
-    // 2. 获取容器
+    // 2. 创建容器
     let container = document.querySelector('.morphing-shapes');
     if (!container) {
         container = document.createElement('div');
@@ -43,7 +45,8 @@ function initPhysicsBackground() {
     }
     container.innerHTML = '';
 
-    // 3. 创建渲染器 (关键修改：开启 wireframes)
+    // 3. 创建渲染器
+    // 为了能控制“透明度渐变消失”，我们需要关闭 wireframes 模式，但手动设置 fillStyle 为透明
     const render = Render.create({
         element: container,
         engine: engine,
@@ -51,15 +54,23 @@ function initPhysicsBackground() {
             width: window.innerWidth,
             height: window.innerHeight,
             background: 'transparent',
-            wireframes: true, // 【关键】开启线框模式，不要填充
+            wireframes: false, // 关闭线框模式，以便我们可以控制 opacity
             pixelRatio: window.devicePixelRatio || 1
         }
     });
 
-    // We don't need walls or floor anymore! Let them fall endlessly.
+    // 4. 创建地面 (让物体能落地 "啪")
+    // 地面位置在屏幕下方一点点，稍微有点厚度
+    const ground = Bodies.rectangle(
+        window.innerWidth / 2, 
+        window.innerHeight + 30, // 稍微在屏幕下方一点，让它看起来像落在底边
+        window.innerWidth, 
+        60, 
+        { isStatic: true, render: { visible: false } }
+    );
+    Composite.add(world, ground);
 
-    // 4. 定义 SVG 路径数据
-    // 这些数据来自简单的 SVG 图标
+    // 5. 定义 SVG 图标路径 (心形、星星、月亮、太阳、花朵)
     const svgPaths = {
         heart: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z",
         star: "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z",
@@ -69,78 +80,106 @@ function initPhysicsBackground() {
     };
     const pathKeys = Object.keys(svgPaths);
 
-    // 轮廓颜色配置 (使用你主题的 indigo 色系)
-    // 在 wireframe 模式下，fillStyle 无效，要设置 strokeStyle
-    const strokeColors = ['#a5b4fc', '#c7d2fe', '#818cf8'];
+    // 6. 点击触发烟花爆炸
+    const createExplosion = (x, y) => {
+        const particleCount = Common.random(8, 12); // 每次点击产生多少个
+        const strokeColors = ['#6366f1', '#818cf8', '#a5b4fc', '#4338ca', '#ec4899']; // 颜色池
 
-    // 辅助函数：创建 SVG 物体
-    function createSvgBody(x, y) {
-        const pathKey = Common.choose(pathKeys);
-        const pathData = svgPaths[pathKey];
-        // 解析 SVG 路径
-        const vertexSets = Svg.pathToVertices(pathData);
-        
-        const color = Common.choose(strokeColors);
-        const scale = Common.random(1.5, 3); // 调整大小缩放
+        for (let i = 0; i < particleCount; i++) {
+            const pathKey = Common.choose(pathKeys);
+            const pathData = svgPaths[pathKey];
+            const vertexSets = Svg.pathToVertices(pathData);
+            const color = Common.choose(strokeColors);
+            
+            // 创建物体
+            const body = Bodies.fromVertices(x, y, vertexSets, {
+                restitution: 0.6, // 弹性，落地会弹一下
+                friction: 0.01,
+                render: {
+                    fillStyle: 'transparent', // 也是透明填充
+                    strokeStyle: color,       // 只有轮廓颜色
+                    lineWidth: 2,
+                    opacity: 1
+                }
+            }, true);
 
-        const body = Bodies.fromVertices(x, y, vertexSets, {
-            friction: 0.001,
-            frictionAir: 0.02, // 增加空气阻力，让它们飘得慢一点
-            restitution: 0.5,
-            render: {
-                fillStyle: 'transparent', // 确保无填充
-                strokeStyle: color,       // 【关键】设置轮廓颜色
-                lineWidth: 1              // 线条宽度
-            }
-        }, true);
+            // 给它一个“爆炸”的力
+            const forceMagnitude = 0.02 * body.mass;
+            Body.applyForce(body, body.position, {
+                x: (Math.random() - 0.5) * forceMagnitude * 2, // 向左右炸开
+                y: (Math.random() - 1.0) * forceMagnitude * 2  // 向上炸开
+            });
 
-        // 随机旋转初始角度
-        Matter.Body.setAngle(body, Common.random(0, Math.PI * 2));
-        // 应用缩放
-        Matter.Body.scale(body, scale, scale);
-        
-        return body;
-    }
+            // 随机旋转
+            Body.setAngle(body, Math.random() * Math.PI * 2);
+            Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.3); // 自旋
 
-    // 5. 初始化生成一批物体
-    const initialAmount = 30; 
-    for (let i = 0; i < initialAmount; i++) {
-        const x = Common.random(0, window.innerWidth);
-        // 初始分布在屏幕各个高度
-        const y = Common.random(-window.innerHeight, window.innerHeight / 2);
-        Composite.add(world, createSvgBody(x, y));
-    }
+            // 设置缩放 (稍微小一点更像粒子)
+            const scale = Common.random(1.0, 1.8); 
+            Body.scale(body, scale, scale);
 
-    // 6. 【核心逻辑】循环监测：掉出屏幕的移除，并在顶部生成新的
+            // 标记生命周期 (例如 180 帧，约 3 秒后消失)
+            body.life = 180; 
+            body.initialLife = 180;
+
+            Composite.add(world, body);
+        }
+    };
+
+    // 绑定点击事件 (PC 和 手机)
+    document.addEventListener('mousedown', (e) => {
+        createExplosion(e.clientX, e.clientY);
+    });
+    document.addEventListener('touchstart', (e) => {
+        // 防止手机多点触控问题，只取第一个点
+        const touch = e.touches[0];
+        createExplosion(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    // 7. 循环更新：处理消失逻辑
     Events.on(engine, 'beforeUpdate', function(event) {
         const allBodies = Composite.allBodies(world);
-        const bottomLimit = window.innerHeight + 200; // 屏幕下方 200px 的位置
-
+        
         allBodies.forEach(body => {
-            // 如果物体掉到了屏幕下方很远的地方
-            if (body.position.y > bottomLimit) {
-                // 1. 从世界中移除旧物体
+            // 跳过地面，地面不能消失
+            if (body.isStatic) return;
+
+            // 减少生命值
+            if (body.life > 0) {
+                body.life -= 1;
+                // 计算透明度：生命周期最后 60 帧开始渐变消失
+                if (body.life < 60) {
+                    body.render.opacity = body.life / 60;
+                }
+            } else {
+                // 寿命耗尽，移除
                 Composite.remove(world, body);
-                
-                // 2. 在顶部随机位置生成一个新物体
-                const newX = Common.random(0, window.innerWidth);
-                const newY = Common.random(-200, -50); // 屏幕上方
-                Composite.add(world, createSvgBody(newX, newY));
+            }
+            
+            // 双重保险：如果掉出屏幕太远（没被地面接住），也移除
+            if (body.position.y > window.innerHeight + 200) {
+                Composite.remove(world, body);
             }
         });
     });
 
-    // 7. 启动
-    // 关闭鼠标交互，因为现在是纯背景下落
+    // 8. 启动
+    // 因为我们需要自己处理点击，所以把 render 的鼠标控制去掉
     render.mouse = null; 
 
     Render.run(render);
     const runner = Runner.create();
     Runner.run(runner, engine);
 
+    // 窗口调整
     window.addEventListener('resize', () => {
         render.canvas.width = window.innerWidth;
         render.canvas.height = window.innerHeight;
+        // 重置地面位置
+        Body.setPosition(ground, {
+            x: window.innerWidth / 2,
+            y: window.innerHeight + 30
+        });
     });
 }
 
