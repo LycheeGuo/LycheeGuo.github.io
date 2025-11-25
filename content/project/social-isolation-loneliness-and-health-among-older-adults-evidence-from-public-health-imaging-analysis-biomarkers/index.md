@@ -9,7 +9,7 @@ featured: false
 tags:
   - Social Relationship
 image:
-  filename: https://guolizhi.netlify.app/project/example/featured_hu3333b4b7e7bdb3808aeef38c22a60c56_217526_720x2500_fit_q75_h2_lanczos.webp
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 ---
