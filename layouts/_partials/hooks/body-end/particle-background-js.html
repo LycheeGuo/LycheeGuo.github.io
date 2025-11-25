@@ -1,0 +1,4 @@
+{{ $script := resources.Get "js/particle-background.js" }}
+{{ if $script }}
+<script src="{{ $script.RelPermalink }}"></script>
+{{ end }}

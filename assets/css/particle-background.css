@@ -1,0 +1,34 @@
+/* Particle Background Styles */
+/* Fixed position container for particles */
+.morphing-shapes {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* Diagonal lines animation */
+.diagonal-line {
+    position: absolute;
+}
+
+/* Spline curves animation */
+.spline-curve {
+    position: absolute;
+}
+
+/* Ensure body content stays above particles */
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Dark mode adjustments - use lighter colors */
+.dark .diagonal-line {
+    background: linear-gradient(45deg, transparent, rgba(96, 165, 250, 0.25), transparent) !important;
+}
+
+.dark .spline-curve {
+    border-color: rgba(96, 165, 250, 0.2) !important;
+}
