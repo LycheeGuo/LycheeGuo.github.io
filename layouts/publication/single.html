@@ -32,22 +32,9 @@
           📄 PDF
         </a>
       {{ end }}
-      
       {{ if .Params.doi }}
-        <a href="{{ .Params.doi }}" target="_blank" class="inline-flex items-center rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
+        <a href="https://doi.org/{{ .Params.doi }}" target="_blank" class="inline-flex items-center rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
           🔗 DOI
-        </a>
-      {{ end }}
-      
-      {{ if .Params.url_code }}
-        <a href="{{ .Params.url_code | relURL }}" target="_blank" class="inline-flex items-center rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
-          💻 Code
-        </a>
-      {{ end }}
-      
-      {{ if .Params.url_dataset }}
-        <a href="{{ .Params.url_dataset | relURL }}" target="_blank" class="inline-flex items-center rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
-          💾 Dataset
         </a>
       {{ end }}
     </div>
@@ -55,12 +42,15 @@
 
   {{ if .Params.abstract }}
   <div class="mx-auto max-w-3xl mt-10">
-    <h3 class="text-xl font-bold text-gray-900 mb-4">
+    
+    <h3 class="text-xl font-bold text-gray-900 mb-4 text-left">
       {{ i18n "abstract" | default "Abstract" }}
     </h3>
+    
     <div class="prose max-w-none text-justify text-gray-600">
       {{ .Params.abstract | markdownify }}
     </div>
+    
   </div>
   {{ end }}
 
@@ -78,7 +68,7 @@
   </div>
 
   <div class="mx-auto max-w-3xl mt-12 pt-6 border-t border-gray-200">
-    {{ partial "site_footer" . }}
+    {{ partial "site_footer.html" . }}
   </div>
 
 </div>
