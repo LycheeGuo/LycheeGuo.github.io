@@ -1,80 +1,42 @@
 {{/* layouts/partials/hbx/blocks/contact/block.html */}}
-{{ $block := .block }}
-{{ $content := $block.content | default $block }}
-
-{{/* 尝试多种路径获取数据，防止 YAML 结构差异 */}}
-{{ $email := $content.email | default $block.email | default "" }}
-{{ $directions := $content.directions | default $block.directions | default "" }}
-
-{{/* 地址处理 */}}
-{{ $address := $content.address | default $block.address }}
-{{ if not $address }}
-  {{/* 备用：如果 address 是空的，尝试手动构建 */}}
-  {{ $street := $content.street | default "" }}
-  {{ $city := $content.city | default "" }}
-  {{ if or $street $city }}
-    {{ $address = dict "street" $street "city" $city "region" ($content.region | default "") "country" ($content.country | default "") }}
-  {{ end }}
-{{ end }}
-
-{{/* 坐标处理 */}}
-{{ $coordinates := $content.coordinates | default $block.coordinates }}
-{{ $lat := 0.0 }}
-{{ $lon := 0.0 }}
-{{ if $coordinates }}
-  {{ $lat = float $coordinates.latitude }}
-  {{ $lon = float $coordinates.longitude }}
-{{ end }}
+{{/* 这个版本直接填入内容，不再依赖 _index.md 的读取，保证 100% 显示 */}}
 
 <section class="py-12 bg-white" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
     <div class="mb-10">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ $content.title | default "Contact" }}</h2>
-      {{ if $content.subtitle }}<p class="mt-2 text-lg text-gray-600">{{ $content.subtitle }}</p>{{ end }}
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Contact</h2>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
-      {{/* ==================== 左侧：地图 (已交换位置) ==================== */}}
+      {{/* ==================== 左侧：地图 (硬编码坐标，绝对稳定) ==================== */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative order-first">
-        {{ if and (ne $lat 0.0) (ne $lon 0.0) }}
-          {{ $delta := 0.005 }}
-          {{ $min_lon := sub $lon $delta }}
-          {{ $min_lat := sub $lat $delta }}
-          {{ $max_lon := add $lon $delta }}
-          {{ $max_lat := add $lat $delta }}
-          
-          <iframe 
-            width="100%" 
-            height="100%" 
-            frameborder="0" 
-            scrolling="no" 
-            marginheight="0" 
-            marginwidth="0" 
-            src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-            style="border: 0; display: block; position: absolute; top: 0; left: 0;">
-          </iframe>
-          
-          <div class="absolute bottom-4 right-4 z-10">
-             <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
-               target="_blank" 
-               class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition">
-              View Larger Map
-            </a>
-          </div>
-        {{ else }}
-           <div class="flex items-center justify-center h-full text-gray-400 p-4 text-center border-2 border-dashed">
-            <p>Map data missing.<br>Please check _index.md indentation.</p>
-          </div>
-        {{ end }}
+        <iframe 
+          width="100%" 
+          height="100%" 
+          frameborder="0" 
+          scrolling="no" 
+          marginheight="0" 
+          marginwidth="0" 
+          {{/* 这里的 bbox 和 marker 是根据您之前的坐标 22.415815, 114.207211 计算好的 */}}
+          src="https://www.openstreetmap.org/export/embed.html?bbox=114.202211,22.410815,114.212211,22.420815&amp;layer=mapnik&amp;marker=22.415815,114.207211" 
+          style="border: 0; display: block; position: absolute; top: 0; left: 0;">
+        </iframe>
+        
+        <div class="absolute bottom-4 right-4 z-10">
+            <a href="https://www.openstreetmap.org/?mlat=22.415815&amp;mlon=114.207211#map=16/22.415815/114.207211" 
+              target="_blank" 
+              class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition">
+            View Larger Map
+          </a>
+        </div>
       </div>
 
-      {{/* ==================== 右侧：联系信息 (已交换位置) ==================== */}}
+      {{/* ==================== 右侧：联系信息 (直接填入内容) ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         
         {{/* 地址 */}}
-        {{ if $address }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -84,16 +46,13 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Address</h3>
             <div class="mt-1 text-gray-600">
-              <p>{{ $address.street }}</p>
-              <p>{{ $address.city }}{{ if $address.region }}, {{ $address.region }}{{ end }}</p>
-              <p>{{ $address.country }}</p>
+              <p>Shatin, NT</p>
+              <p>Hong Kong</p>
             </div>
           </div>
         </div>
-        {{ end }}
 
         {{/* 邮箱 */}}
-        {{ if $email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -103,14 +62,12 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Email</h3>
             <p class="mt-1 text-gray-600">
-              <a href="mailto:{{ $email }}" class="hover:text-indigo-600 hover:underline transition">{{ $email }}</a>
+              <a href="mailto:guolz@link.cuhk.edu.hk" class="hover:text-indigo-600 hover:underline transition">guolz@link.cuhk.edu.hk</a>
             </p>
           </div>
         </div>
-        {{ end }}
 
-        {{/* 指引/办公地点 */}}
-        {{ if $directions }}
+        {{/* 办公地点 */}}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -119,10 +76,9 @@
           </div>
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Directions</h3>
-            <p class="mt-1 text-gray-600">{{ $directions }}</p>
+            <p class="mt-1 text-gray-600">Sino Building, The Chinese University of Hong Kong</p>
           </div>
         </div>
-        {{ end }}
       </div>
 
     </div>
