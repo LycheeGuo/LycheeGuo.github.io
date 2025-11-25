@@ -1,6 +1,32 @@
-{{/* layouts/partials/hbx/blocks/contact/block.html */}}
-{{/* 获取主页数据 */}}
-{{ $home := .Site.GetPage "/" }}
+{{/*
+================================================================================
+==
+==  在这里修改你的联系信息 / Edit your contact information here
+==
+==  你只需要修改下面 "---" 分隔线之间的内容。
+==  You only need to modify the content between the "---" lines.
+==
+================================================================================
+*/}}
+
+{{ $contact := dict
+    "email"      "guolz@link.cuhk.edu.hk"
+    "directions" "Room 345, Department of Psychology"
+    "address"    (dict
+        "street"  "Shatin"
+        "city"    "Hong Kong"
+        "region"  "New Territories"
+    )
+    "coordinates" (dict
+        "latitude"  22.41561573970213
+        "longitude" 114.20716648370569
+    )
+}}
+
+{{/*
+--- End of editable section ---
+*/}}
+
 
 <section class="py-12 bg-white" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -14,48 +40,47 @@
       {{/* ==================== 左侧：地图 ==================== */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
         
-        {{/* 直接读取 _index.md 里的 coordinates */}}
-        {{ $lat := float $home.Params.contact.coordinates.latitude }}
-        {{ $lon := float $home.Params.contact.coordinates.longitude }}
+        {{ with $contact.coordinates }}
+          {{ $lat := float .latitude }}
+          {{ $lon := float .longitude }}
 
-        {{/* 如果没读到坐标（为0），给一个默认值防止地图白屏 (CUHK) */}}
-        {{ if or (eq $lat 0.0) (eq $lon 0.0) }}
-            {{ $lat = 22.415815 }}
-            {{ $lon = 114.207211 }}
+          {{/* 计算显示范围 */}}
+          {{ $delta := 0.005 }}
+          {{ $min_lon := sub $lon $delta }}
+          {{ $min_lat := sub $lat $delta }}
+          {{ $max_lon := add $lon $delta }}
+          {{ $max_lat := add $lat $delta }}
+
+          <iframe 
+            width="100%" 
+            height="100%" 
+            frameborder="0" 
+            scrolling="no" 
+            marginheight="0" 
+            marginwidth="0" 
+            src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
+            style="border: 0; display: block; position: absolute; top: 0; left: 0;">
+          </iframe>
+          
+          <div class="absolute bottom-4 right-4 z-10">
+              <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
+                target="_blank" 
+                class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition no-underline">
+              View Larger Map
+            </a>
+          </div>
+        {{ else }}
+          <div class="flex items-center justify-center h-full">
+            <p class="text-gray-500">Map data is not available.</p>
+          </div>
         {{ end }}
-
-        {{/* 计算显示范围 */}}
-        {{ $delta := 0.005 }}
-        {{ $min_lon := sub $lon $delta }}
-        {{ $min_lat := sub $lat $delta }}
-        {{ $max_lon := add $lon $delta }}
-        {{ $max_lat := add $lat $delta }}
-
-        <iframe 
-          width="100%" 
-          height="100%" 
-          frameborder="0" 
-          scrolling="no" 
-          marginheight="0" 
-          marginwidth="0" 
-          src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-          style="border: 0; display: block; position: absolute; top: 0; left: 0;">
-        </iframe>
-        
-        <div class="absolute bottom-4 right-4 z-10">
-            <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
-              target="_blank" 
-              class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition no-underline">
-            View Larger Map
-          </a>
-        </div>
       </div>
 
       {{/* ==================== 右侧：信息 ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         
-        {{/* 1. Email (只读 .content.email) */}}
-        {{ with $home.Params.contact.email }}
+        {{/* 1. Email */}}
+        {{ with $contact.email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -71,8 +96,8 @@
         </div>
         {{ end }}
 
-        {{/* 2. Directions (只读 .content.directions) */}}
-        {{ with $home.Params.contact.directions }}
+        {{/* 2. Directions */}}
+        {{ with $contact.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
@@ -86,8 +111,8 @@
         </div>
         {{ end }}
 
-        {{/* 3. Address (只读 .content.address 下的字段) */}}
-        {{ with $home.Params.contact.address }}
+        {{/* 3. Address */}}
+        {{ with $contact.address }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
