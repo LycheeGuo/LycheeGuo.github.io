@@ -1,13 +1,64 @@
-{{ if .Params.abstract }}
-<div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
-    <h3 class="article-title" style="margin-bottom: 10px;">{{ i18n "abstract" }}</h3>
-    <div class="article-style">
+{{ define "main" }}
+
+<div class="mx-auto max-w-7xl px-6 lg:px-8 py-12">
+  
+  <div class="mx-auto max-w-3xl text-center">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6">
+      {{ .Title }}
+    </h1>
+
+    <div class="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-gray-500">
+       {{ partial "page_metadata" (dict "page" . "is_list" 0 "share" true) }}
+    </div>
+
+    <div class="mt-6">
+      {{ partial "page_links" (dict "page" . "is_list" 0) }}
+    </div>
+  </div>
+
+  {{ if .Params.abstract }}
+  <div class="mx-auto max-w-3xl mt-10 p-6 bg-gray-50 rounded-2xl">
+    <h3 class="text-xl font-bold text-gray-900 mb-4">
+      {{ i18n "abstract" }}
+    </h3>
+    <div class="prose max-w-none text-justify text-gray-600">
       {{ .Params.abstract | markdownify }}
     </div>
+  </div>
+  {{ end }}
+
+  {{ if .Params.image.filename }}
+  <div class="mx-auto max-w-4xl mt-10">
+    {{ $image := .Resources.GetMatch .Params.image.filename }}
+    {{ if $image }}
+      <img src="{{ $image.RelPermalink }}" alt="{{ .Title }}" class="rounded-xl shadow-lg w-full h-auto object-cover">
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <div class="mx-auto max-w-3xl mt-10 grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-x-6 text-sm border-t border-gray-200 pt-6">
+    {{ if .Params.publication }}
+    <div>
+      <div class="font-semibold text-gray-900">{{ i18n "publication" }}</div>
+      <div class="text-gray-500">{{ .Params.publication | markdownify }}</div>
     </div>
-  <div class="col-md-1"></div>
+    {{ end }}
+    
+    {{ if .Date }}
+    <div>
+      <div class="font-semibold text-gray-900">{{ i18n "date" }}</div>
+      <div class="text-gray-500">{{ .Date | time.Format ":date_long" }}</div>
+    </div>
+    {{ end }}
+  </div>
+
+  <div class="mx-auto max-w-3xl mt-10 prose prose-indigo text-gray-700">
+    {{ .Content }}
+  </div>
+
+  <div class="mx-auto max-w-3xl mt-12 pt-6 border-t border-gray-200">
+    {{ partial "page_footer" . }}
+  </div>
+
 </div>
-<div class="space-below"></div>
 {{ end }}
