@@ -90,7 +90,8 @@ awards:
   - title: PhD International Mobility for Partnerships and Collaborations Award
     date: '2025-05-25'
     awarder: The Chinese University of Hong Kong
-    icon: hero/trophy
+    icon: org-cuhk
+    icon_pack: custom
     summary: |
       Supports international research collaboration and enhances students’ overseas learning experiences.
   - title: National Scholarship for Postgraduates
