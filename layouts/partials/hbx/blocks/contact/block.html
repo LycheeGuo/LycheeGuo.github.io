@@ -1,8 +1,8 @@
 {{/* ==================== 左侧：地图 ==================== */}}
       <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
-        {{/* 动态获取坐标 */}}
-        {{ $lat := .content.coordinates.latitude }}
-        {{ $lon := .content.coordinates.longitude }}
+        {{/* 动态获取坐标并强制转换为浮点数 */}}
+        {{ $lat := float .content.coordinates.latitude }}
+        {{ $lon := float .content.coordinates.longitude }}
         
         {{/* 计算地图显示范围 (Bounding Box), 0.005 大约对应 Zoom 15 */}}
         {{ $delta := 0.005 }}
