@@ -66,6 +66,8 @@ education:
     date_end: 2026-02-01
     summary: |
       Visiting research student.
+      * Major: Psychiatry
+      * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
     icon: ""
