@@ -52,7 +52,8 @@ Research interests:
 education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
-    icon: org-cuhk.svg
+    icon: org-cuhk       # 对应文件名 org-cuhk.svg
+    icon_pack: custom    # 对应文件夹名 custom
     date_start: 2023-08-01
     date_end: 2027-06-30
     summary: |
@@ -60,7 +61,8 @@ education:
       * Supervisor: [Prof. Helene Hoi-Lam FUNG](https://cumotivationandemotion.psy.cuhk.edu.hk/blog/), [Prof. Hanna Lu](https://thebrainx.com/)
   - area: Visiting PhD student
     institution: King's College London
-    icon: org-kcl.svg
+    icon: org-kcl        # 对应文件名 org-kcl.svg
+    icon_pack: custom    # 对应文件夹名 custom
     date_start: 2025-08-01
     date_end: 2026-02-01
     summary: |
@@ -69,7 +71,8 @@ education:
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
-    icon: org-gc.svg
+    icon: org-gc         # 对应文件名 org-gc.svg
+    icon_pack: custom    # 对应文件夹名 custom
     date_start: 2019-09-01
     date_end: 2022-01-30
     summary: |
@@ -77,7 +80,8 @@ education:
       * Supervisor: [Prof. Bin Yu](https://bin-team.netlify.app/)
   - area: B.E in Material Forming & Control Engineering
     institution: Jilin University
-    icon: org-x.svg
+    icon: org-x          # 对应文件名 org-x.svg
+    icon_pack: custom    # 对应文件夹名 custom
     date_start: 2014-09-01
     date_end: 2018-06-30
     summary: |
