@@ -1,162 +1,150 @@
-// Particle Background Animation System
-// Adds animated diagonal lines and spline curves to the page
+// Physics Background using Matter.js
+// Simulating the "Your Plan Your Planet" feel with 2D physics
 
-// Wait for GSAP to be loaded with timeout
-let gsapLoadRetries = 0;
-const MAX_RETRIES = 50; // 5 seconds max wait
-
-function initParticleBackground() {
-    if (typeof gsap === 'undefined') {
-        if (gsapLoadRetries++ < MAX_RETRIES) {
-            setTimeout(initParticleBackground, 100);
-        } else {
-            console.error('GSAP failed to load after', MAX_RETRIES * 100, 'ms');
-        }
+function initPhysicsBackground() {
+    // 检查 Matter.js 是否加载
+    if (typeof Matter === 'undefined') {
+        console.error('Matter.js not loaded');
         return;
     }
 
-    console.log('Initializing particle background...');
+    const Engine = Matter.Engine,
+          Render = Matter.Render,
+          Runner = Matter.Runner,
+          Composites = Matter.Composites,
+          Common = Matter.Common,
+          MouseConstraint = Matter.MouseConstraint,
+          Mouse = Matter.Mouse,
+          Composite = Matter.Composite,
+          Bodies = Matter.Bodies,
+          Events = Matter.Events;
 
-    // Configuration
-    const config = {
-        colors: {
-            primary: 'rgba(59, 130, 246, 0.4)',
-            primaryDark: 'rgba(59, 130, 246, 0.3)'
-        },
-        diagonalLines: {
-            count: 5,
-            opacity: 0.3,
-            scaleX: 4.0,
-            width: Math.max(1200, window.innerWidth * 1.5), // Responsive width
-            duration: 4,
-            rotationDuration: 8
-        },
-        splineCurves: {
-            count: 4,
-            opacity: 0.4,
-            scale: 1.2,
-            duration: 6,
-            rotationDuration: 10
+    // 创建引擎
+    const engine = Engine.create();
+    const world = engine.world;
+
+    // 设置重力 (可以设为 0 让物体漂浮，或者设为 1 让物体下落)
+    // Google 那个效果其实是低重力 + 漂浮
+    engine.gravity.y = 0.5; 
+    engine.gravity.x = 0;
+
+    // 获取容器
+    // 注意：我们需要创建一个 canvas 放入之前的容器中
+    let container = document.querySelector('.morphing-shapes');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'morphing-shapes';
+        document.body.insertBefore(container, document.body.firstChild);
+    }
+    // 清空容器防止重复
+    container.innerHTML = '';
+
+    // 创建渲染器
+    const render = Render.create({
+        element: container,
+        engine: engine,
+        options: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            background: 'transparent', // 透明背景
+            wireframes: false, // 展示实心颜色
+            pixelRatio: window.devicePixelRatio // 清晰度优化
         }
-    };
-
-    // Create container for particles
-    const container = document.createElement('div');
-    container.className = 'morphing-shapes';
-    container.style.cssText = 'position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;';
-    document.body.insertBefore(container, document.body.firstChild);
-
-    // Ensure body content stays above particles
-    document.body.style.position = 'relative';
-
-    // Utility: Random position generator
-    const randomPosition = (min = 10, max = 90) => ({
-        x: Math.random() * (max - min) + min,
-        y: Math.random() * (max - min) + min
     });
 
-    // Create and animate diagonal lines
-    function createDiagonalLines() {
-        const { count, opacity, scaleX, width, duration, rotationDuration } = config.diagonalLines;
+    // 定义墙壁，防止物体跑出屏幕
+    const wallOptions = { 
+        isStatic: true, 
+        render: { visible: false } // 墙壁不可见
+    };
+    
+    let walls = [];
+    const updateWalls = () => {
+        Composite.remove(world, walls);
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const thickness = 100;
         
-        for (let i = 0; i < count; i++) {
-            const line = document.createElement('div');
-            const pos = randomPosition();
-            
-            line.style.cssText = `
-                position: absolute;
-                background: linear-gradient(45deg, transparent, ${config.colors.primary}, transparent);
-                height: 3px;
-                width: ${width}px;
-                opacity: 0;
-                z-index: 1;
-                left: ${pos.x}%;
-                top: ${pos.y}%;
-                transform: rotate(${Math.random() * 360}deg);
-                transform-origin: center center;
-            `;
-            line.className = 'diagonal-line';
-            container.appendChild(line);
+        walls = [
+            Bodies.rectangle(width/2, -thickness/2, width, thickness, wallOptions), // 上
+            Bodies.rectangle(width/2, height + thickness/2, width, thickness, wallOptions), // 下
+            Bodies.rectangle(width + thickness/2, height/2, thickness, height, wallOptions), // 右
+            Bodies.rectangle(-thickness/2, height/2, thickness, height, wallOptions) // 左
+        ];
+        Composite.add(world, walls);
+    };
+    updateWalls();
 
-            // Animate
-            gsap.timeline({ repeat: -1, yoyo: true })
-                .to(line, { 
-                    opacity: opacity, 
-                    scaleX: scaleX, 
-                    duration: duration, 
-                    delay: i * 0.8, 
-                    ease: "power2.inOut" 
-                })
-                .to(line, { 
-                    rotation: '+=180', 
-                    duration: rotationDuration, 
-                    ease: "none" 
-                }, 0);
-        }
-    }
+    // 创建随机形状 (模拟你的 research interests)
+    // 颜色取自你的 params.yaml 配置 (indigo 色系)
+    const colors = ['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe', '#e0e7ff'];
+    const shapes = [];
 
-    // Create and animate spline curves
-    function createSplineCurves() {
-        const { count, opacity, scale, duration, rotationDuration } = config.splineCurves;
+    for (let i = 0; i < 20; i++) {
+        const x = Common.random(0, window.innerWidth);
+        const y = Common.random(-500, 0); // 从屏幕上方生成
+        const size = Common.random(20, 50);
+        const color = Common.choose(colors);
         
-        for (let i = 0; i < count; i++) {
-            const curve = document.createElement('div');
-            const pos = randomPosition();
-            const size = 150 + Math.random() * 60;
-            
-            curve.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                border: 3px solid ${config.colors.primaryDark};
-                border-radius: 50%;
-                opacity: 0;
-                z-index: 1;
-                left: ${pos.x}%;
-                top: ${pos.y}%;
-            `;
-            curve.className = 'spline-curve';
-            container.appendChild(curve);
+        let body;
+        const shapeType = Common.random();
 
-            // Animate
-            gsap.timeline({ repeat: -1, yoyo: true })
-                .to(curve, { 
-                    opacity: opacity, 
-                    scale: scale, 
-                    borderRadius: '0%', 
-                    duration: duration, 
-                    delay: i * 1.2, 
-                    ease: "power2.inOut" 
-                })
-                .to(curve, { 
-                    rotation: 360, 
-                    duration: rotationDuration, 
-                    ease: "none" 
-                }, 0);
-        }
-    }
+        const bodyOptions = {
+            restitution: 0.9, // 弹性 (0-1)，越大约弹
+            friction: 0.001,  // 摩擦力
+            frictionAir: 0.01, // 空气阻力，制造漂浮感
+            render: {
+                fillStyle: color,
+                opacity: 0.8
+            }
+        };
 
-    // Initialize animations
-    createDiagonalLines();
-    createSplineCurves();
-
-    console.log('Particle background initialized successfully!');
-}
-
-// Start when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initParticleBackground);
-} else {
-    initParticleBackground();
-}
-
-// Pause animations when page is hidden for performance
-document.addEventListener('visibilitychange', function() {
-    if (typeof gsap !== 'undefined') {
-        if (document.hidden) {
-            gsap.globalTimeline.pause();
+        if (shapeType < 0.33) {
+            body = Bodies.circle(x, y, size, bodyOptions);
+        } else if (shapeType < 0.66) {
+            body = Bodies.polygon(x, y, 3, size + 10, bodyOptions); // 三角形
         } else {
-            gsap.globalTimeline.resume();
+            body = Bodies.polygon(x, y, 5, size, bodyOptions); // 五边形
         }
+
+        shapes.push(body);
     }
-});
+
+    Composite.add(world, shapes);
+
+    // 添加鼠标交互
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+            stiffness: 0.2,
+            render: {
+                visible: false
+            }
+        }
+    });
+
+    // 重要：确保鼠标交互不被 HTML 元素遮挡，或者反过来
+    // 如果想要背景纯装饰，可以注释掉下面这行
+    Composite.add(world, mouseConstraint);
+    render.mouse = mouse;
+
+    // 运行引擎
+    Render.run(render);
+    const runner = Runner.create();
+    Runner.run(runner, engine);
+
+    // 窗口大小改变时重置墙壁
+    window.addEventListener('resize', () => {
+        render.canvas.width = window.innerWidth;
+        render.canvas.height = window.innerHeight;
+        updateWalls();
+    });
+}
+
+// Start
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPhysicsBackground);
+} else {
+    initPhysicsBackground();
+}
