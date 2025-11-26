@@ -24,9 +24,30 @@
 --- End of editable section ---
 */}}
 
-{{/* 引入 Leaflet 地图库的 CSS 和 JS (开源免费) */}}
+{{/* 引入 Leaflet 地图库 */}}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+  /* 定位按钮的样式 */
+  .custom-locate-btn {
+    background-color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 4px;
+    border: 2px solid rgba(0,0,0,0.2);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+    font-size: 20px;
+    color: #333;
+    transition: background-color 0.2s;
+  }
+  .custom-locate-btn:hover {
+    background-color: #f4f4f4;
+  }
+</style>
 
 {{/* 背景保持透明 */}}
 <section class="py-12 bg-transparent" id="contact">
@@ -46,49 +67,109 @@
 
           <script>
             document.addEventListener('DOMContentLoaded', function() {
-              // 1. 获取坐标
+              // 1. 获取预设坐标
               var lat = {{ .latitude }};
               var lng = {{ .longitude }};
 
-              // 2. 初始化地图
+              // 2. 初始化地图 (attributionControl: false 去除右下角版权信息)
               var map = L.map('map', {
                 center: [lat, lng],
                 zoom: 16,
-                attributionControl: false, // ★ 关键：这里设置为 false，移除了右下角的版权和报错链接
-                zoomControl: false         // 移除默认的缩放按钮（可选，为了更干净）
+                attributionControl: false, 
+                zoomControl: false 
               });
 
-              // 3. 添加地图图层 (使用 OpenStreetMap)
+              // 3. 添加图层
               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
               }).addTo(map);
 
-              // 4. 添加你的位置标记 (Marker)
+              // 4. 添加默认位置标记
               var marker = L.marker([lat, lng]).addTo(map);
-              
-              // 标记的弹窗内容
-              var popupContent = `
+              var defaultContent = `
                 <div style="font-size: 14px; line-height: 1.5;">
                   <strong>{{ $contact.directions }}</strong><br>
                   {{ $contact.address.street }}
                 </div>
               `;
-              marker.bindPopup(popupContent).openPopup(); // 默认打开弹窗
+              marker.bindPopup(defaultContent).openPopup();
 
-              // 5. ★ 实现“点击任意位置显示坐标”功能
+              // 5. ★ 功能：点击地图获取“中文地址名称”
               var clickPopup = L.popup();
 
               function onMapClick(e) {
-                clickPopup
-                  .setLatLng(e.latlng)
-                  .setContent("📍 位置坐标: " + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5))
-                  .openOn(map);
+                clickPopup.setLatLng(e.latlng).setContent("📍 正在获取位置信息...").openOn(map);
+
+                // 使用 OpenStreetMap 的 Nominatim API 进行逆地理编码
+                // 注意：这是一个免费公共服务，请求频率过高可能会被限制
+                var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&zoom=18&addressdetails=1&accept-language=zh-CN,en`;
+
+                fetch(url)
+                  .then(response => response.json())
+                  .then(data => {
+                    // 获取显示的名称，优先使用 display_name
+                    var addressName = data.display_name || "未知位置";
+                    // 简化显示：截取前两个逗号的内容，避免太长（可选）
+                    // addressName = addressName.split(',').slice(0, 3).join(','); 
+                    
+                    clickPopup.setContent(`<div style="max-width:200px;">📍 ${addressName}</div>`);
+                  })
+                  .catch(err => {
+                    console.error(err);
+                    clickPopup.setContent(`📍 位置: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}<br><small>(获取名称失败)</small>`);
+                  });
               }
 
               map.on('click', onMapClick);
-              
-              // 如果你需要缩放按钮，可以取消下面注释，并设置位置
-              L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+              // 6. ★ 功能：添加“定位到我的位置”按钮
+              var LocateControl = L.Control.extend({
+                options: {
+                  position: 'bottomright' // 按钮位置：右下角
+                },
+                onAdd: function(map) {
+                  var container = L.DomUtil.create('div', 'custom-locate-btn leaflet-bar');
+                  container.innerHTML = '🎯'; // 按钮图标
+                  container.title = "显示我的位置";
+                  
+                  container.onclick = function(e) {
+                    e.stopPropagation(); // 防止点击按钮触发地图点击事件
+                    container.innerHTML = '⏳'; // 点击后变漏斗
+                    // 调用浏览器定位 API
+                    map.locate({setView: true, maxZoom: 16});
+                  };
+                  return container;
+                }
+              });
+              map.addControl(new LocateControl());
+
+              // 定位成功事件
+              map.on('locationfound', function(e) {
+                var radius = e.accuracy;
+                
+                // 如果已经有定位标记，先移除
+                if (window.userLocationMarker) {
+                  map.removeLayer(window.userLocationMarker);
+                  map.removeLayer(window.userLocationCircle);
+                }
+
+                // 添加新标记和范围圈
+                window.userLocationMarker = L.marker(e.latlng).addTo(map)
+                    .bindPopup("你在大约 " + Math.round(radius) + " 米范围内").openPopup();
+                window.userLocationCircle = L.circle(e.latlng, radius).addTo(map);
+                
+                // 恢复按钮图标
+                document.querySelector('.custom-locate-btn').innerHTML = '🎯';
+              });
+
+              // 定位失败事件
+              map.on('locationerror', function(e) {
+                alert("无法获取您的位置，请检查浏览器权限设置。");
+                document.querySelector('.custom-locate-btn').innerHTML = '🎯';
+              });
+
+              // 添加缩放按钮 (如果你想要的话，取消注释下面这行)
+              // L.control.zoom({ position: 'bottomright' }).addTo(map);
             });
           </script>
         {{ else }}
@@ -100,8 +181,6 @@
 
       {{/* ==================== 右侧：联系信息 (保持不变) ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
-        
-        {{/* 1. Email */}}
         {{ with $contact.email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
@@ -111,14 +190,10 @@
           </div>
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900">Email</h3>
-            <p class="mt-1 text-gray-600">
-              <a href="mailto:{{ . }}" class="hover:text-indigo-600 hover:underline transition">{{ . }}</a>
-            </p>
+            <p class="mt-1 text-gray-600"><a href="mailto:{{ . }}" class="hover:text-indigo-600 hover:underline transition">{{ . }}</a></p>
           </div>
         </div>
         {{ end }}
-
-        {{/* 2. Directions */}}
         {{ with $contact.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
@@ -132,8 +207,6 @@
           </div>
         </div>
         {{ end }}
-
-        {{/* 3. Address */}}
         {{ with $contact.address }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
@@ -145,15 +218,12 @@
             <h3 class="text-lg font-medium text-gray-900">Address</h3>
             <div class="mt-1 text-gray-600">
               {{ with .street }}<p class="font-medium text-gray-800">{{ . }}</p>{{ end }}
-              <p>
-                {{ .city }}{{ if .region }}, {{ .region }}{{ end }}
-              </p>
+              <p>{{ .city }}{{ if .region }}, {{ .region }}{{ end }}</p>
               {{ with .country }}<p>{{ . }}</p>{{ end }}
             </div>
           </div>
         </div>
         {{ end }}
-
       </div>
     </div>
   </div>
