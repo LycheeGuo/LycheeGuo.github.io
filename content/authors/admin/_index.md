@@ -94,11 +94,11 @@ skills:
       - name: Writing 
         description: ''
         percent: 100
-        icon: ✍️
+        icon: hero/sparkles
       - name: Longitudinal analysis
         description: ''
         percent: 85
-        icon: 🚀
+        icon: brands/SpaceX
   - name: Hobbies
     color: '#eeac02'
     color_border: '#f0bf23'
@@ -106,7 +106,7 @@ skills:
       - name: Cooking
         description: ''
         percent: 80
-        icon: 🧑‍🍳
+        icon: brands/KFC
       - name: Building Custom PCs
         description: ''
         percent: 90
