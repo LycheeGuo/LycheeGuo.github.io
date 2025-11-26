@@ -1,28 +1,31 @@
 {{/* layouts/partials/site_footer.html */}}
 
-{{/* 1. 定义淡色系渐变动画 */}}
+{{/* 1. 定义“蔓延”流动的动画 */}}
 <style>
-  @keyframes gradient-flow {
+  @keyframes spread-flow {
     0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
   
-  .pastel-rainbow-text {
-    /* 浅色/马卡龙色系渐变：
-       淡粉 -> 淡橘 -> 淡黄 -> 淡绿 -> 淡蓝 -> 淡紫 
+  .creeping-colors {
+    /* 这里定义了多种浅色，按顺序排列，模拟“随机”分布的感觉。
+       为了实现无缝循环，开头和结尾的颜色需要能接上。
+       颜色列表：淡粉 -> 淡紫 -> 天蓝 -> 薄荷绿 -> 淡黄 -> 淡橙 -> 回到淡粉
     */
-    background: linear-gradient(270deg, 
-      #ff9a9e, /* 淡粉红 */
-      #fecfef, /* 淡粉紫 */
-      #feada6, /* 淡橘红 */
-      #f5efef, /* 近白/淡灰 */
-      #a1c4fd, /* 淡蓝 */
-      #c2e9fb  /* 天蓝 */
+    background: linear-gradient(90deg, 
+      #ff9a9e, /* 淡粉 */
+      #e0c3fc, /* 淡紫 */
+      #8ec5fc, /* 天蓝 */
+      #b8f2e6, /* 薄荷 */
+      #fff6b2, /* 淡黄 */
+      #ffc3a0, /* 淡橙 */
+      #ff9a9e  /* 循环回淡粉 */
     );
-    background-size: 400% 400%;
     
-    /* 背景裁剪为文字形状 */
+    /* 拉长背景，让颜色过渡更平滑，不会挤在一起 */
+    background-size: 200% auto;
+    
+    /* 裁剪背景到文字 */
     -webkit-background-clip: text;
     background-clip: text;
     
@@ -30,17 +33,19 @@
     color: transparent; 
     -webkit-text-fill-color: transparent;
     
-    /* 动画：6秒循环一次，柔和流动 */
-    animation: gradient-flow 6s ease infinite;
+    /* linear: 匀速运动，这就是“蔓延”感的关键 
+       8s: 速度适中，你可以改小数字让它流得更快
+    */
+    animation: spread-flow 8s linear infinite;
   }
 </style>
 
 {{/* 2. 页脚结构 */}}
-{{/* pb-20: 底部增加更多留白，让文字视觉上更靠上 */}}
-<footer class="mx-auto mt-12 pb-20 max-w-7xl px-6 lg:px-8 text-center">
+{{/* pb-32: 底部留白非常大，文字会显著上移 */}}
+<footer class="mx-auto mt-12 pb-32 max-w-7xl px-6 lg:px-8 text-center">
   
-  {{/* text-sm: 改回小字体; font-bold: 稍微加粗一点点以免浅色看不清 */}}
-  <p class="pastel-rainbow-text font-bold text-sm">
+  {{/* text-sm: 小字体; 去掉了 font-bold */}}
+  <p class="creeping-colors text-sm">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
