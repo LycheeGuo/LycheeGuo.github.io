@@ -3,9 +3,6 @@
 ==
 ==  在这里修改你的联系信息 / Edit your contact information here
 ==
-==  你只需要修改下面 "---" 分隔线之间的内容。
-==  You only need to modify the content between the "---" lines.
-==
 ================================================================================
 */}}
 
@@ -27,8 +24,11 @@
 --- End of editable section ---
 */}}
 
+{{/* 引入 Leaflet 地图库的 CSS 和 JS (开源免费) */}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-{{/* 修改点 1：将 bg-white 改为 bg-transparent 以实现背景透明 */}}
+{{/* 背景保持透明 */}}
 <section class="py-12 bg-transparent" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
@@ -38,41 +38,59 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
-      {{/* ==================== 左侧：地图 ==================== */}}
-      <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative">
-        
+      {{/* ==================== 左侧：交互式地图 ==================== */}}
+      <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative z-10">
         {{ with $contact.coordinates }}
-          {{ $lat := float .latitude }}
-          {{ $lon := float .longitude }}
+          {{/* 地图容器 */}}
+          <div id="map" style="width: 100%; height: 100%;"></div>
 
-          {{/* 计算显示范围 */}}
-          {{ $delta := 0.005 }}
-          {{ $min_lon := sub $lon $delta }}
-          {{ $min_lat := sub $lat $delta }}
-          {{ $max_lon := add $lon $delta }}
-          {{ $max_lat := add $lat $delta }}
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              // 1. 获取坐标
+              var lat = {{ .latitude }};
+              var lng = {{ .longitude }};
 
-          {{/* 修改点 2：iframe 增加 title 和 loading="lazy" 属性 */}}
-          <iframe 
-            title="Map of The Chinese University of Hong Kong"
-            width="100%" 
-            height="100%" 
-            loading="lazy"
-            frameborder="0" 
-            scrolling="no" 
-            marginheight="0" 
-            marginwidth="0" 
-            src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-            style="border: 0; display: block; position: absolute; top: 0; left: 0;">
-          </iframe>
-          
-          <div class="absolute bottom-4 right-4 z-10">
-              <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=16/{{ $lat }}/{{ $lon }}" 
-                target="_blank" 
-                class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-md text-xs font-medium hover:bg-gray-50 transition no-underline">
-              View Larger Map
-            </a>
-          </div>
+              // 2. 初始化地图
+              var map = L.map('map', {
+                center: [lat, lng],
+                zoom: 16,
+                attributionControl: false, // ★ 关键：这里设置为 false，移除了右下角的版权和报错链接
+                zoomControl: false         // 移除默认的缩放按钮（可选，为了更干净）
+              });
+
+              // 3. 添加地图图层 (使用 OpenStreetMap)
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
+              }).addTo(map);
+
+              // 4. 添加你的位置标记 (Marker)
+              var marker = L.marker([lat, lng]).addTo(map);
+              
+              // 标记的弹窗内容
+              var popupContent = `
+                <div style="font-size: 14px; line-height: 1.5;">
+                  <strong>{{ $contact.directions }}</strong><br>
+                  {{ $contact.address.street }}
+                </div>
+              `;
+              marker.bindPopup(popupContent).openPopup(); // 默认打开弹窗
+
+              // 5. ★ 实现“点击任意位置显示坐标”功能
+              var clickPopup = L.popup();
+
+              function onMapClick(e) {
+                clickPopup
+                  .setLatLng(e.latlng)
+                  .setContent("📍 位置坐标: " + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5))
+                  .openOn(map);
+              }
+
+              map.on('click', onMapClick);
+              
+              // 如果你需要缩放按钮，可以取消下面注释，并设置位置
+              L.control.zoom({ position: 'bottomright' }).addTo(map);
+            });
+          </script>
         {{ else }}
           <div class="flex items-center justify-center h-full">
             <p class="text-gray-500">Map data is not available.</p>
@@ -80,7 +98,7 @@
         {{ end }}
       </div>
 
-      {{/* ==================== 右侧：信息 ==================== */}}
+      {{/* ==================== 右侧：联系信息 (保持不变) ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         
         {{/* 1. Email */}}
