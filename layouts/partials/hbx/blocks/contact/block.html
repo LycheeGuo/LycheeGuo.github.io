@@ -29,23 +29,33 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <style>
-  /* 定位按钮的样式 */
+  /* ★ 修改后的扁平化按钮样式 */
   .custom-locate-btn {
     background-color: white;
-    width: 34px;
-    height: 34px;
-    border-radius: 4px;
-    border: 2px solid rgba(0,0,0,0.2);
-    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    width: 32px;
+    height: 32px;
+    border-radius: 2px; /* 稍微圆角，不像圆圈那么大 */
+    border: 1px solid #ccc; /* 边框变细变淡 */
+    /* 去掉厚重的阴影，改用很淡的阴影，或者直接写 none 去掉 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
     cursor: pointer;
-    text-align: center;
-    line-height: 30px;
-    font-size: 20px;
-    color: #333;
-    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
   }
   .custom-locate-btn:hover {
-    background-color: #f4f4f4;
+    background-color: #f8f9fa;
+    color: #000;
+  }
+  /* 图标样式 */
+  .locate-icon-svg {
+    width: 18px;
+    height: 18px;
+    fill: #555; /* 深灰色图标 */
+  }
+  .custom-locate-btn:hover .locate-icon-svg {
+    fill: #000; /* 悬停变黑 */
   }
 </style>
 
@@ -71,7 +81,7 @@
               var lat = {{ .latitude }};
               var lng = {{ .longitude }};
 
-              // 2. 初始化地图 (attributionControl: false 去除右下角版权信息)
+              // 2. 初始化地图
               var map = L.map('map', {
                 center: [lat, lng],
                 zoom: 16,
@@ -94,48 +104,53 @@
               `;
               marker.bindPopup(defaultContent).openPopup();
 
-              // 5. ★ 功能：点击地图获取“中文地址名称”
+              // 5. 点击地图获取地址名称
               var clickPopup = L.popup();
 
               function onMapClick(e) {
-                clickPopup.setLatLng(e.latlng).setContent("📍 正在获取位置信息...").openOn(map);
+                clickPopup.setLatLng(e.latlng).setContent("📍 正在获取...").openOn(map);
 
-                // 使用 OpenStreetMap 的 Nominatim API 进行逆地理编码
-                // 注意：这是一个免费公共服务，请求频率过高可能会被限制
                 var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&zoom=18&addressdetails=1&accept-language=zh-CN,en`;
 
                 fetch(url)
                   .then(response => response.json())
                   .then(data => {
-                    // 获取显示的名称，优先使用 display_name
                     var addressName = data.display_name || "未知位置";
-                    // 简化显示：截取前两个逗号的内容，避免太长（可选）
-                    // addressName = addressName.split(',').slice(0, 3).join(','); 
-                    
-                    clickPopup.setContent(`<div style="max-width:200px;">📍 ${addressName}</div>`);
+                    // 简化地址显示，只取前两段
+                    var shortName = addressName.split(',').slice(0, 2).join(',');
+                    clickPopup.setContent(`<div style="max-width:200px;">📍 ${shortName}</div>`);
                   })
                   .catch(err => {
                     console.error(err);
-                    clickPopup.setContent(`📍 位置: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}<br><small>(获取名称失败)</small>`);
+                    clickPopup.setContent(`📍 坐标: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`);
                   });
               }
 
               map.on('click', onMapClick);
 
-              // 6. ★ 功能：添加“定位到我的位置”按钮
+              // 6. ★ 修改：扁平化定位按钮
               var LocateControl = L.Control.extend({
                 options: {
-                  position: 'bottomright' // 按钮位置：右下角
+                  position: 'bottomright'
                 },
                 onAdd: function(map) {
                   var container = L.DomUtil.create('div', 'custom-locate-btn leaflet-bar');
-                  container.innerHTML = '🎯'; // 按钮图标
-                  container.title = "显示我的位置";
+                  container.title = "定位我的位置";
+                  
+                  // 使用 SVG 图标代替 emoji，更扁平、更专业
+                  var iconSvg = `
+                    <svg class="locate-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
+                      <path d="M20.94 11A9.003 9.003 0 0 0 13 3.06V1h-2v2.06A9.003 9.003 0 0 0 3.06 11H1v2h2.06A9.003 9.003 0 0 0 11 20.94V23h2v-2.06A9.003 9.003 0 0 0 20.94 13H23v-2h-2.06zM12 19a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"/>
+                    </svg>
+                  `;
+                  
+                  container.innerHTML = iconSvg;
                   
                   container.onclick = function(e) {
-                    e.stopPropagation(); // 防止点击按钮触发地图点击事件
-                    container.innerHTML = '⏳'; // 点击后变漏斗
-                    // 调用浏览器定位 API
+                    e.stopPropagation();
+                    // 点击后让图标稍微变淡一点表示正在加载
+                    container.style.opacity = "0.5";
                     map.locate({setView: true, maxZoom: 16});
                   };
                   return container;
@@ -143,33 +158,26 @@
               });
               map.addControl(new LocateControl());
 
-              // 定位成功事件
               map.on('locationfound', function(e) {
                 var radius = e.accuracy;
-                
-                // 如果已经有定位标记，先移除
                 if (window.userLocationMarker) {
                   map.removeLayer(window.userLocationMarker);
                   map.removeLayer(window.userLocationCircle);
                 }
-
-                // 添加新标记和范围圈
                 window.userLocationMarker = L.marker(e.latlng).addTo(map)
-                    .bindPopup("你在大约 " + Math.round(radius) + " 米范围内").openPopup();
+                    .bindPopup("您的位置 (误差 " + Math.round(radius) + " 米)").openPopup();
                 window.userLocationCircle = L.circle(e.latlng, radius).addTo(map);
                 
-                // 恢复按钮图标
-                document.querySelector('.custom-locate-btn').innerHTML = '🎯';
+                // 恢复按钮状态
+                document.querySelector('.custom-locate-btn').style.opacity = "1";
               });
 
-              // 定位失败事件
               map.on('locationerror', function(e) {
-                alert("无法获取您的位置，请检查浏览器权限设置。");
-                document.querySelector('.custom-locate-btn').innerHTML = '🎯';
+                // 恢复按钮状态
+                document.querySelector('.custom-locate-btn').style.opacity = "1";
+                // 优化提示文案
+                alert("定位失败。请确保您的浏览器已允许位置权限，或检查系统定位服务是否开启。");
               });
-
-              // 添加缩放按钮 (如果你想要的话，取消注释下面这行)
-              // L.control.zoom({ position: 'bottomright' }).addTo(map);
             });
           </script>
         {{ else }}
@@ -179,7 +187,7 @@
         {{ end }}
       </div>
 
-      {{/* ==================== 右侧：联系信息 (保持不变) ==================== */}}
+      {{/* ==================== 右侧信息保持不变 ==================== */}}
       <div class="flex flex-col justify-center space-y-8">
         {{ with $contact.email }}
         <div class="flex items-start">
