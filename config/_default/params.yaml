@@ -35,7 +35,7 @@ header:
     show_search: true
     show_theme_chooser: true
     logo:
-      text: 'Lizhi Guo'
+      text: 'Lizhi Guo(郭立志)'
 
 # Site footer
 footer:
@@ -57,7 +57,7 @@ features:
   math:
     enable: false
   privacy_pack:
-    enable: false
+    enable: true
   map:
     provider: 'mapnik'
     zoom: 15
