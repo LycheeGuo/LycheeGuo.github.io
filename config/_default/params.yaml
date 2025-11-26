@@ -40,7 +40,8 @@ header:
 # Site footer
 footer:
   copyright:
-    notice: '© {year} Lizhi Guo. All Rights Reserved.'
+    notice: '© {year} Lizhi Guo
+     All Rights Reserved.'
     license:
       enable: false
       allow_derivatives: false
