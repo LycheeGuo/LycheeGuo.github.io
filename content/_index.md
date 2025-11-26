@@ -24,9 +24,7 @@ sections:
       avatar:
         size: medium
         shape: circle
-      # Bio板块保持紧凑
-      spacing:
-        padding: ['0', '0', '0', '0']
+
 
   # Featured Publications
   - block: collection
@@ -40,9 +38,7 @@ sections:
     design:
       view: article-grid
       columns: 2
-      # ★ 新增：强制缩小间距
-      spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+     
 
   # Recent Publications
   - block: collection
@@ -55,9 +51,7 @@ sections:
         exclude_featured: false
     design:
       view: citation
-      # ★ 新增：强制缩小间距
-      spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+
 
   # Recent News
   - block: collection
@@ -81,9 +75,6 @@ sections:
     design:
       view: card
       columns: '2'
-      # News板块你之前已经设为0了，保持不变
-      spacing:
-        padding: [0, 0, 0, 0]
 
   # Projects
   - block: collection
@@ -97,9 +88,7 @@ sections:
     design:
       view: article-grid
       columns: 2
-      # ★ 新增：强制缩小间距
-      spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+
 
   # Gallery
   - block: markdown
@@ -110,9 +99,7 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
-      # ★ 新增：强制缩小间距
-      spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+
 
   # Contact
   - block: contact
@@ -136,5 +123,5 @@ sections:
       columns: '2'
       # ★ 新增：强制缩小间距
       spacing:
-        padding: ["2rem", "0", "1rem", "0"] # 底部稍微多留一点给页脚动画
+        padding: ["1rem", "0", "1rem", "0"] # 底部稍微多留一点给页脚动画
 ---
