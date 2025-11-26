@@ -69,7 +69,7 @@ education:
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
-    icon: custom/org-gc
+    icon: custom/org-tju
     date_start: 2019-09-01
     date_end: 2022-01-30
     summary: |
@@ -98,7 +98,7 @@ skills:
       - name: Longitudinal analysis
         description: ''
         percent: 85
-        icon: table
+        icon: arrow-trending-up
   - name: Hobbies
     color: '#eeac02'
     color_border: '#f0bf23'
@@ -106,7 +106,7 @@ skills:
       - name: Cooking
         description: ''
         percent: 80
-        icon: cookie
+        icon: cake
       - name: Building Custom PCs
         description: ''
         percent: 90
