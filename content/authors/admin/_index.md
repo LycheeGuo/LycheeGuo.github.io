@@ -98,7 +98,7 @@ skills:
       - name: Longitudinal analysis
         description: ''
         percent: 85
-        icon: brands/SpaceX
+        icon: table
   - name: Hobbies
     color: '#eeac02'
     color_border: '#f0bf23'
@@ -106,7 +106,7 @@ skills:
       - name: Cooking
         description: ''
         percent: 80
-        icon: brands/KFC
+        icon: cookie
       - name: Building Custom PCs
         description: ''
         percent: 90
