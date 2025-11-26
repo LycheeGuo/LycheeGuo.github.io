@@ -1,6 +1,6 @@
 {{/* layouts/partials/site_footer.html */}}
 
-{{/* 1. 定义动态渐变的 CSS 样式 */}}
+{{/* 1. 定义淡色系渐变动画 */}}
 <style>
   @keyframes gradient-flow {
     0% { background-position: 0% 50%; }
@@ -8,30 +8,42 @@
     100% { background-position: 0% 50%; }
   }
   
-  .rainbow-text {
-    /* 这里定义你想要的颜色，可以自己加减 */
-    background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  .pastel-rainbow-text {
+    /* 浅色/马卡龙色系渐变：
+       淡粉 -> 淡橘 -> 淡黄 -> 淡绿 -> 淡蓝 -> 淡紫 
+    */
+    background: linear-gradient(270deg, 
+      #ff9a9e, /* 淡粉红 */
+      #fecfef, /* 淡粉紫 */
+      #feada6, /* 淡橘红 */
+      #f5efef, /* 近白/淡灰 */
+      #a1c4fd, /* 淡蓝 */
+      #c2e9fb  /* 天蓝 */
+    );
     background-size: 400% 400%;
     
-    /* 这一步是把背景裁剪成文字的形状 */
+    /* 背景裁剪为文字形状 */
     -webkit-background-clip: text;
     background-clip: text;
     
-    /* 让文字变透明，从而显示出背景色 */
+    /* 文字透明 */
     color: transparent; 
     -webkit-text-fill-color: transparent;
     
-    /* 执行动画：5秒循环一次 */
-    animation: gradient-flow 5s ease infinite;
+    /* 动画：6秒循环一次，柔和流动 */
+    animation: gradient-flow 6s ease infinite;
   }
 </style>
 
-{{/* 2. 页脚结构 (保留了 pb-8 底部间距) */}}
-<footer class="mx-auto mt-12 pb-8 max-w-7xl px-6 lg:px-8 text-center text-sm">
-  {{/* 给 p 标签加上 rainbow-text 类和 font-bold (加粗效果更好) */}}
-  <p class="rainbow-text font-bold text-lg">
+{{/* 2. 页脚结构 */}}
+{{/* pb-20: 底部增加更多留白，让文字视觉上更靠上 */}}
+<footer class="mx-auto mt-12 pb-20 max-w-7xl px-6 lg:px-8 text-center">
+  
+  {{/* text-sm: 改回小字体; font-bold: 稍微加粗一点点以免浅色看不清 */}}
+  <p class="pastel-rainbow-text font-bold text-sm">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
   </p>
+  
 </footer>
