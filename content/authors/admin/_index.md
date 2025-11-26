@@ -82,7 +82,45 @@ education:
     date_end: 2018-06-30
     summary: |
       * Major: Material forming & control engineering
+# Skills
+# Add your own SVG icons to `assets/media/icons/`
+skills:
+  - name: Academic Skills
+    items:
+      - name: R & Python
+        description: ''
+        percent: 95
+        icon: code-bracket
+      - name: Writing 
+        description: ''
+        percent: 100
+        icon: chart-bar
+      - name: Longitudinal analysis
+        description: ''
+        percent: 85
+        icon: cloud
+  - name: Hobbies
+    color: '#eeac02'
+    color_border: '#f0bf23'
+    items:
+      - name: Cooking
+        description: ''
+        percent: 80
+        icon: person-simple-walk
+      - name: Building Custom PCs
+        description: ''
+        percent: 90
+        icon: cpu-chip
+      - name: Reading
+        description: ''
+        percent: 70
+        icon: book-open
 
+languages:
+  - name: Mandarin
+    percent: 100
+  - name: English
+    percent: 60
 # Awards.
 #   Add/remove as many awards below as you like.
 #   Only `title`, `awarder`, and `date` are required.
