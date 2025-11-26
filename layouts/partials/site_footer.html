@@ -1,5 +1,35 @@
-<footer class="mx-auto mt-12 pb-8 max-w-7xl px-6 lg:px-8 text-center text-sm text-gray-500">
-  <p>
+{{/* layouts/partials/site_footer.html */}}
+
+{{/* 1. 定义动态渐变的 CSS 样式 */}}
+<style>
+  @keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .rainbow-text {
+    /* 这里定义你想要的颜色，可以自己加减 */
+    background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    background-size: 400% 400%;
+    
+    /* 这一步是把背景裁剪成文字的形状 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* 让文字变透明，从而显示出背景色 */
+    color: transparent; 
+    -webkit-text-fill-color: transparent;
+    
+    /* 执行动画：5秒循环一次 */
+    animation: gradient-flow 5s ease infinite;
+  }
+</style>
+
+{{/* 2. 页脚结构 (保留了 pb-8 底部间距) */}}
+<footer class="mx-auto mt-12 pb-8 max-w-7xl px-6 lg:px-8 text-center text-sm">
+  {{/* 给 p 标签加上 rainbow-text 类和 font-bold (加粗效果更好) */}}
+  <p class="rainbow-text font-bold text-lg">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
