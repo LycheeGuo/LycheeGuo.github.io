@@ -42,7 +42,7 @@ sections:
       columns: 2
       # ★ 新增：强制缩小间距
       spacing:
-        padding: ["1rem", "0", "1rem", "0"]
+        padding: ["2rem", "0", "2rem", "0"]
 
   # Recent Publications
   - block: collection
@@ -57,7 +57,7 @@ sections:
       view: citation
       # ★ 新增：强制缩小间距
       spacing:
-        padding: ["1rem", "0", "1rem", "0"]
+        padding: ["2rem", "0", "2rem", "0"]
 
   # Recent News
   - block: collection
@@ -99,7 +99,7 @@ sections:
       columns: 2
       # ★ 新增：强制缩小间距
       spacing:
-        padding: ["1rem", "0", "1rem", "0"]
+        padding: ["2rem", "0", "2rem", "0"]
 
   # Gallery
   - block: markdown
@@ -112,7 +112,7 @@ sections:
       columns: '1'
       # ★ 新增：强制缩小间距
       spacing:
-        padding: ["1rem", "0", "1rem", "0"]
+        padding: ["2rem", "0", "2rem", "0"]
 
   # Contact
   - block: contact
@@ -136,5 +136,5 @@ sections:
       columns: '2'
       # ★ 新增：强制缩小间距
       spacing:
-        padding: ["1rem", "0", "1rem", "0"] # 底部稍微多留一点给页脚动画
+        padding: ["2rem", "0", "1rem", "0"] # 底部稍微多留一点给页脚动画
 ---
