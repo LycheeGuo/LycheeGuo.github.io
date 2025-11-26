@@ -1,7 +1,7 @@
 ---
 title: Lizhi was invited as a reviewer of Journal of Affective Disorders
 date: 2025-11-24T15:34:39.399Z
-summary: Lizhi was invited as a reviewer of ***Journal of Affective Disorders***.
+summary: ""
 draft: false
 featured: false
 image:
