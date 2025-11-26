@@ -47,7 +47,7 @@ interests:
   - Alzheimer's disease
   - Social determinant
   - Neuroimaging
-  - Longitudinal analysis
+
 
 education:
   - area: Ph.D in Psychology
