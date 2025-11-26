@@ -29,33 +29,51 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <style>
-  /* ★ 修改后的扁平化按钮样式 */
+  /* ★ 全新扁平化按钮样式 */
   .custom-locate-btn {
     background-color: white;
-    width: 32px;
-    height: 32px;
-    border-radius: 2px; /* 稍微圆角，不像圆圈那么大 */
-    border: 1px solid #ccc; /* 边框变细变淡 */
-    /* 去掉厚重的阴影，改用很淡的阴影，或者直接写 none 去掉 */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+    width: 36px;
+    height: 36px;
+    border-radius: 8px; /* 更圆润一点的圆角 */
+    border: 1px solid #e5e7eb; /* 极细的灰色边框 */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* 柔和的阴影 */
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
+  
   .custom-locate-btn:hover {
-    background-color: #f8f9fa;
-    color: #000;
+    background-color: #f3f4f6;
+    transform: translateY(-1px); /* 悬停时微动 */
+    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
   }
-  /* 图标样式 */
+
+  /* 按钮激活/加载状态 */
+  .custom-locate-btn.loading {
+    background-color: #f3f4f6;
+    cursor: wait;
+  }
+  .custom-locate-btn.active {
+    background-color: #eff6ff; /* 淡蓝色背景表示已定位 */
+    border-color: #3b82f6;
+  }
+
+  /* SVG 图标样式 */
   .locate-icon-svg {
-    width: 18px;
-    height: 18px;
-    fill: #555; /* 深灰色图标 */
+    width: 20px;
+    height: 20px;
+    fill: #4b5563; /* 深灰色 */
+    transition: fill 0.2s;
   }
   .custom-locate-btn:hover .locate-icon-svg {
-    fill: #000; /* 悬停变黑 */
+    fill: #111827; /* 黑色 */
+  }
+  .custom-locate-btn.active .locate-icon-svg {
+    fill: #2563eb; /* 蓝色 */
   }
 </style>
 
@@ -85,8 +103,8 @@
               var map = L.map('map', {
                 center: [lat, lng],
                 zoom: 16,
-                attributionControl: false, 
-                zoomControl: false 
+                attributionControl: false, // 去除右下角版权
+                zoomControl: false         // 去除默认缩放按钮
               });
 
               // 3. 添加图层
@@ -104,11 +122,11 @@
               `;
               marker.bindPopup(defaultContent).openPopup();
 
-              // 5. 点击地图获取地址名称
+              // 5. 点击地图显示“位置名称” (Nominatim API)
               var clickPopup = L.popup();
 
               function onMapClick(e) {
-                clickPopup.setLatLng(e.latlng).setContent("📍 正在获取...").openOn(map);
+                clickPopup.setLatLng(e.latlng).setContent("📍 正在查询位置...").openOn(map);
 
                 var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&zoom=18&addressdetails=1&accept-language=zh-CN,en`;
 
@@ -116,67 +134,89 @@
                   .then(response => response.json())
                   .then(data => {
                     var addressName = data.display_name || "未知位置";
-                    // 简化地址显示，只取前两段
-                    var shortName = addressName.split(',').slice(0, 2).join(',');
-                    clickPopup.setContent(`<div style="max-width:200px;">📍 ${shortName}</div>`);
+                    // 截取前段地址，避免太长
+                    var shortName = addressName.split(',').slice(0, 3).join(',');
+                    clickPopup.setContent(`<div style="font-size:13px; max-width:220px;">📍 ${shortName}</div>`);
                   })
                   .catch(err => {
                     console.error(err);
                     clickPopup.setContent(`📍 坐标: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`);
                   });
               }
-
               map.on('click', onMapClick);
 
-              // 6. ★ 修改：扁平化定位按钮
+              // 6. ★ 修复版：自定义定位按钮控件
               var LocateControl = L.Control.extend({
                 options: {
                   position: 'bottomright'
                 },
                 onAdd: function(map) {
                   var container = L.DomUtil.create('div', 'custom-locate-btn leaflet-bar');
-                  container.title = "定位我的位置";
+                  container.title = "显示我的位置";
                   
-                  // 使用 SVG 图标代替 emoji，更扁平、更专业
-                  var iconSvg = `
+                  // 扁平化导航箭头图标 (SVG)
+                  container.innerHTML = `
                     <svg class="locate-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
-                      <path d="M20.94 11A9.003 9.003 0 0 0 13 3.06V1h-2v2.06A9.003 9.003 0 0 0 3.06 11H1v2h2.06A9.003 9.003 0 0 0 11 20.94V23h2v-2.06A9.003 9.003 0 0 0 20.94 13H23v-2h-2.06zM12 19a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"/>
+                      <path d="M12 2L4.5 20.29C4.24 20.89 4.76 21.54 5.4 21.38L12 19.5L18.6 21.38C19.24 21.54 19.76 20.89 19.5 20.29L12 2Z"/>
                     </svg>
                   `;
                   
-                  container.innerHTML = iconSvg;
-                  
+                  // ★ 关键修复：阻止点击穿透，确保点击按钮不会触发地图点击
+                  L.DomEvent.disableClickPropagation(container);
+                  L.DomEvent.disableScrollPropagation(container);
+
+                  // 绑定点击事件
                   container.onclick = function(e) {
-                    e.stopPropagation();
-                    // 点击后让图标稍微变淡一点表示正在加载
-                    container.style.opacity = "0.5";
-                    map.locate({setView: true, maxZoom: 16});
+                    e.preventDefault();
+                    
+                    // 视觉反馈：加载中
+                    container.classList.add('loading');
+                    container.querySelector('svg').style.opacity = '0.5';
+
+                    // 开始定位
+                    map.locate({
+                      setView: true, 
+                      maxZoom: 16,
+                      timeout: 10000, // 10秒超时
+                      enableHighAccuracy: true // 高精度模式
+                    });
                   };
                   return container;
                 }
               });
               map.addControl(new LocateControl());
 
+              // 定位成功回调
               map.on('locationfound', function(e) {
+                var btn = document.querySelector('.custom-locate-btn');
+                if(btn) {
+                  btn.classList.remove('loading');
+                  btn.classList.add('active');
+                  btn.querySelector('svg').style.opacity = '1';
+                }
+
                 var radius = e.accuracy;
+                
                 if (window.userLocationMarker) {
                   map.removeLayer(window.userLocationMarker);
                   map.removeLayer(window.userLocationCircle);
                 }
+
                 window.userLocationMarker = L.marker(e.latlng).addTo(map)
-                    .bindPopup("您的位置 (误差 " + Math.round(radius) + " 米)").openPopup();
+                    .bindPopup("📍 您当前的位置 (误差约 " + Math.round(radius) + " 米)").openPopup();
                 window.userLocationCircle = L.circle(e.latlng, radius).addTo(map);
-                
-                // 恢复按钮状态
-                document.querySelector('.custom-locate-btn').style.opacity = "1";
               });
 
+              // 定位失败回调
               map.on('locationerror', function(e) {
-                // 恢复按钮状态
-                document.querySelector('.custom-locate-btn').style.opacity = "1";
-                // 优化提示文案
-                alert("定位失败。请确保您的浏览器已允许位置权限，或检查系统定位服务是否开启。");
+                var btn = document.querySelector('.custom-locate-btn');
+                if(btn) {
+                  btn.classList.remove('loading');
+                  btn.querySelector('svg').style.opacity = '1';
+                }
+                
+                console.log(e.message); // 打印错误信息到控制台
+                alert("定位失败：请检查浏览器是否允许定位权限，或者尝试刷新页面。\n(错误信息: " + e.message + ")");
               });
             });
           </script>
@@ -205,34 +245,4 @@
         {{ with $contact.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
-            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-            </span>
-          </div>
-          <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900">Directions</h3>
-            <p class="mt-1 text-gray-600">{{ . | markdownify }}</p>
-          </div>
-        </div>
-        {{ end }}
-        {{ with $contact.address }}
-        <div class="flex items-start">
-          <div class="flex-shrink-0">
-            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-            </span>
-          </div>
-          <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900">Address</h3>
-            <div class="mt-1 text-gray-600">
-              {{ with .street }}<p class="font-medium text-gray-800">{{ . }}</p>{{ end }}
-              <p>{{ .city }}{{ if .region }}, {{ .region }}{{ end }}</p>
-              {{ with .country }}<p>{{ . }}</p>{{ end }}
-            </div>
-          </div>
-        </div>
-        {{ end }}
-      </div>
-    </div>
-  </div>
-</section>
+            <span class="inline-flex items-center justify-center h-10 w
