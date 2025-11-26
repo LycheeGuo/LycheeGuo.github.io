@@ -60,7 +60,7 @@ education:
       * Supervisor: [Prof. Helene Hoi-Lam FUNG](https://cumotivationandemotion.psy.cuhk.edu.hk/blog/), [Prof. Hanna Lu](https://thebrainx.com/)
   - area: Visiting PhD student
     institution: King's College London
-    icon:       
+    icon: custom/org-kcl
     date_start: 2025-08-01
     date_end: 2026-02-01
     summary: |
@@ -69,7 +69,7 @@ education:
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
-    icon: '' 
+    icon: custom/org-gc
     date_start: 2019-09-01
     date_end: 2022-01-30
     summary: |
@@ -77,7 +77,7 @@ education:
       * Supervisor: [Prof. Bin Yu](https://bin-team.netlify.app/)
   - area: B.E in Material Forming & Control Engineering
     institution: Jilin University
-    icon: '' 
+    icon: custom/org-x
     date_start: 2014-09-01
     date_end: 2018-06-30
     summary: |
