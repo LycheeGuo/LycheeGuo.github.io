@@ -94,11 +94,11 @@ skills:
       - name: Writing 
         description: ''
         percent: 100
-        icon: chart-bar
+        icon: ✍️
       - name: Longitudinal analysis
         description: ''
         percent: 85
-        icon: cloud
+        icon: 🚀
   - name: Hobbies
     color: '#eeac02'
     color_border: '#f0bf23'
@@ -106,7 +106,7 @@ skills:
       - name: Cooking
         description: ''
         percent: 80
-        icon: person-simple-walk
+        icon: 🧑‍🍳
       - name: Building Custom PCs
         description: ''
         percent: 90
