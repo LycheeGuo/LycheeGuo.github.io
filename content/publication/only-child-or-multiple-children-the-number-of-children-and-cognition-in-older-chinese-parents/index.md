@@ -34,7 +34,7 @@ abstract: >+
 draft: false
 featured: false
 image:
-  filename: https://plus.unsplash.com/premium_photo-1661277731403-f5f8f237ae2e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+  filename: https://images.unsplash.com/photo-1531368345462-e180bd618c89?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
   focal_point: Smart
   preview_only: false
 date: 2025-04-10 14:36:13.880000+00:00
