@@ -82,6 +82,30 @@ education:
     date_end: 2018-06-30
     summary: |
       * Major: Material forming & control engineering
+# Awards.
+#   Add/remove as many awards below as you like.
+#   Only `title`, `awarder`, and `date` are required.
+#   Begin multi-line `summary` with YAML's `|` or `|2-` multi-line prefix and indent 2 spaces below.
+awards:
+  - title: PhD International Mobility for Partnerships and Collaborations Award
+    date: '2025-05-25'
+    awarder: The Chinese University of Hong Kong
+    icon: hero/trophy
+    summary: |
+      The award aims to support research collaboration between CUHK faculty members and their international peers in order to drive research excellence at the University, in addition to enriching the international learning experiences of students. 
+  - title: National Scholarship for Postgraduates
+    date: '2021-11-01'
+    awarder: Ministry of Education of China
+    icon: hero/trophy
+    summary: |
+      Awarded the prestigious National Scholarship for outstanding academic performance during postgraduate studies.
+  - title: Outstanding Master's Thesis
+    date: '2022-06-01'
+    awarder: Tianjin University
+    icon: hero/academic-cap
+    summary: |
+      Recognized for outstanding master's thesis research.
+
 # Skills
 # Add your own SVG icons to `assets/media/icons/`
 skills:
@@ -121,29 +145,7 @@ languages:
     percent: 100
   - name: English
     percent: 60
-# Awards.
-#   Add/remove as many awards below as you like.
-#   Only `title`, `awarder`, and `date` are required.
-#   Begin multi-line `summary` with YAML's `|` or `|2-` multi-line prefix and indent 2 spaces below.
-awards:
-  - title: PhD International Mobility for Partnerships and Collaborations Award
-    date: '2025-05-25'
-    awarder: The Chinese University of Hong Kong
-    icon: hero/trophy
-    summary: |
-      The award aims to support research collaboration between CUHK faculty members and their international peers in order to drive research excellence at the University, in addition to enriching the international learning experiences of students. 
-  - title: National Scholarship for Postgraduates
-    date: '2021-11-01'
-    awarder: Ministry of Education of China
-    icon: hero/trophy
-    summary: |
-      Awarded the prestigious National Scholarship for outstanding academic performance during postgraduate studies.
-  - title: Outstanding Master's Thesis
-    date: '2022-06-01'
-    awarder: Tianjin University
-    icon: hero/academic-cap
-    summary: |
-      Recognized for outstanding master's thesis research.
+
 ---
 
 Lizhi is a PhD candidate dedicated to the health and well-being of older adults through cognitive neuroscience, social determinants, and imaging analysis. Always eager to learn new things and deepen expertise in the field, Lizhi is enthusiastic about exploring innovative approaches in aging research. For more information, please contact Lizhi at [guolz@link.cuhk.edu.hk](mailto:guolz@link.cuhk.edu.hk).
