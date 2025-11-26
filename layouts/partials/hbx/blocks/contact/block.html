@@ -32,11 +32,11 @@
   /* ★ 全新扁平化按钮样式 */
   .custom-locate-btn {
     background-color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px; /* 更圆润一点的圆角 */
-    border: 1px solid #e5e7eb; /* 极细的灰色边框 */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* 柔和的阴影 */
+    width: 32px;
+    height: 32px;
+    border-radius: 4px; /* 稍微圆角，扁平化风格 */
+    border: 1px solid #ccc; /* 极细的灰色边框 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 极淡的阴影 */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -47,33 +47,32 @@
   }
   
   .custom-locate-btn:hover {
-    background-color: #f3f4f6;
-    transform: translateY(-1px); /* 悬停时微动 */
-    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
+    background-color: #f4f4f4;
+    color: #000;
   }
 
   /* 按钮激活/加载状态 */
   .custom-locate-btn.loading {
-    background-color: #f3f4f6;
+    background-color: #f4f4f4;
     cursor: wait;
   }
   .custom-locate-btn.active {
-    background-color: #eff6ff; /* 淡蓝色背景表示已定位 */
-    border-color: #3b82f6;
+    background-color: #e6f7ff; /* 淡蓝色背景表示已定位 */
+    border-color: #1890ff;
   }
 
-  /* SVG 图标样式 */
+  /* SVG 图标样式 (导航箭头) */
   .locate-icon-svg {
-    width: 20px;
-    height: 20px;
-    fill: #4b5563; /* 深灰色 */
+    width: 18px;
+    height: 18px;
+    fill: #666; /* 深灰色 */
     transition: fill 0.2s;
   }
   .custom-locate-btn:hover .locate-icon-svg {
-    fill: #111827; /* 黑色 */
+    fill: #333; /* 黑色 */
   }
   .custom-locate-btn.active .locate-icon-svg {
-    fill: #2563eb; /* 蓝色 */
+    fill: #1890ff; /* 蓝色 */
   }
 </style>
 
@@ -122,7 +121,7 @@
               `;
               marker.bindPopup(defaultContent).openPopup();
 
-              // 5. 点击地图显示“位置名称” (Nominatim API)
+              // 5. 点击地图显示“位置名称”
               var clickPopup = L.popup();
 
               function onMapClick(e) {
@@ -134,7 +133,7 @@
                   .then(response => response.json())
                   .then(data => {
                     var addressName = data.display_name || "未知位置";
-                    // 截取前段地址，避免太长
+                    // 截取前段地址
                     var shortName = addressName.split(',').slice(0, 3).join(',');
                     clickPopup.setContent(`<div style="font-size:13px; max-width:220px;">📍 ${shortName}</div>`);
                   })
@@ -145,14 +144,14 @@
               }
               map.on('click', onMapClick);
 
-              // 6. ★ 修复版：自定义定位按钮控件
+              // 6. ★ 自定义扁平化定位按钮
               var LocateControl = L.Control.extend({
                 options: {
                   position: 'bottomright'
                 },
                 onAdd: function(map) {
                   var container = L.DomUtil.create('div', 'custom-locate-btn leaflet-bar');
-                  container.title = "显示我的位置";
+                  container.title = "定位我的位置";
                   
                   // 扁平化导航箭头图标 (SVG)
                   container.innerHTML = `
@@ -161,11 +160,10 @@
                     </svg>
                   `;
                   
-                  // ★ 关键修复：阻止点击穿透，确保点击按钮不会触发地图点击
+                  // ★ 关键修复：阻止点击穿透
                   L.DomEvent.disableClickPropagation(container);
                   L.DomEvent.disableScrollPropagation(container);
 
-                  // 绑定点击事件
                   container.onclick = function(e) {
                     e.preventDefault();
                     
@@ -173,12 +171,12 @@
                     container.classList.add('loading');
                     container.querySelector('svg').style.opacity = '0.5';
 
-                    // 开始定位
+                    // 开始定位 (10秒超时，高精度)
                     map.locate({
                       setView: true, 
                       maxZoom: 16,
-                      timeout: 10000, // 10秒超时
-                      enableHighAccuracy: true // 高精度模式
+                      timeout: 10000,
+                      enableHighAccuracy: true
                     });
                   };
                   return container;
@@ -203,7 +201,7 @@
                 }
 
                 window.userLocationMarker = L.marker(e.latlng).addTo(map)
-                    .bindPopup("📍 您当前的位置 (误差约 " + Math.round(radius) + " 米)").openPopup();
+                    .bindPopup("📍 您的位置 (误差约 " + Math.round(radius) + " 米)").openPopup();
                 window.userLocationCircle = L.circle(e.latlng, radius).addTo(map);
               });
 
@@ -215,8 +213,8 @@
                   btn.querySelector('svg').style.opacity = '1';
                 }
                 
-                console.log(e.message); // 打印错误信息到控制台
-                alert("定位失败：请检查浏览器是否允许定位权限，或者尝试刷新页面。\n(错误信息: " + e.message + ")");
+                console.log(e.message); 
+                alert("定位失败：请检查浏览器是否允许位置权限。");
               });
             });
           </script>
@@ -245,4 +243,34 @@
         {{ with $contact.directions }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
-            <span class="inline-flex items-center justify-center h-10 w
+            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-medium text-gray-900">Directions</h3>
+            <p class="mt-1 text-gray-600">{{ . | markdownify }}</p>
+          </div>
+        </div>
+        {{ end }}
+        {{ with $contact.address }}
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            </span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-medium text-gray-900">Address</h3>
+            <div class="mt-1 text-gray-600">
+              {{ with .street }}<p class="font-medium text-gray-800">{{ . }}</p>{{ end }}
+              <p>{{ .city }}{{ if .region }}, {{ .region }}{{ end }}</p>
+              {{ with .country }}<p>{{ . }}</p>{{ end }}
+            </div>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
