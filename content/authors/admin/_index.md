@@ -108,14 +108,14 @@ awards:
   - title: National Scholarship for Postgraduates
     date: 2021-11-01
     awarder: Ministry of Education of China
-    icon: hero/trophy
+    icon: hero/currency-yen
     summary: >
       Awarded the prestigious National Scholarship for outstanding academic
       performance during postgraduate studies.
   - title: Outstanding Master's Thesis
     date: 2022-06-01
     awarder: Tianjin University
-    icon: hero/academic-cap
+    icon: hero/queue-list
     summary: |
       Recognized for outstanding master's thesis research.
 highlight_name: true
