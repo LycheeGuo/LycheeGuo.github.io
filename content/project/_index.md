@@ -21,7 +21,7 @@ sections:
           - project
     design:
       view: article-grid
-      fill_image: false
+      fill_image: true
       columns: '2'
       show_date: true
       show_read_time: true
