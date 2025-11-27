@@ -53,7 +53,7 @@ sections:
       title: Recent Publications
       text: ''
       # ★ 新增 count: 限制显示数量，避免列表过长
-      count: 3
+      count: 5
       filters:
         folders:
           - publication
