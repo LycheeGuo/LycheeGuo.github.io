@@ -59,8 +59,7 @@ sections:
           - publication
         exclude_featured: true
     design:
-      view: article-grid
-      columns: 3
+      view: list
       # ★ 统一间距
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
