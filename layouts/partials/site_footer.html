@@ -8,21 +8,21 @@
   }
   
   .creeping-colors {
-    /* 这里定义了多种浅色，按顺序排列，模拟“随机”分布的感觉。
-       为了实现无缝循环，开头和结尾的颜色需要能接上。
-       颜色列表：淡粉 -> 淡紫 -> 天蓝 -> 薄荷绿 -> 淡黄 -> 淡橙 -> 回到淡粉
+    /* 颜色列表修改：
+       1. 将原来的淡黄 (#fff6b2) 改为了更深的金黄 (#ffb300)，解决看不清的问题。
+       2. 90deg 代表从左往右的渐变方向。
     */
     background: linear-gradient(90deg, 
       #ff9a9e, /* 淡粉 */
       #e0c3fc, /* 淡紫 */
       #8ec5fc, /* 天蓝 */
       #b8f2e6, /* 薄荷 */
-      #fff6b2, /* 淡黄 */
+      #ffb300, /* ★ 修改：金黄 (原淡黄太浅看不见) */
       #ffc3a0, /* 淡橙 */
       #ff9a9e  /* 循环回淡粉 */
     );
     
-    /* 拉长背景，让颜色过渡更平滑，不会挤在一起 */
+    /* 拉长背景，让颜色过渡更平滑 */
     background-size: 200% auto;
     
     /* 裁剪背景到文字 */
@@ -33,18 +33,15 @@
     color: transparent; 
     -webkit-text-fill-color: transparent;
     
-    /* linear: 匀速运动，这就是“蔓延”感的关键 
-       8s: 速度适中，你可以改小数字让它流得更快
-    */
+    /* 动画设置：保留流动效果 */
     animation: spread-flow 10s linear infinite;
   }
 </style>
 
 {{/* 2. 页脚结构 */}}
-{{/* pb-32: 底部留白非常大，文字会显著上移 */}}
 <footer class="mx-auto mt-12 pb-6 max-w-7xl px-6 lg:px-8 text-center">
   
-  {{/* text-sm: 小字体; 去掉了 font-bold */}}
+  {{/* text-sm: 小字体 */}}
   <p class="creeping-colors text-sm">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
