@@ -2,22 +2,24 @@
 
 <style>
   @keyframes spread-flow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
+    /* 修改：反转方向，从 200% 走到 0%
+       这样背景图会向右移动，视觉上产生“从左向右”流动的效果
+    */
+    0% { background-position: 200% 50%; }
+    100% { background-position: 0% 50%; }
   }
   
   .creeping-colors {
-    /* 颜色列表已更新：去掉了黄色
-       顺序：淡粉 -> 淡紫 -> 天蓝 -> 薄荷绿 -> 淡橙 -> 回到淡粉
+    /* 颜色列表已更新：全部加深，提高对比度
+       顺序：深粉 -> 深紫 -> 宝石蓝 -> 翡翠绿 -> 深橙 -> 回到深粉
     */
     background: linear-gradient(90deg, 
-      #ff9a9e, /* 淡粉 */
-      #e0c3fc, /* 淡紫 */
-      #8ec5fc, /* 天蓝 */
-      #b8f2e6, /* 薄荷 */
-      /* 已移除之前的黄色 (#ffb300) */
-      #ffc3a0, /* 淡橙 */
-      #ff9a9e  /* 循环回淡粉 */
+      #ec4899, /* 深粉 (Pink-500) */
+      #a855f7, /* 深紫 (Purple-500) */
+      #3b82f6, /* 宝石蓝 (Blue-500) - 原来太浅看不清 */
+      #10b981, /* 翡翠绿 (Emerald-500) - 原来太浅看不清 */
+      #f97316, /* 深橙 (Orange-500) */
+      #ec4899  /* 循环回深粉 */
     );
     
     background-size: 200% auto;
@@ -31,15 +33,14 @@
 
 <footer class="mx-auto mt-12 pb-6 max-w-7xl px-6 lg:px-8 text-center">
   
-  {{/* 版权信息 (带渐变流光) */}}
-  <p class="creeping-colors text-sm mb-4">
+  {{/* 版权信息 (加深颜色 + 向右流动) */}}
+  <p class="creeping-colors text-sm mb-4 font-medium">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
   </p>
   
-  {{/* ★ 新增：最底部的 Emoji 栏 */}}
-  {{/* mt-4: 增加顶部间距; text-xl: 放大图标 */}}
+  {{/* 底部 Emoji 栏 */}}
   <div class="mt-4 text-xl select-none cursor-default">
     🍒 ✨ 🪐 🍦 🌈
   </div>
