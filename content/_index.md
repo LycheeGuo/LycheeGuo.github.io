@@ -59,7 +59,7 @@ sections:
           - publication
         exclude_featured: true
     design:
-      view: card
+      view: article-grid
       columns: 3
       # ★ 统一间距
       spacing:
