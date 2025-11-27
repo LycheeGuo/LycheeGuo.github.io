@@ -1,6 +1,6 @@
 ---
 title: The moderating effect of cognitive reserve on cognitive aging
-date: 2025-09-27T12:47:54.091Z
+date: 2024-09-27T12:47:54.091Z
 summary: CR reflects the brain’s functional and dynamic ability to optimize or compensate that enable cognitive performance that exceeds expectations.
 draft: false
 featured: true
