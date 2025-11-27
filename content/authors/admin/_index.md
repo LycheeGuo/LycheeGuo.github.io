@@ -118,7 +118,7 @@ awards:
     icon: hero/bars-3-center-left
     summary: |
       Recognized for outstanding master's thesis research.
- - title: National Silver Award of the 2nd China International College Students' 'Internet+' Innovation and Entrepreneurship Competition
+  - title: National Silver Award of the 2nd China International College Students' 'Internet+' Innovation and Entrepreneurship Competition
     date: 2016-10-25
     awarder: Ministry of Education of China
     icon: hero/trophy
