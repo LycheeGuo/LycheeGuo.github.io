@@ -1,4 +1,7 @@
-/* Particle Background Styles */
+/* ====================== */
+/*  Particle Background   */
+/* ====================== */
+
 /* Fixed position container for particles */
 .morphing-shapes {
     position: fixed;
@@ -18,13 +21,20 @@
     position: absolute;
 }
 
-/* Ensure body content stays above particles, BUT ignore the navbar/header so it can stay fixed */
+
+/* ================================= */
+/*   Ensure content shown above BG    */
+/* ================================= */
+
 body > *:not(nav):not(header) {
     position: relative;
     z-index: 1;
 }
 
-/* Dark mode adjustments - use lighter colors */
+/* ====================== */
+/*     Dark mode colors   */
+/* ====================== */
+
 .dark .diagonal-line {
     background: linear-gradient(45deg, transparent, rgba(96, 165, 250, 0.25), transparent) !important;
 }
@@ -32,3 +42,25 @@ body > *:not(nav):not(header) {
 .dark .spline-curve {
     border-color: rgba(96, 165, 250, 0.2) !important;
 }
+
+
+/* ====================== */
+/*   FIXED MENU BAR       */
+/* ====================== */
+
+nav, header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999 !important; /* Must be higher than particles */
+    background-color: inherit; /* Keeps dark/light mode consistent */
+    backdrop-filter: blur(4px); /* Optional: better effect if background semi-transparent */
+}
+
+/* 避免内容被菜单遮挡（根据导航栏高度调整数值） */
+body {
+    padding-top: 70px; /* 替换为你菜单栏的实际高度 */
+}
+
+/* 如果你的导航栏高度是自动计算的，建议用变量或者实际高度调试 */
