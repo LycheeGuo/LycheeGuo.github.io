@@ -86,7 +86,7 @@ profiles:
     url: mailto:guolz@link.cuhk.edu.hk
     label: E-mail Me
   - icon: academicons/google-scholar
-    url: https://scholar.google.com/citations?user=Qs04bLwAAAAJ&hl=zh-CN
+    url: https://scholar.google.com/citations?user=Qs04bLwAAAAJ&hl
   - icon: academicons/researchgate
     url: https://www.researchgate.net/profile/Lizhi-Guo
   - icon: academicons/orcid
