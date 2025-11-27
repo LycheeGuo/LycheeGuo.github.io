@@ -99,7 +99,7 @@ awards:
   - title: PhD International Mobility for Partnerships and Collaborations Award
     date: 2025-05-25
     awarder: The Chinese University of Hong Kong
-    icon: hero/trophy
+    icon: hero/currency-pound
     summary: >
       The award aims to support research collaboration between CUHK faculty
       members and their international peers in order to drive research
