@@ -2,24 +2,31 @@
 
 <style>
   @keyframes spread-flow {
-    /* 修改：反转方向，从 200% 走到 0%
-       这样背景图会向右移动，视觉上产生“从左向右”流动的效果
-    */
+    /* 保持上一版修改后的方向：从 200% -> 0%
+       让背景向右滑动，产生“从左往右”的流动视觉 */
     0% { background-position: 200% 50%; }
     100% { background-position: 0% 50%; }
   }
   
   .creeping-colors {
-    /* 颜色列表已更新：全部加深，提高对比度
-       顺序：深粉 -> 深紫 -> 宝石蓝 -> 翡翠绿 -> 深橙 -> 回到深粉
+    /* ★ 颜色再次加深 (Deep/Strong Colors) ★
+       这一次选用了对比度极高的深色，彻底解决“浅”的问题。
+       
+       顺序：
+       1. 深红粉 (#be185d - Pink 700)
+       2. 深紫   (#7e22ce - Purple 700)
+       3. 宝蓝   (#1d4ed8 - Blue 700)  <- 之前的蓝色太浅，这个很深
+       4. 森林绿 (#047857 - Emerald 700) <- 之前的绿色太浅，这个很深
+       5. 焦糖橙 (#c2410c - Orange 700)
+       6. 循环回深红粉
     */
     background: linear-gradient(90deg, 
-      #ec4899, /* 深粉 (Pink-500) */
-      #a855f7, /* 深紫 (Purple-500) */
-      #3b82f6, /* 宝石蓝 (Blue-500) - 原来太浅看不清 */
-      #10b981, /* 翡翠绿 (Emerald-500) - 原来太浅看不清 */
-      #f97316, /* 深橙 (Orange-500) */
-      #ec4899  /* 循环回深粉 */
+      #be185d, 
+      #7e22ce, 
+      #1d4ed8, 
+      #047857, 
+      #c2410c, 
+      #be185d
     );
     
     background-size: 200% auto;
@@ -27,14 +34,16 @@
     background-clip: text;
     color: transparent; 
     -webkit-text-fill-color: transparent;
+    
+    /* 保持流动动画 */
     animation: spread-flow 10s linear infinite;
   }
 </style>
 
 <footer class="mx-auto mt-12 pb-6 max-w-7xl px-6 lg:px-8 text-center">
   
-  {{/* 版权信息 (加深颜色 + 向右流动) */}}
-  <p class="creeping-colors text-sm mb-4 font-medium">
+  {{/* 版权信息：font-bold 加粗，进一步增加可视度 */}}
+  <p class="creeping-colors text-sm mb-4 font-bold">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
