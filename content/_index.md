@@ -59,7 +59,7 @@ sections:
           - publication
         exclude_featured: true
     design:
-      view: article-grid
+      view: compact
       columns: 3
       # ★ 统一间距
       spacing:
