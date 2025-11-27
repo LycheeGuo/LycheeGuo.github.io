@@ -1,6 +1,5 @@
 {{/* layouts/partials/site_footer.html */}}
 
-{{/* 1. 定义“蔓延”流动的动画 */}}
 <style>
   @keyframes spread-flow {
     0% { background-position: 0% 50%; }
@@ -8,44 +7,41 @@
   }
   
   .creeping-colors {
-    /* 颜色列表修改：
-       1. 将原来的淡黄 (#fff6b2) 改为了更深的金黄 (#ffb300)，解决看不清的问题。
-       2. 90deg 代表从左往右的渐变方向。
+    /* 颜色列表已更新：去掉了黄色
+       顺序：淡粉 -> 淡紫 -> 天蓝 -> 薄荷绿 -> 淡橙 -> 回到淡粉
     */
     background: linear-gradient(90deg, 
       #ff9a9e, /* 淡粉 */
       #e0c3fc, /* 淡紫 */
       #8ec5fc, /* 天蓝 */
       #b8f2e6, /* 薄荷 */
-      #ffb300, /* ★ 修改：金黄 (原淡黄太浅看不见) */
+      /* 已移除之前的黄色 (#ffb300) */
       #ffc3a0, /* 淡橙 */
       #ff9a9e  /* 循环回淡粉 */
     );
     
-    /* 拉长背景，让颜色过渡更平滑 */
     background-size: 200% auto;
-    
-    /* 裁剪背景到文字 */
     -webkit-background-clip: text;
     background-clip: text;
-    
-    /* 文字透明 */
     color: transparent; 
     -webkit-text-fill-color: transparent;
-    
-    /* 动画设置：保留流动效果 */
     animation: spread-flow 10s linear infinite;
   }
 </style>
 
-{{/* 2. 页脚结构 */}}
 <footer class="mx-auto mt-12 pb-6 max-w-7xl px-6 lg:px-8 text-center">
   
-  {{/* text-sm: 小字体 */}}
-  <p class="creeping-colors text-sm">
+  {{/* 版权信息 (带渐变流光) */}}
+  <p class="creeping-colors text-sm mb-4">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
   </p>
+  
+  {{/* ★ 新增：最底部的 Emoji 栏 */}}
+  {{/* mt-4: 增加顶部间距; text-xl: 放大图标 */}}
+  <div class="mt-4 text-xl select-none cursor-default">
+    🍒 ✨ 🪐 🍦 🌈
+  </div>
   
 </footer>
