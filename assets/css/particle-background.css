@@ -18,10 +18,18 @@
     position: absolute;
 }
 
-/* Ensure body content stays above particles */
-body > * {
-    position: fixed;
+/* Ensure body content stays above particles, BUT ignore the navbar/header so it can stay fixed */
+body > *:not(nav):not(header) {
+    position: relative;
     z-index: 1;
+}
+
+/* 强制通过 CSS 修复导航栏的固定定位 */
+.navbar {
+    position: fixed !important;
+    top: 0;
+    width: 100%;
+    z-index: 1030 !important; /* 确保它在最上层 */
 }
 
 /* Dark mode adjustments - use lighter colors */
