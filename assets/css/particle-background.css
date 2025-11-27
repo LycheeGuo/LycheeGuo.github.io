@@ -20,7 +20,7 @@
 
 /* Ensure body content stays above particles */
 body > * {
-    position: relative;
+    position: fixed;
     z-index: 1;
 }
 
