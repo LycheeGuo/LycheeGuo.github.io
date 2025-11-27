@@ -59,7 +59,8 @@ sections:
           - publication
         exclude_featured: true
     design:
-      view: compact
+      view: article-grid
+      columns: 3
       # ★ 统一间距
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
@@ -98,7 +99,7 @@ sections:
       subtitle: ''
       text: ''
       # ★ 新增 count
-      count: 4
+      count: 2
       filters:
         folders:
           - project
