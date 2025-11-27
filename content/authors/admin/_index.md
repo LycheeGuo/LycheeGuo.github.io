@@ -115,7 +115,7 @@ awards:
   - title: Outstanding Master's Thesis
     date: 2022-06-01
     awarder: Tianjin University
-    icon: hero/queue-list
+    icon: hero/bars-3-center-left
     summary: |
       Recognized for outstanding master's thesis research.
 highlight_name: true
