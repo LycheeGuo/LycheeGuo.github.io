@@ -118,6 +118,12 @@ awards:
     icon: hero/bars-3-center-left
     summary: |
       Recognized for outstanding master's thesis research.
+ - title: National Silver Award of the 2nd China International College Students' 'Internet+' Innovation and Entrepreneurship Competition
+    date: 2016-10-25
+    awarder: Ministry of Education of China
+    icon: hero/trophy
+    summary: |
+      The China International College Students’ Innovation Competition (CICSIC) is dedicated to promoting international exchange and collaboration in innovation and entrepreneurship. 
 highlight_name: true
 languages:
   - name: Mandarin
