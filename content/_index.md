@@ -59,7 +59,7 @@ sections:
           - publication
         exclude_featured: true
     design:
-      view: citation
+      view: compact
       # ★ 统一间距
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
