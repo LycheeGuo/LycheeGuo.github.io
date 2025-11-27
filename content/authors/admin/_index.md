@@ -54,16 +54,14 @@ education:
       * Major: Psychology
 
       * Supervisor: [Prof. Helene Hoi-Lam FUNG](https://cumotivationandemotion.psy.cuhk.edu.hk/blog/), [Prof. Hanna Lu](https://thebrainx.com/)
-  - area: Visiting PhD student
+  - area: Visiting Ph.D student
     institution: King's College London
     icon: custom/org-kcl
     date_start: 2025-08-01
     date_end: 2026-02-01
     summary: >
       * Visiting research student.
-
       * Major: Psychiatry
-
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
