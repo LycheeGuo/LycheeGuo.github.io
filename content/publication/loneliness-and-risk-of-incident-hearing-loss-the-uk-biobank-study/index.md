@@ -11,7 +11,7 @@ authors:
   - Bin Yu
   - Yang Xia
 doi: 10.34133/hds.0281
-publication: Health Data Science
+publication: "*Health Data Science*"
 abstract: "Background: Hearing loss (HL) is one major cause of disability and
   can lead to social impairments. However, the relationship between loneliness
   and the risk of incident HL remains unclear. Our study aimed to investigate
