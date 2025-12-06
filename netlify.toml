@@ -1,20 +1,59 @@
 [build]
+  # ------------------------------------------------------------------------------
+  # 核心构建脚本：兼容 Netlify（自动使用预装 Hugo）和 EdgeOne（自动下载 Hugo）
+  # ------------------------------------------------------------------------------
   command = """
     set -e
     echo "=== Starting Blog build process ==="
+    
+    # [1] 智能检测与安装 Hugo
+    # ---------------------------------------------------
+    if ! command -v hugo &> /dev/null
+    then
+        echo "⚠️ Hugo command not found. Detected custom environment (e.g., EdgeOne)."
+        
+        # 使用环境变量中的版本，如果未设置则默认使用 0.152.2
+        TARGET_HUGO_VERSION="${HUGO_VERSION:-0.152.2}"
+        echo "-> Installing Hugo Extended v${TARGET_HUGO_VERSION} manually..."
+        
+        # 构造下载链接 (Linux-64bit Extended 版本)
+        HUGO_URL="https://github.com/gohugoio/hugo/releases/download/v${TARGET_HUGO_VERSION}/hugo_extended_${TARGET_HUGO_VERSION}_Linux-64bit.tar.gz"
+        
+        # 创建临时目录并下载解压
+        mkdir -p /tmp/hugo_bin
+        curl -L $HUGO_URL | tar -xz -C /tmp/hugo_bin
+        
+        # 将临时目录添加到系统 PATH，确保后续命令能找到 hugo
+        export PATH=$PATH:/tmp/hugo_bin
+        
+        echo "✅ Manual Hugo installation completed."
+    else
+        echo "✅ Hugo command found (Netlify environment). Skipping manual install."
+    fi
+
+    # [2] 环境信息打印（用于调试）
+    # ---------------------------------------------------
+    echo "---------------------------------------------"
     echo "Node version: $(node --version)"
     echo "pnpm version: $(pnpm --version)"
     echo "Hugo version: $(hugo version)"
-    echo "Go version: $(go version || echo 'Go not available')"
+    echo "Go version:   $(go version || echo 'Go not available')"
+    echo "---------------------------------------------"
     
+    # [3] 安装依赖
+    # ---------------------------------------------------
     echo "=== Installing dependencies ==="
-    # ↓↓↓↓↓↓ 关键修改：添加 --no-frozen-lockfile 参数 ↓↓↓↓↓↓
+    # 保持您原有的参数配置
     pnpm install --no-frozen-lockfile --verbose
-    # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
     
+    # [4] 执行 Hugo 构建
+    # ---------------------------------------------------
     echo "=== Running Hugo build ==="
+    # 使用您原有的构建参数
     hugo --gc --minify -b $URL --logLevel debug --printI18nWarnings --printPathWarnings
     
+    # [5] 运行 Pagefind 搜索索引
+    # ---------------------------------------------------
     echo "=== Running Pagefind indexing ==="
     pnpm dlx pagefind --source 'public' --verbose
     
@@ -39,7 +78,8 @@
   command = """
     set -e
     echo "=== Deploy Preview Build ==="
-    echo "Deploy URL: $DEPLOY_PRIME_URL"
+    # 注意：如果 Netlify 的预览环境也偶尔出现找不到 Hugo 的情况，
+    # 您也可以将上面的安装逻辑复制到这里。通常 Netlify 不需要。
     pnpm install --no-frozen-lockfile --verbose
     hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL --logLevel debug --printI18nWarnings --printPathWarnings
     pnpm dlx pagefind --source 'public' --verbose
@@ -49,7 +89,6 @@
   command = """
     set -e
     echo "=== Branch Deploy Build ==="
-    echo "Deploy URL: $DEPLOY_PRIME_URL"
     pnpm install --no-frozen-lockfile --verbose
     hugo --gc --minify -b $DEPLOY_PRIME_URL --logLevel debug --printI18nWarnings --printPathWarnings
     pnpm dlx pagefind --source 'public' --verbose
