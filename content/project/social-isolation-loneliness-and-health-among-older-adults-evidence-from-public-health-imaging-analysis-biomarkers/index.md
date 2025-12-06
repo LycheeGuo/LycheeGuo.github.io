@@ -1,6 +1,5 @@
 ---
-title: "Social isolation, loneliness, and health among older adults: evidence
-  from Public Health, Imaging analysis, Biomarkers"
+title: Social isolation, loneliness, and health among older adults
 date: 2020-05-20T13:00:00.000+01:00
 summary: Socially connected individuals can feel lonely, just as socially
   isolated individuals can be satisfied with their social relationships.
