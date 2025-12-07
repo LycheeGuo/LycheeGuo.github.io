@@ -27,7 +27,7 @@ The concept of reserve is categorized into two distinct processes: a passive mod
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 ">
-  🚀 Read the Layman's Summary (Interactive Webpage)
+  🚀 Read the Summary 
 </a>
 
 <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
