@@ -1,1 +1,249 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Connection Lab: Isolation vs. Loneliness</title>
+    <style>
+        :root {
+            --primary: #0891b2; /* Cyan/Teal for objective/cold */
+            --secondary: #e11d48; /* Rose for subjective/emotional */
+            --bg: #f0f9ff;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0e7490, #be123c);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 { margin: 0; font-size: 2.2rem; font-weight: 800; }
+        header p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 15px auto 0; }
+
+        .container {
+            max-width: 800px;
+            margin: -30px auto 50px;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top: 0; color: #334155; }
+        
+        /* --- Interactive 1: The Quadrant (Matrix) --- */
+        .matrix-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            height: 400px;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .quadrant {
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            flex-direction: column;
+        }
+        
+        .quadrant:hover { transform: scale(1.02); z-index: 10; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .quadrant h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
+        .quadrant p { font-size: 0.85rem; opacity: 0.8; margin: 0; display: none; }
+        .quadrant:hover p { display: block; }
+
+        /* Q1: Low Iso, Low Lone (Healthy) */
+        .q1 { background-color: #d1fae5; border: 2px solid #10b981; color: #064e3b; }
+        /* Q2: Low Iso, High Lone (Lonely in Crowd) */
+        .q2 { background-color: #ffe4e6; border: 2px solid #f43f5e; color: #881337; }
+        /* Q3: High Iso, Low Lone (Solitary) */
+        .q3 { background-color: #e0f2fe; border: 2px solid #0ea5e9; color: #0c4a6e; }
+        /* Q4: High Iso, High Lone (High Risk) */
+        .q4 { background-color: #f3f4f6; border: 2px solid #64748b; color: #1e293b; background-image: repeating-linear-gradient(45deg, #f3f4f6 0, #f3f4f6 10px, #e2e8f0 10px, #e2e8f0 20px); }
+
+        .axis-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #64748b;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .y-axis { left: 50%; top: 0; transform: translateX(-50%) translateY(-50%); }
+        .x-axis { top: 50%; right: 0; transform: translateY(-50%) translateX(50%) rotate(90deg); } /* Simplified for CSS layout */
+        
+        /* --- Interactive 2: Pathways --- */
+        .pathway-box {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .path-btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            opacity: 0.6;
+        }
+        .path-btn.active { opacity: 1; transform: scale(1.05); }
+        
+        .btn-iso { background: var(--primary); color: white; }
+        .btn-lone { background: var(--secondary); color: white; }
+        
+        .path-content {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* --- Footer --- */
+        .footer-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .footer-link a {
+            display: inline-block;
+            background: #334155;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .matrix-container { height: 320px; font-size: 0.8rem; }
+            .pathway-box { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🧪 Social Connection Lab</h1>
+    <p>Understanding the vital distinction between <strong>Social Isolation</strong> (Objective) and <strong>Loneliness</strong> (Subjective).</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>1. Are you "Alone" or "Lonely"?</h2>
+        <p>Research shows these two factors are only weakly correlated. Click the quadrants below to explore the different profiles.</p>
+        
+        <div style="position: relative; margin: 30px 0;">
+            <div style="position: absolute; top: -25px; left: 25%; font-weight: bold; color: var(--secondary);">High Connectedness</div>
+            <div style="position: absolute; top: -25px; right: 25%; font-weight: bold; color: var(--primary);">High Isolation</div>
+            
+            <div style="position: absolute; left: -30px; top: 25%; transform: rotate(-90deg); font-weight: bold;">Satisfied</div>
+            <div style="position: absolute; left: -30px; bottom: 25%; transform: rotate(-90deg); font-weight: bold;">Lonely</div>
+
+            <div class="matrix-container">
+                <div class="quadrant q1" onclick="showProfile('social')">
+                    <h3>🤝 The Socially Integrated</h3>
+                    <p>Low Isolation, Low Loneliness.<br>Optimal health outcome.</p>
+                </div>
+                <div class="quadrant q3" onclick="showProfile('solitary')">
+                    <h3>🧘 The Content Solitary</h3>
+                    <p>High Isolation, Low Loneliness.<br>Lives alone but feels satisfied. May still have physical risks due to lack of support.</p>
+                </div>
+                <div class="quadrant q2" onclick="showProfile('crowd')">
+                    <h3>🎭 Lonely in a Crowd</h3>
+                    <p>Low Isolation, High Loneliness.<br>Has many contacts but lacks meaningful connection. High psychological stress.</p>
+                </div>
+                <div class="quadrant q4" onclick="showProfile('risk')">
+                    <h3>⚠️ Double Jeopardy</h3>
+                    <p>High Isolation, High Loneliness.<br>Highest mortality risk. Physical and psychological factors compound.</p>
+                </div>
+            </div>
+        </div>
+        <p id="profile-detail" style="text-align: center; font-style: italic; color: #64748b; min-height: 20px;"></p>
+    </div>
+
+    <div class="card">
+        <h2>2. Distinct Biological Pathways</h2>
+        <p>Why does it matter? Because they harm the body in different ways. Click to see the mechanism.</p>
+        
+        <div class="pathway-box">
+            <button class="path-btn btn-iso" onclick="showPath('iso')">🔬 Objective Isolation</button>
+            <button class="path-btn btn-lone" onclick="showPath('lone')">❤️ Subjective Loneliness</button>
+        </div>
+
+        <div id="path-display" class="path-content">
+            Click a button above to reveal the biological mechanism.
+        </div>
+    </div>
+
+    <div class="footer-link">
+        <a href="/">← Back to Lizhi's Research</a>
+    </div>
+
+</div>
+
+<script>
+    function showProfile(type) {
+        const detail = document.getElementById('profile-detail');
+        if (type === 'social') detail.innerText = "Target Intervention: Maintenance & prevention.";
+        if (type === 'solitary') detail.innerText = "Target Intervention: Monitor for safety/falls (objective risks), rather than psychological support.";
+        if (type === 'crowd') detail.innerText = "Target Intervention: Focus on relationship QUALITY and cognition, not just adding more friends.";
+        if (type === 'risk') detail.innerText = "Target Intervention: Urgent multidisciplinary approach required.";
+    }
+
+    function showPath(type) {
+        const display = document.getElementById('path-display');
+        const btnIso = document.querySelector('.btn-iso');
+        const btnLone = document.querySelector('.btn-lone');
+
+        if (type === 'iso') {
+            display.innerHTML = "<strong>Mechanism: Lack of Resources</strong><br>Linked to delayed medical care, poor medication adherence, and lack of emergency assistance.<br><em>Biological marker: Inflammatory markers (e.g., CRP, Fibrinogen).</em>";
+            display.style.borderLeft = "5px solid var(--primary)";
+            btnIso.classList.add('active');
+            btnLone.classList.remove('active');
+        } else {
+            display.innerHTML = "<strong>Mechanism: Chronic Stress Response</strong><br>The feeling of being unsafe triggers the HPA axis.<br><em>Biological marker: Elevated Cortisol, altered brain structure (Amigdala/Prefrontal Cortex).</em>";
+            display.style.borderLeft = "5px solid var(--secondary)";
+            btnLone.classList.add('active');
+            btnIso.classList.remove('active');
+        }
+    }
+</script>
+
+</body>
+</html>
