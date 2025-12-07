@@ -73,7 +73,7 @@
             padding-bottom: 15px;
         }
 
-        /* --- Interactive 1: The Study Breakdown --- */
+        /* --- Interactive 1: The Study Breakdown (Unchanged) --- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -116,7 +116,13 @@
         .line-high { stroke: var(--primary); filter: drop-shadow(0 4px 6px rgba(99, 102, 241, 0.4)); }
         
         /* Critical Point Marker */
-        .critical-point {
+        .critical-line {
+            stroke:#f43f5e; 
+            stroke-dasharray: 2,2; 
+            opacity: 0.3;
+        }
+
+        .critical-point-label {
             position: absolute;
             background: var(--accent);
             color: white;
@@ -127,6 +133,7 @@
             display: none; /* Shown via JS */
             box-shadow: 0 4px 10px rgba(244, 63, 94, 0.4);
             animation: bounceIn 0.5s;
+            white-space: nowrap;
         }
 
         .controls-area {
@@ -187,9 +194,7 @@
         }
     </style>
 </head>
-<body>
-
-<header>
+<body onload="updateSimulation(0)"> <header>
     <div class="ref-tag">Based on Guo et al. (2025) • Neurobiology of Aging</div>
     <h1>The Brain's Hidden Shield 🛡️</h1>
     <p class="subtitle">How "Cognitive Reserve" protects your mind from biological aging.<br>A visual breakdown of the latest systematic review.</p>
@@ -220,25 +225,25 @@
 
     <div class="card">
         <h2>2. See the "Buffering Effect"</h2>
-        <p>Imagine your brain is accumulating plaques (pathology). <strong>Drag the slider</strong> to see how High vs. Low Reserve brains react differently.</p>
+        <p><strong>第一步：</strong>点击下方的卡片，构建你的储备水平（影响基线认知和缓冲极限）。<br><strong>第二步：</strong>拖动下方的滑块，模拟病变负担的增加。</p>
         
         <div class="sim-container">
             <div class="axis-y">Cognitive Function</div>
             <div class="axis-x">Accumulated Brain Pathology (Aging) →</div>
             
             <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="none">
-                <path d="M 0,50 L 400,280" class="graph-line line-low" />
-                <text x="10" y="270" fill="#94a3b8" font-size="12">Low Reserve</text>
+                <path d="M 0,80 L 400,280" class="graph-line line-low" />
+                <text x="10" y="270" fill="#94a3b8" font-size="12">Low Reserve (Poor Baseline)</text>
                 
-                <path id="highCurve" d="M 0,50 H 250 Q 300,50 320,100 L 380,280" class="graph-line line-high" />
-                <text x="200" y="40" fill="#6366f1" font-weight="bold" font-size="14">High Reserve</text>
+                <path id="highCurve" class="graph-line line-high" />
+                <text x="200" y="40" fill="#6366f1" font-weight="bold" font-size="14">High Reserve (Dynamic)</text>
                 
                 <circle id="currentPos" cx="0" cy="50" r="8" fill="#f43f5e" />
                 
-                <line x1="280" y1="0" x2="280" y2="300" stroke="#f43f5e" stroke-dasharray="2,2" opacity="0.3" />
+                <line id="criticalLine" y1="0" y2="300" class="critical-line" />
             </svg>
             
-            <div id="crit-label" class="critical-point" style="top: 20%; left: 65%;">⚠️ Critical Point</div>
+            <div id="crit-label" class="critical-point-label" style="top: 20%; left: 65%;">⚠️ Critical Point</div>
         </div>
 
         <div class="controls-area">
@@ -252,34 +257,34 @@
     </div>
 
     <div class="card">
-        <h2>3. Build Your Reserve</h2>
-        <p>The paper identifies these key "proxies" that build your shield. Click to add them to your daily life stack.</p>
+        <h2>3. Build Your Reserve Factors</h2>
+        <p>点击卡片，建立你的储备水平（总分 0-4）。这个分数将实时决定你大脑的**基线认知**和**缓冲极限**。</p>
         
         <div class="builder-grid">
-            <div class="builder-card" onclick="toggleBuild(this, 1)">
+            <div class="builder-card" data-factor="1" onclick="toggleBuild(this)">
                 <span class="builder-icon">🎓</span>
                 <strong>Education</strong>
-                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Years of schooling</div>
+                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">多年的教育和学习经验</div>
             </div>
-            <div class="builder-card" onclick="toggleBuild(this, 1)">
+            <div class="builder-card" data-factor="2" onclick="toggleBuild(this)">
                 <span class="builder-icon">💼</span>
                 <strong>Occupation</strong>
-                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Complex mental work</div>
+                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">需要复杂心智的工作</div>
             </div>
-            <div class="builder-card" onclick="toggleBuild(this, 1)">
+            <div class="builder-card" data-factor="3" onclick="toggleBuild(this)">
                 <span class="builder-icon">♟️</span>
                 <strong>Leisure</strong>
-                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Games & Reading</div>
+                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">经常性的智力活动（如阅读、下棋）</div>
             </div>
-            <div class="builder-card" onclick="toggleBuild(this, 1)">
+            <div class="builder-card" data-factor="4" onclick="toggleBuild(this)">
                 <span class="builder-icon">🤝</span>
                 <strong>Social</strong>
-                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Interaction</div>
+                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">高频高质量的社会交往</div>
             </div>
         </div>
         
         <div class="score-display">
-            Selected Factors: <span id="factor-count">0</span>/4
+            当前储备水平 (Reserve Score): <span id="factor-count">0</span>/4
         </div>
     </div>
 
@@ -290,55 +295,135 @@
 </div>
 
 <script>
-    // --- Simulator Logic ---
-    function updateSimulation(val) {
-        const percent = val / 100;
-        const curvePath = document.getElementById('highCurve');
-        const dot = document.getElementById('currentPos');
-        const label = document.getElementById('crit-label');
-        const text = document.getElementById('explanation');
-        
-        // Map the percent to the SVG path coordinates roughly
-        // The path is defined as: M 0,50 H 250 Q 300,50 320,100 L 380,280
-        // Total width roughly 400
-        const x = percent * 380; 
-        let y = 50;
-
-        // Simple approximate math for y position on the "High Reserve" curve
-        if (x < 250) {
-            y = 50; // Flat (Buffer)
-            label.style.display = 'none';
-            text.innerHTML = "<strong>🛡️ Buffering Phase:</strong> Pathology is rising, but look at the purple line! Cognitive function remains high. The reserve is compensating.";
-            text.style.borderLeftColor = "#6366f1";
-        } else if (x < 300) {
-            y = 50 + ((x-250)/50) * 20; // Slight dip
-            label.style.display = 'block';
-            text.innerHTML = "<strong>⚠️ The Critical Point:</strong> The dam is breaking. Pathology has exceeded the brain's capacity to compensate.";
-            text.style.borderLeftColor = "#f43f5e";
-        } else {
-            y = 70 + ((x-300)/80) * 210; // Steep drop
-            label.style.display = 'none';
-            text.innerHTML = "<strong>📉 Late Stage:</strong> Once the critical point is passed, decline can be rapid. This is why early prevention is key.";
-            text.style.borderLeftColor = "#64748b";
-        }
-
-        // Move dot
-        dot.setAttribute('cx', x);
-        dot.setAttribute('cy', y);
-    }
+    let currentReserveScore = 0; // Global score tracking
 
     // --- Builder Logic ---
-    let count = 0;
-    function toggleBuild(el, val) {
+    function toggleBuild(el) {
         if (el.classList.contains('active')) {
             el.classList.remove('active');
-            count--;
+            currentReserveScore--;
         } else {
             el.classList.add('active');
-            count++;
+            currentReserveScore++;
         }
-        document.getElementById('factor-count').innerText = count;
+        document.getElementById('factor-count').innerText = currentReserveScore;
+        // Call simulation update to reflect new reserve level
+        const pathologyValue = document.getElementById('pathologySlider').value;
+        updateSimulation(pathologyValue); 
     }
+
+    // --- Simulator Logic ---
+    function updateSimulation(val) {
+        const pathologyPercent = val / 100;
+        const reserveLevel = currentReserveScore; // Get current score
+        
+        const curvePath = document.getElementById('highCurve');
+        const dot = document.getElementById('currentPos');
+        const critLabel = document.getElementById('crit-label');
+        const critLine = document.getElementById('criticalLine');
+        const text = document.getElementById('explanation');
+        
+        const graphWidth = 400;
+        const graphHeight = 300;
+        const lowReserveStart = 80;
+        const lowReserveEnd = 280;
+
+        // 1. DYNAMIC INTERCEPT (Y-start): Changes High Reserve Line's starting point
+        // Max range of Y (best cognition 50, standard low reserve start 80). Difference 30.
+        const yStartMax = 50; 
+        const yStartMin = lowReserveStart; 
+        const yStartRange = yStartMin - yStartMax;
+
+        // Calculate High Reserve starting Y (Intercept): Better reserve = smaller Y (higher on graph)
+        // Interpolate between yStartMin (Score 0) and yStartMax (Score 4)
+        const y_start_high = yStartMin - (reserveLevel / 4) * yStartRange; 
+
+        // 2. DYNAMIC CRITICAL POINT (X-limit): Changes High Reserve Line's buffer limit
+        // Min X (low buffer) = 200. Max X (high buffer) = 320. Difference 120.
+        const xCritMin = 200; 
+        const xCritMax = 320; 
+        
+        // Calculate Critical X (buffer limit): Better reserve = larger X (further buffer)
+        const x_crit = xCritMin + (reserveLevel / 4) * (xCritMax - xCritMin); 
+
+        // 3. Current Position Calculation
+        const x = pathologyPercent * graphWidth; 
+        let y_current; // Y coordinate for the moving dot
+        let explanationText;
+
+        // Calculate Y for the High Reserve Curve (piecewise function)
+        let pathData = `M 0,${y_start_high}`;
+
+        if (x <= x_crit) {
+            // Stage 1: Buffering (y is constant, slope is 0)
+            y_current = y_start_high;
+            pathData += ` H ${x_crit}`;
+            explanationText = `<strong>🛡️ Buffering Phase (Score: ${reserveLevel}/4):</strong> 病变正在积累，但您的认知功能保持稳定，因为储备正在补偿。<br><strong>您的基线认知功能：高！</strong>`;
+            text.style.borderLeftColor = "#6366f1";
+            critLabel.style.display = 'none';
+        } else {
+            // Stage 2: Decline (y drops steeply)
+            // Path before the current point
+            pathData += ` H ${x_crit}`;
+            
+            // Calculate the drop-off path (Steep linear decline after x_crit to (graphWidth, lowReserveEnd))
+            const xDropRange = graphWidth - x_crit;
+            const yDropRange = lowReserveEnd - y_start_high; // Total drop from start to end
+            
+            // Current y position along the steep decline
+            y_current = y_start_high + ((x - x_crit) / xDropRange) * yDropRange;
+            
+            // Limit y_current to the bottom of the graph to avoid overflow
+            y_current = Math.min(y_current, lowReserveEnd); 
+            
+            // Add the current position to the path data
+            pathData += ` L ${x},${y_current}`;
+            
+            if (pathologyPercent * 100 < (x_crit/graphWidth)*100 + 5) {
+                // Just hit the critical point
+                explanationText = `<strong>⚠️ 临界点突破 (Score: ${reserveLevel}/4):</strong> 病变负担已超过您储备的极限。功能开始快速下降。`;
+                critLabel.style.display = 'block';
+                // Adjust label position relative to graph container
+                critLabel.style.left = `${(x_crit / graphWidth) * 100}%`;
+                critLabel.style.top = `${((y_start_high + (lowReserveEnd - y_start_high) / 3) / graphHeight) * 100}%`;
+                text.style.borderLeftColor = "#f43f5e";
+            } else {
+                 explanationText = `<strong>📉 晚期衰退 (Score: ${reserveLevel}/4):</strong> 临界点已过，功能快速下降。早期建立储备是关键。`;
+                 critLabel.style.display = 'none';
+                 text.style.borderLeftColor = "#64748b";
+            }
+        }
+        
+        // Ensure x and y for dot are correct if past x_crit
+        if (x > x_crit) {
+             pathData += ` L ${graphWidth},${lowReserveEnd}`;
+        }
+        
+        // 4. Update SVG Elements
+        curvePath.setAttribute('d', pathData);
+        dot.setAttribute('cx', x);
+        dot.setAttribute('cy', y_current);
+        
+        // Update Critical Point Line position
+        critLine.setAttribute('x1', x_crit);
+        critLine.setAttribute('x2', x_crit);
+
+        // Update Text
+        text.innerHTML = explanationText;
+    }
+
+    // Initialize the simulation when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initial setup for the low reserve line (since its start point is fixed at 80)
+        // M 0,80 L 400,280
+        const lowCurve = document.querySelector('.line-low');
+        if(lowCurve) {
+            lowCurve.setAttribute('d', 'M 0,80 L 400,280');
+        }
+
+        // Run initial simulation
+        updateSimulation(document.getElementById('pathologySlider').value);
+    });
 </script>
 
 </body>
