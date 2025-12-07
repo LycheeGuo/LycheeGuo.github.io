@@ -30,7 +30,7 @@ abstract: Individuals with Down syndrome (DS) are at high risk of Alzheimer's
 draft: false
 featured: false
 image:
-  filename: featured
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 date: 2025-04-12 12:27:41.621000+00:00
