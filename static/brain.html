@@ -3,261 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Does Your Brain Have "Savings"? | Science by Lizhi Guo</title>
-    <meta property="og:title" content="Does Your Brain Have 'Savings'?">
-    <meta property="og:description" content="Discover the science of Cognitive Reserve: How to keep your brain sharp despite aging.">
-    <meta property="og:image" content="https://lizhiguo.netlify.app/media/icon.png">
+    <title>Interactive Brain Lab: The Science of Cognitive Reserve</title>
+    <meta property="og:title" content="Build Your Cognitive Reserve">
+    <meta property="og:description" content="Interactive tools to understand how to protect your brain against aging.">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --highlight-color: #e74c3c;
-            --bg-color: #f8f9fa;
-            --text-color: #333;
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #8b5cf6;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.8;
-            color: var(--text-color);
-            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
             margin: 0;
             padding: 0;
         }
 
-        /* Header / Hero Section */
+        /* Hero Section */
         header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 80px 20px;
+            padding: 60px 20px;
             text-align: center;
         }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
+        header h1 { margin: 0; font-size: 2.5rem; font-weight: 800; }
+        header p { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 15px auto 0; }
 
-        header p.subtitle {
-            font-size: 1.2em;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-        
-        /* Navigation back to main site */
-        .back-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-        .back-link:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* Container */
         .container {
-            max-width: 800px;
-            margin: -40px auto 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 40px;
+            max-width: 900px;
+            margin: -30px auto 50px;
+            padding: 0 20px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { color: var(--primary); border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-top: 0; }
+
+        /* --- Interactive 1: Flip Cards (Stern's Model) --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .flip-card {
+            background-color: transparent;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
             position: relative;
-        }
-
-        /* Sections */
-        h2 {
-            color: var(--primary-color);
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
-            margin-top: 40px;
-        }
-
-        p {
-            margin-bottom: 20px;
-            font-size: 1.05em;
-        }
-
-        /* Key Concept Box */
-        .concept-box {
-            background-color: #eaf6ff;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 30px 0;
-            border: 1px solid #b3d7ff;
-        }
-
-        .concept-box strong {
-            color: var(--accent-color);
-            font-size: 1.2em;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* Data Visualization (Simple CSS Bar) */
-        .data-viz {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .bar-container {
-            flex-grow: 1;
-            background: #eee;
-            height: 20px;
-            border-radius: 10px;
-            margin: 0 15px;
-            overflow: hidden;
-            min-width: 200px;
-        }
-        .bar {
+            width: 100%;
             height: 100%;
-            background: var(--accent-color);
-            width: 0; /* Animated via JS */
-            transition: width 1s ease-in-out;
-            border-radius: 10px;
-        }
-
-        /* Warning Section */
-        .warning-section {
-            background-color: #fff5f5;
-            border-left: 5px solid var(--highlight-color);
-            padding: 20px;
-            margin-top: 30px;
-        }
-
-        .warning-section h3 {
-            margin-top: 0;
-            color: var(--highlight-color);
-        }
-
-        /* List Styling */
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        ul li {
-            background: #f1f1f1;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        /* Footer */
-        footer {
             text-align: center;
-            padding: 40px 20px;
-            font-size: 0.9em;
-            color: #777;
-            border-top: 1px solid #eee;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .flip-card-front { background: white; color: var(--text); border: 2px solid var(--primary); }
+        .flip-card-back { background: var(--primary); color: white; transform: rotateY(180deg); }
+        .icon { font-size: 3rem; margin-bottom: 10px; }
 
-        footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
+        /* --- Interactive 2: The Curve Simulator --- */
+        .simulator-container { position: relative; height: 300px; border-left: 2px solid #ccc; border-bottom: 2px solid #ccc; margin: 40px 0 20px 20px; }
+        .axis-label { position: absolute; font-size: 0.8rem; color: #666; }
+        .y-label { top: -25px; left: -10px; font-weight: bold; }
+        .x-label { bottom: -30px; right: 0; font-weight: bold; }
         
-        .btn-cta {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 20px;
-        }
-        .btn-cta:hover {
-            opacity: 0.9;
-        }
+        /* The Curves */
+        .curve { fill: none; stroke-width: 4; stroke-linecap: round; transition: all 0.5s ease; }
+        .curve-low { stroke: #e5e7eb; stroke-dasharray: 5,5; }
+        .curve-user { stroke: var(--secondary); filter: drop-shadow(0 4px 6px rgba(236, 72, 153, 0.4)); }
+        
+        .controls { background: #f9fafb; padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .slider-group { margin-bottom: 15px; }
+        .slider-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+        input[type=range] { width: 100%; accent-color: var(--primary); }
 
+        /* --- Interactive 3: Calculator --- */
+        .quiz-option {
+            display: block;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover, .quiz-option.selected {
+            border-color: var(--accent);
+            background-color: #f5f3ff;
+        }
+        .result-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            color: #065f46;
+            animation: fadeIn 0.5s;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         /* Responsive */
         @media (max-width: 600px) {
-            header h1 { font-size: 1.8em; }
-            .container { margin: 0; border-radius: 0; padding: 25px; }
-            .data-viz { flex-direction: column; align-items: flex-start; }
-            .bar-container { width: 100%; margin: 10px 0; }
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="/" class="back-link">← Back to Lizhi's Home</a>
-        <h1>Does Your Brain Have "Savings"?</h1>
-        <p class="subtitle">Insights from the latest 2025 research in <em>Neurobiology of Aging</em></p>
-    </header>
+<header>
+    <h1>🧠 Interactive Brain Lab</h1>
+    <p>Explore the science of Cognitive Reserve: Why some brains age better than others.</p>
+</header>
 
-    <div class="container">
-        <p>Have you ever met an elderly person who, despite having visible signs of brain aging on scans (like atrophy or plaques), remains sharp, witty, and fully functional?</p>
-        <p>This isn't just luck. It's likely because they have built up a massive <strong>"Cognitive Reserve"</strong>.</p>
+<div class="container">
 
-        <h2>What is Cognitive Reserve?</h2>
-        <div class="concept-box">
-            <strong>🧠 The "Brain Bank" Metaphor</strong>
-            Think of your brain function as a <b>bank account</b>.<br><br>
-            Aging and diseases (like Alzheimer's) act as <b>"withdrawals"</b> or fines.<br>
-            Education, reading, challenging jobs, and social interactions are <b>"deposits"</b>.
-        </div>
-        <p>If you have enough savings (high reserve), you can withstand significant "withdrawals" from aging without going bankrupt (showing symptoms of dementia).</p>
-
-        <h2>The 2025 Scientific Breakthrough</h2>
-        <p>In a major systematic review published in December 2025, researchers <strong>Guo et al.</strong> analyzed <strong>55 global studies</strong> examining the link between brain scans and actual thinking ability. They confirmed a powerful "Buffering Effect."</p>
+    <div class="card">
+        <h2>1. The Two Types of Reserve</h2>
+        <p>Scientific theory (Stern, 2002) distinguishes between "Hardware" and "Software". Click the cards to flip!</p>
         
-        <div class="data-viz">
-            <span>🛡️ Protective Effect</span>
-            <div class="bar-container"><div class="bar" data-width="75%"></div></div>
-            <span>Confirmed by 75% of studies</span>
-        </div>
-        <p style="font-size: 0.9em; color: #666; margin-top: 0;">In 41 out of 55 studies, individuals with high cognitive reserve maintained better cognitive function despite having the same level of brain pathology as those with low reserve.</p>
+        <div class="grid-2">
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="icon">💾</div>
+                        <h3>Brain Reserve</h3>
+                        <p>(Passive Model)</p>
+                        <span style="font-size:0.8em; color:#666">Click to reveal</span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Hardware</h3>
+                        <p>Refers to brain size and neuron count. Like a computer with a bigger hard drive, it can tolerate more damage before failing.</p>
+                    </div>
+                </div>
+            </div>
 
-        <h2>⚠️ The "Cliff Edge" Warning</h2>
-        <div class="warning-section">
-            <h3>It’s Not a Magic Shield</h3>
-            <p>The study also highlights a critical caveat: <strong>The Tipping Point.</strong></p>
-            <p>Cognitive reserve works incredibly well in the <strong>early to moderate stages</strong> of pathology. It hides the damage.</p>
-            <p>However, if the disease progresses too far (late stage), the "dam breaks." At this point, people with high reserve may experience a <strong>much faster decline</strong> because the physical damage to the brain is already severe.</p>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="icon">⚡</div>
+                        <h3>Cognitive Reserve</h3>
+                        <p>(Active Model)</p>
+                        <span style="font-size:0.8em; color:#666">Click to reveal</span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Software</h3>
+                        <p>Refers to efficiency and flexibility. The brain recruits alternative networks to bypass damaged areas (Compensation).</p>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <h2>So, What Should We Do?</h2>
-        <p>While we cannot stop the clock, we can build a bigger buffer to delay symptoms and shorten the period of disability at the end of life.</p>
-        
-        <ul>
-            <li><strong>📚 Lifelong Learning:</strong> Learn a new language, instrument, or skill.</li>
-            <li><strong>♟️ Mental Challenges:</strong> Chess, puzzles, or strategy games.</li>
-            <li><strong>🤝 Social Engagement:</strong> Meaningful conversations and social bonding are exercise for neurons.</li>
-        </ul>
-        
-        <p style="text-align: center;">
-            <a href="https://www.sciencedirect.com/science/article/pii/S0197458025001307" class="btn-cta" target="_blank">Read the Full Paper</a>
-        </p>
     </div>
 
-    <footer>
-        <p><strong>Reference:</strong><br>
-        Guo, L., et al. (2025). <em>The moderating effect of cognitive reserve on the association between neuroimaging biomarkers and cognition: A systematic review</em>. Neurobiology of Aging.</p>
-        <p><a href="/">Return to Lizhi Guo's Homepage</a></p>
-    </footer>
+    <div class="card">
+        <h2>2. Simulate: The Protection Curve</h2>
+        <p>How does lifestyle change your brain's resilience? Adjust the sliders below to see the effect.</p>
+        
+        <div class="simulator-container">
+            <span class="axis-label y-label">Cognitive Function</span>
+            <span class="axis-label x-label">Aging / Pathology -></span>
+            
+            <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="none">
+                <path d="M 0,50 Q 200,50 250,280" class="curve curve-low" />
+                <text x="50" y="250" fill="#999" font-size="12">Low Reserve</text>
+                
+                <path id="dynamicCurve" d="M 0,20 Q 250,20 320,280" class="curve curve-user" />
+                <text id="curveLabel" x="200" y="40" fill="#ec4899" font-weight="bold" font-size="14">Your Reserve</text>
+                
+                <line x1="0" y1="200" x2="400" y2="200" stroke="#ef4444" stroke-width="2" stroke-dasharray="4" />
+                <text x="10" y="195" fill="#ef4444" font-size="12">Dementia Symptom Threshold</text>
+            </svg>
+        </div>
 
-    <script>
-        // Simple animation to fill the bar
-        window.onload = function() {
-            setTimeout(function() {
-                const bar = document.querySelector('.bar');
-                if(bar) bar.style.width = bar.getAttribute('data-width');
-            }, 500);
-        };
-    </script>
+        <div class="controls">
+            <div class="slider-group">
+                <label>📚 Education Years (0 - 20+)</label>
+                <input type="range" id="eduSlider" min="0" max="100" value="50" oninput="updateCurve()">
+            </div>
+            <div class="slider-group">
+                <label>💼 Job Complexity (Routine - Complex)</label>
+                <input type="range" id="jobSlider" min="0" max="100" value="50" oninput="updateCurve()">
+            </div>
+            <div class="slider-group">
+                <label>🎨 Leisure Activities (Reading, Social, Games)</label>
+                <input type="range" id="hobbySlider" min="0" max="100" value="50" oninput="updateCurve()">
+            </div>
+            <p id="sim-feedback" style="font-size: 0.9em; color: var(--primary); font-weight: bold; margin-top: 10px;">
+                Effect: Moderate Protection
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>3. Reserve Calculator</h2>
+        <p>Based on the <em>Cognitive Reserve Index questionnaire (CRIq)</em> framework. This is a simplified demo.</p>
+        
+        <div id="quiz-container">
+            <div style="margin-bottom: 20px;">
+                <label><strong>1. How often do you engage in cognitively stimulating hobbies?</strong><br>(e.g., reading, puzzles, playing instruments, learning languages)</label>
+                <div class="quiz-options" data-q="1">
+                    <div class="quiz-option" onclick="selectOption(1, 1)">Rarely / Never</div>
+                    <div class="quiz-option" onclick="selectOption(1, 2)">Monthly</div>
+                    <div class="quiz-option" onclick="selectOption(1, 3)">Weekly</div>
+                    <div class="quiz-option" onclick="selectOption(1, 4)">Daily</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label><strong>2. Social Activity Level:</strong><br>(Meeting friends, volunteering, group activities)</label>
+                <div class="quiz-options" data-q="2">
+                    <div class="quiz-option" onclick="selectOption(2, 1)">Prefer solitude</div>
+                    <div class="quiz-option" onclick="selectOption(2, 3)">Occasional gatherings</div>
+                    <div class="quiz-option" onclick="selectOption(2, 5)">Very active socially</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="calculateResult()">Calculate Score</button>
+        </div>
+
+        <div id="result" class="result-box">
+            <h3 id="result-title"></h3>
+            <p id="result-text"></p>
+            <p style="font-size: 0.9rem; margin-top: 10px; color: #064e3b;">*Note: This is for educational purposes only, not a medical diagnosis.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="/" style="color: var(--text); text-decoration: none;">← Back to Home</a>
+    </div>
+
+</div>
+
+<script>
+    // --- Simulator Logic ---
+    function updateCurve() {
+        const edu = document.getElementById('eduSlider').value;
+        const job = document.getElementById('jobSlider').value;
+        const hobby = document.getElementById('hobbySlider').value;
+        
+        // Simple average for the visualization logic
+        const total = (parseInt(edu) + parseInt(job) + parseInt(hobby)) / 3;
+        
+        // Calculate SVG path points based on "Total Reserve"
+        // Higher reserve = Curve stays high longer (x increases), but drops steeper eventually
+        const startY = 20;
+        const cp1X = 200 + (total * 1.5); // Control point moves right
+        const endX = 250 + (total * 1.2); // End point moves right
+        
+        const path = `M 0,${startY} Q ${cp1X},${startY} ${endX},280`;
+        document.getElementById('dynamicCurve').setAttribute('d', path);
+        
+        // Feedback text
+        const feedback = document.getElementById('sim-feedback');
+        if(total < 30) feedback.innerText = "Effect: Baseline Protection";
+        else if(total < 60) feedback.innerText = "Effect: Moderate Buffer";
+        else feedback.innerText = "Effect: Strong Cognitive Buffer! (Delaying symptoms significantly)";
+    }
+
+    // --- Quiz Logic ---
+    let scores = {1:0, 2:0};
+
+    function selectOption(qNum, value) {
+        scores[qNum] = value;
+        // Visual selection
+        const options = document.querySelectorAll(`[data-q="${qNum}"] .quiz-option`);
+        options.forEach(opt => opt.classList.remove('selected'));
+        event.target.classList.add('selected');
+    }
+
+    function calculateResult() {
+        if(scores[1] === 0 || scores[2] === 0) {
+            alert("Please answer all questions to calculate.");
+            return;
+        }
+        
+        const totalScore = scores[1] + scores[2];
+        const resultBox = document.getElementById('result');
+        const title = document.getElementById('result-title');
+        const text = document.getElementById('result-text');
+        
+        resultBox.style.display = 'block';
+        
+        if(totalScore >= 7) {
+            title.innerText = "🌟 High Reserve Potential";
+            text.innerText = "Great job! Your active lifestyle is building a strong buffer. Keep challenging your brain with new complex tasks to maintain this edge.";
+        } else if (totalScore >= 4) {
+            title.innerText = "🌱 Moderate Reserve";
+            text.innerText = "You have a solid foundation. To boost it further, try learning a completely new skill (like a language or instrument) to spark neuroplasticity.";
+        } else {
+            title.innerText = "🏗️ Room to Build";
+            text.innerText = "It's never too late to start! Research shows even starting simple social activities or walking 30 minutes a day can start building reserve immediately.";
+        }
+    }
+</script>
+
 </body>
 </html>
