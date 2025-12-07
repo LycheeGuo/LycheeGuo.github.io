@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does Your Brain Have "Savings"? | Science by Lizhi Guo</title>
+    <meta property="og:title" content="Does Your Brain Have 'Savings'?">
+    <meta property="og:description" content="Discover the science of Cognitive Reserve: How to keep your brain sharp despite aging.">
+    <meta property="og:image" content="https://lizhiguo.netlify.app/media/icon.png">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --highlight-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header / Hero Section */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p.subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        /* Navigation back to main site */
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: -40px auto 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Sections */
+        h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        /* Key Concept Box */
+        .concept-box {
+            background-color: #eaf6ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 1px solid #b3d7ff;
+        }
+
+        .concept-box strong {
+            color: var(--accent-color);
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Data Visualization (Simple CSS Bar) */
+        .data-viz {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .bar-container {
+            flex-grow: 1;
+            background: #eee;
+            height: 20px;
+            border-radius: 10px;
+            margin: 0 15px;
+            overflow: hidden;
+            min-width: 200px;
+        }
+        .bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0; /* Animated via JS */
+            transition: width 1s ease-in-out;
+            border-radius: 10px;
+        }
+
+        /* Warning Section */
+        .warning-section {
+            background-color: #fff5f5;
+            border-left: 5px solid var(--highlight-color);
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .warning-section h3 {
+            margin-top: 0;
+            color: var(--highlight-color);
+        }
+
+        /* List Styling */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            background: #f1f1f1;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.9em;
+            color: #777;
+            border-top: 1px solid #eee;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .btn-cta:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8em; }
+            .container { margin: 0; border-radius: 0; padding: 25px; }
+            .data-viz { flex-direction: column; align-items: flex-start; }
+            .bar-container { width: 100%; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="back-link">← Back to Lizhi's Home</a>
+        <h1>Does Your Brain Have "Savings"?</h1>
+        <p class="subtitle">Insights from the latest 2025 research in <em>Neurobiology of Aging</em></p>
+    </header>
+
+    <div class="container">
+        <p>Have you ever met an elderly person who, despite having visible signs of brain aging on scans (like atrophy or plaques), remains sharp, witty, and fully functional?</p>
+        <p>This isn't just luck. It's likely because they have built up a massive <strong>"Cognitive Reserve"</strong>.</p>
+
+        <h2>What is Cognitive Reserve?</h2>
+        <div class="concept-box">
+            <strong>🧠 The "Brain Bank" Metaphor</strong>
+            Think of your brain function as a <b>bank account</b>.<br><br>
+            Aging and diseases (like Alzheimer's) act as <b>"withdrawals"</b> or fines.<br>
+            Education, reading, challenging jobs, and social interactions are <b>"deposits"</b>.
+        </div>
+        <p>If you have enough savings (high reserve), you can withstand significant "withdrawals" from aging without going bankrupt (showing symptoms of dementia).</p>
+
+        <h2>The 2025 Scientific Breakthrough</h2>
+        <p>In a major systematic review published in December 2025, researchers <strong>Guo et al.</strong> analyzed <strong>55 global studies</strong> examining the link between brain scans and actual thinking ability. They confirmed a powerful "Buffering Effect."</p>
+        
+        <div class="data-viz">
+            <span>🛡️ Protective Effect</span>
+            <div class="bar-container"><div class="bar" data-width="75%"></div></div>
+            <span>Confirmed by 75% of studies</span>
+        </div>
+        <p style="font-size: 0.9em; color: #666; margin-top: 0;">In 41 out of 55 studies, individuals with high cognitive reserve maintained better cognitive function despite having the same level of brain pathology as those with low reserve.</p>
+
+        <h2>⚠️ The "Cliff Edge" Warning</h2>
+        <div class="warning-section">
+            <h3>It’s Not a Magic Shield</h3>
+            <p>The study also highlights a critical caveat: <strong>The Tipping Point.</strong></p>
+            <p>Cognitive reserve works incredibly well in the <strong>early to moderate stages</strong> of pathology. It hides the damage.</p>
+            <p>However, if the disease progresses too far (late stage), the "dam breaks." At this point, people with high reserve may experience a <strong>much faster decline</strong> because the physical damage to the brain is already severe.</p>
+        </div>
+
+        <h2>So, What Should We Do?</h2>
+        <p>While we cannot stop the clock, we can build a bigger buffer to delay symptoms and shorten the period of disability at the end of life.</p>
+        
+        <ul>
+            <li><strong>📚 Lifelong Learning:</strong> Learn a new language, instrument, or skill.</li>
+            <li><strong>♟️ Mental Challenges:</strong> Chess, puzzles, or strategy games.</li>
+            <li><strong>🤝 Social Engagement:</strong> Meaningful conversations and social bonding are exercise for neurons.</li>
+        </ul>
+        
+        <p style="text-align: center;">
+            <a href="https://www.sciencedirect.com/science/article/pii/S0197458025001307" class="btn-cta" target="_blank">Read the Full Paper</a>
+        </p>
+    </div>
+
+    <footer>
+        <p><strong>Reference:</strong><br>
+        Guo, L., et al. (2025). <em>The moderating effect of cognitive reserve on the association between neuroimaging biomarkers and cognition: A systematic review</em>. Neurobiology of Aging.</p>
+        <p><a href="/">Return to Lizhi Guo's Homepage</a></p>
+    </footer>
+
+    <script>
+        // Simple animation to fill the bar
+        window.onload = function() {
+            setTimeout(function() {
+                const bar = document.querySelector('.bar');
+                if(bar) bar.style.width = bar.getAttribute('data-width');
+            }, 500);
+        };
+    </script>
+</body>
+</html>
