@@ -28,6 +28,4 @@ main:
   - name: CV
     url: uploads/resume.pdf
     weight: 40
-  - name: Brain Science 🧠
-    url: /brain.html
-    weight: 50
+
