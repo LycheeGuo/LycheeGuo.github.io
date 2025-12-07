@@ -12,7 +12,7 @@ doi: https://doi.org/10.1111/ajag.70009
 publication: "*Australas Journal on Ageing*"
 publication_short: ""
 abstract: >
-
+  
 
   This study aimed to investigate the relationship between the number of children and cognitive function trajectories among older Chinese parents.
 
@@ -26,11 +26,10 @@ abstract: >
 
 
   This study found a negative correlation between the number of children and cognitive performance among older Chinese parents, with the association being stronger in women. These findings enhance the understanding of the impact of offspring on parental well-being in non-Western societies.
-
 draft: false
 featured: false
 image:
-  filename: https://images.unsplash.com/photo-1531368345462-e180bd618c89?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 date: 2025-04-10 14:36:13.880000+00:00
