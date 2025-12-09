@@ -1,41 +1,41 @@
-/* 1. 只引入英文字体 (Google Fonts) */
-/* 标题用 Libre Baskerville，正文用 Source Sans Pro */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+/* 1. 引入 Libre Baskerville 字体 (包含常规、斜体和加粗) */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  /* --- 字体栈定义 --- */
+  /* --- 核心字体定义 --- */
+  /* 英文全部统一使用 Libre Baskerville */
   
-  /* 标题：英文用 Baskerville (权威感)，中文回退到系统默认衬线体 (如宋体) */
+  /* 标题变量 */
   --font-heading: "Libre Baskerville", serif;
   
-  /* 正文：英文用 Source Sans Pro (易读)，中文回退到系统默认无衬线体 (如黑体/微软雅黑/苹方) */
-  --font-body: "Source Sans Pro", sans-serif;
+  /* 正文变量 */
+  /* 技巧：英文用 Baskerville，中文回退到 sans-serif (黑体) 以确保屏幕阅读清晰 */
+  --font-body: "Libre Baskerville", sans-serif;
 }
 
-/* 2. 全局样式覆盖 */
-
-/* 针对所有标题元素 */
-h1, h2, h3, h4, h5, h6, 
-.article-title, 
-.navbar-brand, 
-.section-heading {
-  font-family: var(--font-heading) !important;
-  letter-spacing: -0.02em; /* 字间距微缩，显得更精致 */
-  font-weight: 700;
-}
-
-/* 针对正文文本 */
-body, p, li, a, span {
+/* 2. 强制全站覆盖 */
+/* 让所有文字元素都优先使用我们定义的字体 */
+body, h1, h2, h3, h4, h5, h6, 
+p, li, a, span, div, blockquote {
   font-family: var(--font-body) !important;
 }
 
-/* 3. 细节微调 (增加高级感) */
-body {
-  line-height: 1.7;  /* 增加行高，增加呼吸感 */
-  color: #2c3e50;    /* 使用深灰色替代纯黑，阅读更柔和 */
+/* 3. 细节优化 */
+/* 标题加粗，让 Baskerville 的笔画更明显 */
+h1, h2, h3, .article-title, .navbar-brand {
+  font-family: var(--font-heading) !important;
+  font-weight: 700;
+  letter-spacing: -0.02em; /* 微缩字距，更紧凑精致 */
 }
 
-/* 可选：让加粗的文字稍微深一点，增加对比度 */
-strong, b {
-  color: #1a202c;
+/* 正文行高调整，Baskerville 比较宽，需要多一点呼吸空间 */
+body {
+  line-height: 1.75;
+  color: #2c3e50; /* 深灰色，比纯黑更柔和 */
+}
+
+/* 引用块 (Blockquote) 设为斜体，Baskerville 的斜体非常漂亮 */
+blockquote {
+  font-style: italic;
+  font-family: "Libre Baskerville", serif;
 }
