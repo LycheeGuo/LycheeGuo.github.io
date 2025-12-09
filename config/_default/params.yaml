@@ -9,7 +9,7 @@ appearance:
   color: indigo
 typography:
   # 选项: "sans" (默认, Inter字体), "serif" (衬线体, Roboto Slab), "native" (系统默认字体)
-  font: "serif" 
+  font: "native" 
   size: "md"    # 字体大小: sm, md, lg
 # SEO
 marketing:
