@@ -1,25 +1,27 @@
-/* 引入字体：Baskerville 和 Source Sans */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
-/* 引入思源宋体和黑体 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&display=swap');
 
 :root {
-  /* 标题：Baskerville + 思源宋体 -> 权威感 */
-  --font-heading: "Libre Baskerville", "Noto Serif SC", serif;
-  
-  /* 正文：Source Sans + 思源黑体 -> 现代易读 */
-  --font-body: "Source Sans Pro", "Noto Sans SC", sans-serif;
+  --font-clean: "Inter", "Helvetica Neue", "Noto Sans SC", sans-serif;
 }
 
-/* 细节微调：让标题的字间距稍微收紧，更显精致 */
+body {
+  font-family: var(--font-clean) !important;
+  font-weight: 300; /* 使用较细的字重，这是高级感的来源 */
+}
+
+/* 标题不加粗，而是靠字号和留白区分 */
 h1, h2, h3, .article-title {
-  font-family: var(--font-heading) !important;
-  letter-spacing: -0.02em; 
-  font-weight: 700;
+  font-family: var(--font-clean) !important;
+  font-weight: 400; /* 不加粗 */
+  letter-spacing: -0.03em; /* 字距微缩，更紧凑 */
+  color: #000; /* 纯黑标题 */
 }
 
-body, p, li {
-  font-family: var(--font-body) !important;
-  line-height: 1.7; /* 增加行高，增加呼吸感，这是高级感的关键 */
-  color: #2c3e50;   /* 使用深灰而非纯黑，更柔和 */
+/* 导航栏和元数据使用全大写+宽字距 */
+.navbar-brand, .article-metadata, .section-subheading {
+  text-transform: uppercase;
+  letter-spacing: 0.15em; /* 宽字距 */
+  font-size: 0.85em;
+  font-weight: 600;
 }
