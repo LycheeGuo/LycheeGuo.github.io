@@ -1,64 +1,89 @@
-/* 1. 引入字体库 */
-/* Libre Baskerville: 用于英文 (常规、斜体、加粗) */
-/* Noto Serif SC: 用于中文 (常规、加粗)，保证中文也有优雅的衬线感 */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
+/* =============================================
+   1. 引入字体库 (全局 + 签名)
+============================================= */
+/* - Libre Baskerville: 正文英文
+   - Noto Serif SC: 正文中文
+   - Great Vibes: 英文签名 (Logo)
+   - Zhi Mang Xing: 中文签名 (Logo)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap');
 
 :root {
-  /* --- 核心字体栈定义 --- */
-  /* 逻辑顺序：
-     1. Libre Baskerville (优先匹配英文数字)
-     2. Noto Serif SC (如果没有英文，或遇到中文，使用思源宋体)
-     3. Source Han Serif SC (部分用户本地可能安装了思源宋体，优先调用本地)
-     4. Songti SC (Mac 系统自带宋体，效果很好)
-     5. serif (最后的回退衬线体)
-  */
+  /* 定义核心字体栈 */
   --font-stack: "Libre Baskerville", "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
 }
 
-/* 2. 强制全站覆盖 */
-/* 让所有文字元素都优先使用我们定义的字体栈 */
+/* =============================================
+   2. 强制全站覆盖 (Logo 除外)
+============================================= */
+/* 注意：这里我去掉了 .navbar-brand，以免影响我们后面的单独设置 */
 body, h1, h2, h3, h4, h5, h6, 
 p, li, a, span, div, blockquote, 
-input, textarea, button {
+input, textarea, button, .article-title {
   font-family: var(--font-stack) !important;
 }
 
-/* 3. 排版细节优化 */
-
-/* 正文设置 */
+/* =============================================
+   3. 细节优化 (正文与标题)
+============================================= */
 body {
-  line-height: 1.8; /* 宋体/衬线体需要更大的行高才易读，比 1.75 再大一点点 */
-  color: #333333;   /* 使用深灰，比纯黑更有质感，减轻长时间阅读的视觉疲劳 */
-  background-color: #fff; /* 确保背景干净 */
-  -webkit-font-smoothing: antialiased; /* 让字体在 Mac 上渲染更平滑 */
+  line-height: 1.8;
+  color: #333333;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 标题设置 */
-h1, h2, h3, .article-title, .navbar-brand {
+/* 普通标题设置 */
+h1, h2, h3, .article-title {
   font-weight: 700;
-  letter-spacing: -0.015em; /* 标题字距微缩，更显紧凑有力 */
-  color: #111; /* 标题比正文更黑一点，拉开层次 */
+  letter-spacing: -0.015em;
+  color: #111;
   margin-bottom: 0.8em;
 }
 
-/* 引用块 (Blockquote) */
-/* 这里保留 Baskerville 漂亮的斜体，中文也会随之倾斜 */
+/* 引用块设置 */
 blockquote {
   font-style: italic;
-  border-left: 4px solid #ea580c; /* 增加一个强调色竖线，比如橙色，增添现代感 */
-  padding-left: 1rem;
+  border-left: 4px solid #ea580c;
   margin: 1.5rem 0;
   color: #555;
-  background: #f9f9f9; /* 轻微的背景色烘托 */
-  padding: 1em; /* 增加内边距 */
+  background: #f9f9f9;
+  padding: 1em 1em 1em 1.2em;
 }
 
-/* 4. 移动端优化 (可选) */
-/* 在小屏幕上，宋体如果字号太小会看不清，稍微调大基础字号 */
+/* =============================================
+   4. ★★★ 核心修改：左上角 Logo 签名化 ★★★
+============================================= */
+/* Hugo Blox 主题默认的 Logo 类名是 .navbar-brand */
+.navbar-brand {
+    /* 英文用 Great Vibes，中文用 志莽行书 */
+    font-family: 'Great Vibes', 'Zhi Mang Xing', cursive !important;
+    
+    /* 调整字号，签名体要大一点才好看 */
+    font-size: 2.2rem !important;
+    
+    /* 去掉加粗，让笔画更飘逸 */
+    font-weight: normal !important;
+    
+    /* 稍微调一下颜色，模拟墨水感 (深灰) */
+    color: #2c2c2c !important;
+    
+    /* 修正行高，防止文字被切掉 */
+    line-height: 1.2 !important;
+    padding-top: 5px; /* 微调位置 */
+    
+    /* 消除字间距，让连笔字连起来 */
+    letter-spacing: 0 !important;
+}
+
+/* 移动端适配：手机上如果太大可以稍微改小 */
 @media (max-width: 768px) {
   body {
     font-size: 17px; 
     line-height: 1.7;
+  }
+  .navbar-brand {
+    font-size: 1.8rem !important; /* 手机上稍微小一点 */
   }
 }
