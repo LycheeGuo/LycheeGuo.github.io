@@ -7,9 +7,6 @@
 appearance:
   mode: system
   color: indigo
-typography:
-  font: "sans"  # sans | serif | native
-  size: "lg"    # sm | md | lg | xl
 # SEO
 marketing:
   seo:
