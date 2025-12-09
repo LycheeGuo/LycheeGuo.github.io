@@ -1,18 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap');
 
 :root {
-  --font-heading: "Orbitron", "ZCOOL QingKe HuangYou", sans-serif;
-  --font-body: "Rajdhani", "Noto Sans SC", sans-serif;
+  --font-heading: "Playfair Display", "Noto Serif SC", serif;
+  --font-body: "Lato", "Noto Sans SC", sans-serif;
 }
 
-/* 让标题用未来感字体 */
 h1, h2, h3, .navbar-brand {
   font-family: var(--font-heading) !important;
-  letter-spacing: 1px; /* 稍微增加字间距更有科技感 */
 }
 
-/* 正文保持可读性，但用更有棱角的字体 */
-body, p, li {
+body, p {
   font-family: var(--font-body) !important;
 }
