@@ -1,41 +1,64 @@
-/* 1. 引入 Libre Baskerville 字体 (包含常规、斜体和加粗) */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+/* 1. 引入字体库 */
+/* Libre Baskerville: 用于英文 (常规、斜体、加粗) */
+/* Noto Serif SC: 用于中文 (常规、加粗)，保证中文也有优雅的衬线感 */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
 
 :root {
-  /* --- 核心字体定义 --- */
-  /* 英文全部统一使用 Libre Baskerville */
-  
-  /* 标题变量 */
-  --font-heading: "Libre Baskerville", serif;
-  
-  /* 正文变量 */
-  /* 技巧：英文用 Baskerville，中文回退到 sans-serif (黑体) 以确保屏幕阅读清晰 */
-  --font-body: "Libre Baskerville", sans-serif;
+  /* --- 核心字体栈定义 --- */
+  /* 逻辑顺序：
+     1. Libre Baskerville (优先匹配英文数字)
+     2. Noto Serif SC (如果没有英文，或遇到中文，使用思源宋体)
+     3. Source Han Serif SC (部分用户本地可能安装了思源宋体，优先调用本地)
+     4. Songti SC (Mac 系统自带宋体，效果很好)
+     5. serif (最后的回退衬线体)
+  */
+  --font-stack: "Libre Baskerville", "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
 }
 
 /* 2. 强制全站覆盖 */
-/* 让所有文字元素都优先使用我们定义的字体 */
+/* 让所有文字元素都优先使用我们定义的字体栈 */
 body, h1, h2, h3, h4, h5, h6, 
-p, li, a, span, div, blockquote {
-  font-family: var(--font-body) !important;
+p, li, a, span, div, blockquote, 
+input, textarea, button {
+  font-family: var(--font-stack) !important;
 }
 
-/* 3. 细节优化 */
-/* 标题加粗，让 Baskerville 的笔画更明显 */
-h1, h2, h3, .article-title, .navbar-brand {
-  font-family: var(--font-heading) !important;
-  font-weight: 700;
-  letter-spacing: -0.02em; /* 微缩字距，更紧凑精致 */
-}
+/* 3. 排版细节优化 */
 
-/* 正文行高调整，Baskerville 比较宽，需要多一点呼吸空间 */
+/* 正文设置 */
 body {
-  line-height: 1.75;
-  color: #2c3e50; /* 深灰色，比纯黑更柔和 */
+  line-height: 1.8; /* 宋体/衬线体需要更大的行高才易读，比 1.75 再大一点点 */
+  color: #333333;   /* 使用深灰，比纯黑更有质感，减轻长时间阅读的视觉疲劳 */
+  background-color: #fff; /* 确保背景干净 */
+  -webkit-font-smoothing: antialiased; /* 让字体在 Mac 上渲染更平滑 */
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 引用块 (Blockquote) 设为斜体，Baskerville 的斜体非常漂亮 */
+/* 标题设置 */
+h1, h2, h3, .article-title, .navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.015em; /* 标题字距微缩，更显紧凑有力 */
+  color: #111; /* 标题比正文更黑一点，拉开层次 */
+  margin-bottom: 0.8em;
+}
+
+/* 引用块 (Blockquote) */
+/* 这里保留 Baskerville 漂亮的斜体，中文也会随之倾斜 */
 blockquote {
   font-style: italic;
-  font-family: "Libre Baskerville", serif;
+  border-left: 4px solid #ea580c; /* 增加一个强调色竖线，比如橙色，增添现代感 */
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: #555;
+  background: #f9f9f9; /* 轻微的背景色烘托 */
+  padding: 1em; /* 增加内边距 */
+}
+
+/* 4. 移动端优化 (可选) */
+/* 在小屏幕上，宋体如果字号太小会看不清，稍微调大基础字号 */
+@media (max-width: 768px) {
+  body {
+    font-size: 17px; 
+    line-height: 1.7;
+  }
 }
