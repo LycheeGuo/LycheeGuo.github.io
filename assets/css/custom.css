@@ -1,14 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap');
+/* 引入 Inter 字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
 :root {
-  --font-heading: "Playfair Display", "Noto Serif SC", serif;
-  --font-body: "Lato", "Noto Sans SC", sans-serif;
+  --font-custom-stack: "Inter", "Noto Sans SC", sans-serif;
 }
 
-h1, h2, h3, .navbar-brand {
-  font-family: var(--font-heading) !important;
-}
-
-body, p {
-  font-family: var(--font-body) !important;
+body, h1, h2, h3, p {
+  font-family: var(--font-custom-stack) !important;
 }
