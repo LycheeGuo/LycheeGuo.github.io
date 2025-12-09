@@ -3,10 +3,10 @@
 ============================================= */
 /* - Libre Baskerville: 英文正文
    - Noto Serif SC: 中文正文
-   - Sacramento: 新！英文签名 (现代简约风)
-   - Ma Shan Zheng: 新！中文签名 (兼顾辨识度与手写感)
+   - Long Cang: 中文签名 (狂放风格)
+   - Monsieur La Doulaise: 新！英文签名 (极度华丽、古典宫廷风)
 */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Long+Cang&family=Monsieur+La+Doulaise&family=Noto+Serif+SC:wght@400;700&display=swap');
 
 :root {
   /* 全局正文字体栈 */
@@ -14,7 +14,7 @@
 }
 
 /* =============================================
-   2. 基础全局设置 (保持优雅的衬线体风格)
+   2. 基础全局设置
 ============================================= */
 body, h1, h2, h3, h4, h5, h6, 
 p, li, a, span, div, blockquote, 
@@ -47,35 +47,34 @@ blockquote {
 }
 
 /* =============================================
-   3. ★★★ 核心修改：极简签名 Logo (重做) ★★★
+   3. ★★★ 核心修改：Logo (Monsieur La Doulaise + 龙苍) ★★★
 ============================================= */
 .navbar-brand {
-    /* 优先使用 Sacramento (英文)，中文使用马善政 */
-    font-family: 'Sacramento', 'Ma Shan Zheng', cursive !important;
+    /* 英文用 Monsieur La Doulaise，中文用 龙苍 */
+    font-family: 'Monsieur La Doulaise', 'Long Cang', cursive !important;
     
-    /* 调整字号：Sacramento 比较显小，所以要稍微大一点点 */
-    font-size: 2.4rem !important;
+    /* Monsieur La Doulaise 这款字体在视觉上比较小，
+       为了匹配中文的“狂放”气势，需要设置得非常大 */
+    font-size: 3.2rem !important; 
     
-    /* 字体颜色：使用深灰色，避免纯黑的死板 */
-    color: #2b2b2b !important;
+    /* 颜色：使用深灰，模拟墨水质感 */
+    color: #1a1a1a !important;
     
-    /* 去掉加粗，保持签字笔的纤细感 */
+    /* 不需要加粗，这款字体本身的线条就很丰富 */
     font-weight: 400 !important;
     
-    /* 修正位置：签名体通常重心偏高或偏低，稍微往下挪一点点看起来更居中 */
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-    
-    /* 行高收紧，防止撑开导航栏 */
+    /* 稍微调整位置，这款字体的基线比较特殊 */
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
     line-height: 1 !important;
     
-    /* 增加一点点字阴影，增加层次感 (非常淡) */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    /* 增加文字阴影，增强立体感 */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
 }
 
-/* 鼠标悬停时，稍微变色，增加交互感 */
+/* 鼠标悬停效果：变成深红色/朱砂色 */
 .navbar-brand:hover {
-    color: #ea580c !important; /* 配合你引用块的橙色 */
+    color: #c2410c !important; 
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -87,6 +86,7 @@ blockquote {
     line-height: 1.7;
   }
   .navbar-brand {
-    font-size: 2.0rem !important; /* 手机上稍微小一点，但保持清晰 */
+    /* 手机上也要够大才看得清花体字的细节 */
+    font-size: 2.6rem !important; 
   }
 }
