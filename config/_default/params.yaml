@@ -7,6 +7,9 @@
 appearance:
   mode: system
   color: indigo
+typography:
+  font: "serif" 
+  size: "md"
 # SEO
 marketing:
   seo:
