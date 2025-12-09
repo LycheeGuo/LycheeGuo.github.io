@@ -1,25 +1,18 @@
-/* 1. 引入字体 */
-/* 引入英文学术字体 Merriweather (搭配 Serif 风格) */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
-/* 引入中文霞鹜文楷 (在线版，无需下载文件) */
-@import url('https://npm.elemecdn.com/lxgw-wenkai-screen-web/style.css');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap');
 
-/* 2. 定义融合字体栈 */
 :root {
-  /* 定义一个“超级字体变量”：英文在前，中文在后 */
-  /* 如果您在第一步选了 'serif'，这里我们用 Merriweather 配合 霞鹜文楷 */
-  --font-custom-stack: "Merriweather", "LXGW WenKai Screen", "Noto Serif SC", serif;
-  
-  /* 如果您在第一步选了 'sans'，可以用下面这行代替上面那行 (把 Roboto 换成您喜欢的) */
-  /* --font-custom-stack: "Roboto", "LXGW WenKai Screen", "Noto Sans SC", sans-serif; */
+  --font-heading: "Orbitron", "ZCOOL QingKe HuangYou", sans-serif;
+  --font-body: "Rajdhani", "Noto Sans SC", sans-serif;
 }
 
-/* 3. 强制覆盖全站字体 */
-body, h1, h2, h3, h4, h5, h6, p, li, a, span {
-  font-family: var(--font-custom-stack) !important;
+/* 让标题用未来感字体 */
+h1, h2, h3, .navbar-brand {
+  font-family: var(--font-heading) !important;
+  letter-spacing: 1px; /* 稍微增加字间距更有科技感 */
 }
 
-/* 4. 特别优化：导航栏和简历标题 */
-.navbar-brand, .article-title, .section-heading {
-  font-weight: 700; /* 让标题更粗更醒目 */
+/* 正文保持可读性，但用更有棱角的字体 */
+body, p, li {
+  font-family: var(--font-body) !important;
 }
