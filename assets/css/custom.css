@@ -1,26 +1,49 @@
-/* 引入 EB Garamond */
+/* 1. 引入字体：EB Garamond 和 思源宋体 */
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
 
 :root {
-  /* 全站统一使用衬线体 */
+  /* 定义字体栈 */
   --font-serif-stack: "EB Garamond", "Noto Serif SC", serif;
 }
 
-body, h1, h2, h3, p, a, li {
+/* 2. 全局基础设置 - 关键修改在这里 */
+html {
+  /* 将基准字号设为 19px (默认通常是 16px)，这会让全站所有文字都等比例变大 */
+  font-size: 19px; 
+}
+
+body {
+  font-family: var(--font-serif-stack) !important;
+  /* 字号变大了，行高也要跟着变大，否则文字会挤在一起 */
+  line-height: 1.8 !important; 
+  color: #2c3e50; /* 深灰色，久读不累 */
+}
+
+/* 3. 强制应用到所有元素 */
+h1, h2, h3, h4, h5, h6, p, a, li, span, div {
   font-family: var(--font-serif-stack) !important;
 }
 
-/* 这种风格下，斜体（Italic）非常漂亮，适合用来强调 */
-em, i {
+/* 4. 细节修饰 */
+/* 斜体部分 */
+em, i, blockquote {
   font-family: "EB Garamond", serif;
   font-style: italic;
   color: #555;
+  font-size: 1.05em; /* 斜体通常比较细，稍微再加大一点点 */
 }
 
-/* 导航栏如果是大写字母，配合衬线体非常像博物馆的铭牌 */
+/* 导航栏 */
 .navbar-nav, .navbar-brand {
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-size: 0.9em;
+  font-weight: 600;
+  font-size: 0.9rem; /* 导航栏不需要太大，保持精致 */
+}
+
+/* 标题稍微加粗，增加分量感 */
+h1, h2, h3, .article-title {
+  font-weight: 600 !important;
+  margin-top: 1.5em; /* 增加标题上方的留白，更有呼吸感 */
 }
