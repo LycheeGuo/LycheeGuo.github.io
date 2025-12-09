@@ -1,41 +1,33 @@
-/* 1. 引入 Libre Baskerville 字体 (包含常规、斜体和加粗) */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+/* 引入字体 */
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+US+Trad+Guides&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap'); /* 标题还是留着 Baskerville 镇场子 */
+@import url('https://npm.elemecdn.com/lxgw-wenkai-screen-web/style.css');
 
 :root {
-  /* --- 核心字体定义 --- */
-  /* 英文全部统一使用 Libre Baskerville */
-  
-  /* 标题变量 */
   --font-heading: "Libre Baskerville", serif;
-  
-  /* 正文变量 */
-  /* 技巧：英文用 Baskerville，中文回退到 sans-serif (黑体) 以确保屏幕阅读清晰 */
-  --font-body: "Libre Baskerville", sans-serif;
+  --font-body: "Playwrite US Trad Guides", "LXGW WenKai Screen", cursive;
 }
 
-/* 2. 强制全站覆盖 */
-/* 让所有文字元素都优先使用我们定义的字体 */
-body, h1, h2, h3, h4, h5, h6, 
-p, li, a, span, div, blockquote {
-  font-family: var(--font-body) !important;
-}
-
-/* 3. 细节优化 */
-/* 标题加粗，让 Baskerville 的笔画更明显 */
+/* 标题样式：保持优雅 */
 h1, h2, h3, .article-title, .navbar-brand {
   font-family: var(--font-heading) !important;
   font-weight: 700;
-  letter-spacing: -0.02em; /* 微缩字距，更紧凑精致 */
+  color: #000000; /* 标题也用纯黑 */
 }
 
-/* 正文行高调整，Baskerville 比较宽，需要多一点呼吸空间 */
-body {
-  line-height: 1.75;
-  color: #2c3e50; /* 深灰色，比纯黑更柔和 */
-}
-
-/* 引用块 (Blockquote) 设为斜体，Baskerville 的斜体非常漂亮 */
-blockquote {
-  font-style: italic;
-  font-family: "Libre Baskerville", serif;
+/* 正文样式：加深、加大 */
+body, p, li, a, span {
+  font-family: var(--font-body) !important;
+  
+  /* 关键修改 1：使用纯黑色，模拟墨水效果，解决“深度不够”的问题 */
+  color: #000000 !important; 
+  
+  /* 关键修改 2：手写体通常比印刷体显得小，所以要显著加大字号 */
+  font-size: 19px !important; 
+  
+  /* 关键修改 3：字重设为 400 (Regular)，这是该字体的最大粗细，防止浏览器强行加粗导致模糊 */
+  font-weight: 400 !important;
+  
+  /* 辅助线不仅占位置，还容易视觉疲劳，所以行高必须大 */
+  line-height: 2.4 !important; 
 }
