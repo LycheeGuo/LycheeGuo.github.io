@@ -1,64 +1,78 @@
-/* 1. 引入字体库 */
-/* Libre Baskerville: 用于英文 (常规、斜体、加粗) */
-/* Noto Serif SC: 用于中文 (常规、加粗)，保证中文也有优雅的衬线感 */
+/* =============================================
+   1. 引入字体库
+============================================= */
+/* - Libre Baskerville: 英文正文/标题
+   - Noto Serif SC: 中文正文/标题
+   - Long Cang: 狂放签名 (可选，如果之前的方案你还在用)
+   - Monsieur La Doulaise: 华丽英文签名 (可选)
+   如果不使用签名体，可以只保留前两个
+*/
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
 
 :root {
-  /* --- 核心字体栈定义 --- */
-  /* 逻辑顺序：
-     1. Libre Baskerville (优先匹配英文数字)
-     2. Noto Serif SC (如果没有英文，或遇到中文，使用思源宋体)
-     3. Source Han Serif SC (部分用户本地可能安装了思源宋体，优先调用本地)
-     4. Songti SC (Mac 系统自带宋体，效果很好)
-     5. serif (最后的回退衬线体)
-  */
+  /* 核心字体栈：英文衬线 + 中文宋体 */
   --font-stack: "Libre Baskerville", "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
 }
 
-/* 2. 强制全站覆盖 */
-/* 让所有文字元素都优先使用我们定义的字体栈 */
+/* =============================================
+   2. 强制全站字体覆盖
+============================================= */
+/* 将字体应用到所有元素，但把颜色控制权留给主题 */
 body, h1, h2, h3, h4, h5, h6, 
 p, li, a, span, div, blockquote, 
-input, textarea, button {
+input, textarea, button, .article-title {
   font-family: var(--font-stack) !important;
 }
 
-/* 3. 排版细节优化 */
+/* =============================================
+   3. 排版细节优化 (修复暗黑模式)
+============================================= */
 
 /* 正文设置 */
 body {
-  line-height: 1.8; /* 宋体/衬线体需要更大的行高才易读，比 1.75 再大一点点 */
-  color: #333333;   /* 使用深灰，比纯黑更有质感，减轻长时间阅读的视觉疲劳 */
-  background-color: #fff; /* 确保背景干净 */
-  -webkit-font-smoothing: antialiased; /* 让字体在 Mac 上渲染更平滑 */
+  line-height: 1.8; /* 保持优雅的行高 */
+  -webkit-font-smoothing: antialiased; /* Mac 字体平滑 */
   -moz-osx-font-smoothing: grayscale;
+  
+  /* ⚠️ 删除了 background-color 和 color */
+  /* 让 Hugo Blox 主题自己根据亮/暗模式决定颜色 */
 }
 
 /* 标题设置 */
-h1, h2, h3, .article-title, .navbar-brand {
+h1, h2, h3, .article-title {
   font-weight: 700;
-  letter-spacing: -0.015em; /* 标题字距微缩，更显紧凑有力 */
-  color: #111; /* 标题比正文更黑一点，拉开层次 */
+  letter-spacing: -0.015em; /* 保持紧凑的字距 */
   margin-bottom: 0.8em;
+  
+  /* ⚠️ 删除了 color: #111 */
+  /* 这样在暗黑模式下，标题会自动变成白色/浅色 */
 }
 
-/* 引用块 (Blockquote) */
-/* 这里保留 Baskerville 漂亮的斜体，中文也会随之倾斜 */
+/* 引用块设置 */
 blockquote {
   font-style: italic;
-  border-left: 4px solid #ea580c; /* 增加一个强调色竖线，比如橙色，增添现代感 */
-  padding-left: 1rem;
+  border-left: 4px solid #ea580c; /* 橙色竖线保留，这很漂亮且在暗色下也醒目 */
   margin: 1.5rem 0;
-  color: #555;
-  background: #f9f9f9; /* 轻微的背景色烘托 */
-  padding: 1em; /* 增加内边距 */
+  padding: 1em 1em 1em 1.2em;
+  
+  /* ⚠️ 删除了固定的背景色和文字颜色 */
+  /* 恢复主题默认的引用块样式，通常会自动适配暗黑背景 */
+  background: var(--bs-light); /* 使用主题变量 (如果有) 或者留空 */
+  color: inherit; 
 }
 
-/* 4. 移动端优化 (可选) */
-/* 在小屏幕上，宋体如果字号太小会看不清，稍微调大基础字号 */
+/* =============================================
+   4. 移动端优化
+============================================= */
 @media (max-width: 768px) {
   body {
     font-size: 17px; 
     line-height: 1.7;
   }
 }
+
+/* =============================================
+   (可选) 5. Logo 样式
+   如果你之前设置了签名体 Logo，可以在这里加回来
+============================================= */
+/* .navbar-brand { ... } */
