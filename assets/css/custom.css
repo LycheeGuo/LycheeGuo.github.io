@@ -1,92 +1,64 @@
-/* =============================================
-   1. 引入字体库
-============================================= */
-/* - Libre Baskerville: 英文正文
-   - Noto Serif SC: 中文正文
-   - Long Cang: 中文签名 (狂放风格)
-   - Monsieur La Doulaise: 新！英文签名 (极度华丽、古典宫廷风)
-*/
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Long+Cang&family=Monsieur+La+Doulaise&family=Noto+Serif+SC:wght@400;700&display=swap');
+/* 1. 引入字体库 */
+/* Libre Baskerville: 用于英文 (常规、斜体、加粗) */
+/* Noto Serif SC: 用于中文 (常规、加粗)，保证中文也有优雅的衬线感 */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
 
 :root {
-  /* 全局正文字体栈 */
+  /* --- 核心字体栈定义 --- */
+  /* 逻辑顺序：
+     1. Libre Baskerville (优先匹配英文数字)
+     2. Noto Serif SC (如果没有英文，或遇到中文，使用思源宋体)
+     3. Source Han Serif SC (部分用户本地可能安装了思源宋体，优先调用本地)
+     4. Songti SC (Mac 系统自带宋体，效果很好)
+     5. serif (最后的回退衬线体)
+  */
   --font-stack: "Libre Baskerville", "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
 }
 
-/* =============================================
-   2. 基础全局设置
-============================================= */
+/* 2. 强制全站覆盖 */
+/* 让所有文字元素都优先使用我们定义的字体栈 */
 body, h1, h2, h3, h4, h5, h6, 
 p, li, a, span, div, blockquote, 
-input, textarea, button, .article-title {
+input, textarea, button {
   font-family: var(--font-stack) !important;
 }
 
+/* 3. 排版细节优化 */
+
+/* 正文设置 */
 body {
-  line-height: 1.8;
-  color: #333333;
-  background-color: #fff;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.8; /* 宋体/衬线体需要更大的行高才易读，比 1.75 再大一点点 */
+  color: #333333;   /* 使用深灰，比纯黑更有质感，减轻长时间阅读的视觉疲劳 */
+  background-color: #fff; /* 确保背景干净 */
+  -webkit-font-smoothing: antialiased; /* 让字体在 Mac 上渲染更平滑 */
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, .article-title {
+/* 标题设置 */
+h1, h2, h3, .article-title, .navbar-brand {
   font-weight: 700;
-  letter-spacing: -0.015em;
-  color: #111;
+  letter-spacing: -0.015em; /* 标题字距微缩，更显紧凑有力 */
+  color: #111; /* 标题比正文更黑一点，拉开层次 */
   margin-bottom: 0.8em;
 }
 
+/* 引用块 (Blockquote) */
+/* 这里保留 Baskerville 漂亮的斜体，中文也会随之倾斜 */
 blockquote {
   font-style: italic;
-  border-left: 4px solid #ea580c;
+  border-left: 4px solid #ea580c; /* 增加一个强调色竖线，比如橙色，增添现代感 */
+  padding-left: 1rem;
   margin: 1.5rem 0;
   color: #555;
-  background: #f9f9f9;
-  padding: 1em 1em 1em 1.2em;
+  background: #f9f9f9; /* 轻微的背景色烘托 */
+  padding: 1em; /* 增加内边距 */
 }
 
-/* =============================================
-   3. ★★★ 核心修改：Logo (Monsieur La Doulaise + 龙苍) ★★★
-============================================= */
-.navbar-brand {
-    /* 英文用 Monsieur La Doulaise，中文用 龙苍 */
-    font-family: 'Monsieur La Doulaise', 'Long Cang', cursive !important;
-    
-    /* Monsieur La Doulaise 这款字体在视觉上比较小，
-       为了匹配中文的“狂放”气势，需要设置得非常大 */
-    font-size: 3.2rem !important; 
-    
-    /* 颜色：使用深灰，模拟墨水质感 */
-    color: #1a1a1a !important;
-    
-    /* 不需要加粗，这款字体本身的线条就很丰富 */
-    font-weight: 400 !important;
-    
-    /* 稍微调整位置，这款字体的基线比较特殊 */
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-    line-height: 1 !important;
-    
-    /* 增加文字阴影，增强立体感 */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
-}
-
-/* 鼠标悬停效果：变成深红色/朱砂色 */
-.navbar-brand:hover {
-    color: #c2410c !important; 
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-/* 移动端适配 */
+/* 4. 移动端优化 (可选) */
+/* 在小屏幕上，宋体如果字号太小会看不清，稍微调大基础字号 */
 @media (max-width: 768px) {
   body {
     font-size: 17px; 
     line-height: 1.7;
-  }
-  .navbar-brand {
-    /* 手机上也要够大才看得清花体字的细节 */
-    font-size: 2.6rem !important; 
   }
 }
