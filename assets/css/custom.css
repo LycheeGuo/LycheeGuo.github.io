@@ -1,22 +1,41 @@
-/* 1. 引入 Playwrite US Trad Guides (带辅助线的英文手写体) */
-@import url('https://fonts.googleapis.com/css2?family=Playwrite+US+Trad+Guides&display=swap');
-
-/* 2. 引入 霞鹜文楷 (中文手写风格，非常搭配) */
-@import url('https://npm.elemecdn.com/lxgw-wenkai-screen-web/style.css');
+/* 1. 只引入英文字体 (Google Fonts) */
+/* 标题用 Libre Baskerville，正文用 Source Sans Pro */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
 
 :root {
-  /* --- 正文配置 --- */
-  /* 英文使用带辅助线的 Playwrite，中文使用霞鹜文楷 */
-  --font-body: "Playwrite US Trad Guides", "LXGW WenKai Screen", cursive;
+  /* --- 字体栈定义 --- */
   
-  /* --- 标题配置 (可选) --- */
-  /* 建议标题不要带辅助线，否则会太乱。可以使用普通的衬线体或无衬线体 */
-  /* 这里我帮您设置回学术风的 Merriweather，形成一种“老师板书标题，学生手写正文”的反差感 */
-  --font-heading: "Merriweather", "LXGW WenKai Screen", serif;
+  /* 标题：英文用 Baskerville (权威感)，中文回退到系统默认衬线体 (如宋体) */
+  --font-heading: "Libre Baskerville", serif;
+  
+  /* 正文：英文用 Source Sans Pro (易读)，中文回退到系统默认无衬线体 (如黑体/微软雅黑/苹方) */
+  --font-body: "Source Sans Pro", sans-serif;
 }
 
-/* 细节调整：因为这个字体自带辅助线，行高需要大一点，否则线会叠在一起 */
-body, p, li {
-  line-height: 2.2 !important; /* 拉大行间距，给辅助线留出空间 */
-  font-size: 18px; /* 字体稍微大一点，看清细节 */
+/* 2. 全局样式覆盖 */
+
+/* 针对所有标题元素 */
+h1, h2, h3, h4, h5, h6, 
+.article-title, 
+.navbar-brand, 
+.section-heading {
+  font-family: var(--font-heading) !important;
+  letter-spacing: -0.02em; /* 字间距微缩，显得更精致 */
+  font-weight: 700;
+}
+
+/* 针对正文文本 */
+body, p, li, a, span {
+  font-family: var(--font-body) !important;
+}
+
+/* 3. 细节微调 (增加高级感) */
+body {
+  line-height: 1.7;  /* 增加行高，增加呼吸感 */
+  color: #2c3e50;    /* 使用深灰色替代纯黑，阅读更柔和 */
+}
+
+/* 可选：让加粗的文字稍微深一点，增加对比度 */
+strong, b {
+  color: #1a202c;
 }
