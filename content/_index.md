@@ -42,7 +42,7 @@ sections:
       view: article-grid
       columns: 2
       spacing:
-        padding: ["3rem", "0", "1rem", "0"]
+        padding: ["3rem", "0", "2rem", "0"]
 
   # Recent Publications (最新论文)
   - block: collection
@@ -79,8 +79,8 @@ sections:
       offset: 0
       order: desc
     design:
-      view: card
-      columns: '2'
+      view: compact
+      columns: 1
       spacing:
         padding: ["2rem", "0", "1rem", "0"]
 
