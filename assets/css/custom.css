@@ -76,10 +76,4 @@ blockquote {
    如果你之前设置了签名体 Logo，可以在这里加回来
 ============================================= */
 /* .navbar-brand { ... } */
-/* 强制 Masonry 视图在电脑上显示 3 列 */
-@media (min-width: 1200px) {
-  .isotope-item {
-    /* 强制每个卡片只占三分之一宽度 */
-    width: 33.3333% !important; 
-  }
-}
+
