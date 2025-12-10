@@ -2,12 +2,11 @@
 title: Blog
 cms_exclude: true
 
-# 1. 选择正确的视图 (masonry 或 card)
-view: masonry
+# 关键修改：改为 compact
+view: compact
 
 design:
-  # 2. 将 columns 设置为 '1' (注意要有单引号)
-  # '1' 代表：标题在正上方，内容区域是全宽 (Full Width)。
-  # 只有全宽模式下，系统才有空间在电脑上自动排成 3 列。
-  columns: '1' 
+  # 建议将 columns 改回 '2' 或者直接删除 design 这一块
+  # compact 视图通常不需要强制全宽，默认的 '2' (左侧标题右侧内容) 或 '1' 都可以
+  columns: '2' 
 ---
