@@ -2,12 +2,10 @@
 title: Publications
 cms_exclude: true
 
-# 关键修改：将 citation (纯引用) 改为 compact (带图列表)
-# view: citation 
+# 1. 必须使用 compact 视图
 view: compact
 
-# Optional header image...
-banner:
-  caption: ''
-  image: ''
+design:
+  # 2. 必须设为 '1'
+  columns: '1'
 ---
