@@ -2,20 +2,11 @@
 
 <style>
   @keyframes spread-flow {
-    /* 保持：从左向右流动 */
     0% { background-position: 200% 50%; }
     100% { background-position: 0% 50%; }
   }
   
   .creeping-colors {
-    /* 颜色方案更新：完全去掉了冷色调（蓝/绿）
-       风格变为：暖色夕阳渐变
-       1. 深紫 (#7e22ce) -> 起点
-       2. 深粉紫 (#be185d) -> ★ 新增：替代了蓝色，介于紫和红之间，柔和过渡
-       3. 深焦糖橙 (#c2410c) -> 替代了绿色
-       4. 深金黄 (#ca8a04) -> 保持黄色
-       5. 回到深紫 (#7e22ce) -> 闭环
-    */
     background: linear-gradient(90deg, 
       #9226AD, /* 深紫 */
       #7e22ce, /* 深粉紫 */
@@ -34,18 +25,17 @@
   }
 </style>
 
-<footer class="mx-auto mt-12 pb-6 max-w-7xl px-6 lg:px-8 text-center">
+{{/* ★★★ 关键修改：mt-12 改为 mt-6 (减小顶部间距) ★★★ */}}
+<footer class="mx-auto mt-6 pb-6 max-w-7xl px-6 lg:px-8 text-center">
   
-  {{/* 保持极小间距 mb-1 */}}
   <p class="creeping-colors text-sm mb-1">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
   </p>
   
-  {{/* 保持极小间距 mt-1 */}}
   <div class="mt-1 text-xl select-none cursor-default">
-    🍒 🎠 🎡 🌸 🍣
+    🍒 🎡 🌸 🍉 🎄
   </div>
   
 </footer>
