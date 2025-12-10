@@ -32,9 +32,17 @@
         
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
-            {{/* 简单的作者列表显示 */}}
+            {{/* 自动替换 admin 为加粗样式 */}}
             {{ if $item.Params.authors }}
-              {{ delimit $item.Params.authors ", " }}
+              {{ $authors := slice }}
+              {{ range $item.Params.authors }}
+                {{ if eq . "admin" }}
+                  {{ $authors = $authors | append "<b><u>Lizhi Guo</u></b>" }}
+                {{ else }}
+                  {{ $authors = $authors | append . }}
+                {{ end }}
+              {{ end }}
+              {{ delimit $authors ", " | safeHTML }}
             {{ end }}
           </div>
         
