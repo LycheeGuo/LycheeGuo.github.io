@@ -8,4 +8,4 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-Lizhi was invited as a reviewer of ***Depression and Anxiety***
+Lizhi was invited as a reviewer of ***Depression & Anxiety***
