@@ -42,7 +42,7 @@ sections:
       view: article-grid
       columns: 2
       spacing:
-        padding: ["1rem", "0", "1rem", "0"]
+        padding: ["3rem", "0", "1rem", "0"]
 
   # Recent Publications (最新论文)
   - block: collection
