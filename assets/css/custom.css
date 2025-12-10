@@ -78,21 +78,20 @@ blockquote {
 /* .navbar-brand { ... } */
 
 /* =============================================
-   6. News 版块定制 (只显示标题)
+   News 版块定制：只保留标题
 ============================================= */
 
-/* 隐藏摘要 (Summary) */
-#news .card-text {
+/* 1. 针对首页 News (Card视图) 和 列表页 News (Compact视图) */
+#news .card-text,                /* 隐藏摘要 */
+#news .article-metadata,         /* 隐藏日期、作者 */
+#news .card-subtitle,            /* 隐藏副标题 */
+.section-blog .article-style,    /* 针对 /blog 页面隐藏摘要 */
+.section-blog .article-metadata { /* 针对 /blog 页面隐藏日期 */
     display: none !important;
 }
 
-/* 隐藏元数据 (日期、作者、分类等) */
-#news .article-metadata,
-#news .card-subtitle {
-    display: none !important;
-}
-
-/* 调整标题间距，让它看起来更整齐 */
-#news .card-title {
+/* 2. 调整一下标题的间距，不然下面会空一大截 */
+#news .card-title,
+.section-blog .article-title {
     margin-bottom: 0 !important;
 }
