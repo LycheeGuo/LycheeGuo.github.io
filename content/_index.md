@@ -28,7 +28,7 @@ sections:
       spacing:
         padding: ['0', '0', '0', '0']
 
-  # Featured Publications (精选论文)
+  # Featured Publications (精选论文 - 正常间距)
   - block: collection
     id: papers
     content:
@@ -42,11 +42,11 @@ sections:
       view: article-grid
       columns: 2
       spacing:
-        padding: ["3rem", "0", "2rem", "0"]
+        padding: ["3rem", "0", "3rem", "0"]
 
-  # Recent Publications (最新论文)
+  # Recent Publications (最新论文 - ★★★ 紧凑模式 ★★★)
   - block: collection
-    id: recent-pubs  # <--- ★★★ 加上这一行，给它一个独一无二的名字
+    id: recent-pubs  # <--- ★★★ 这一行必须有！否则 CSS 也就是没用的！ ★★★
     content:
       title: Recent Publications
       text: ''
@@ -58,8 +58,7 @@ sections:
     design:
       view: citation
       spacing:
-        padding: ["1rem", "0", "1rem", "0"]
-
+        padding: ["0.5rem", "0", "1rem", "0"] # 我帮你把顶部 padding 改得更小了 (0.5rem)
 
   # Recent News (最新动态)
   - block: collection
@@ -82,9 +81,9 @@ sections:
       order: desc
     design:
       view: compact
-      columns: 1
+      columns: '2'
       spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+        padding: ["3rem", "0", "3rem", "0"]
 
   # Projects (项目)
   - block: collection
@@ -100,7 +99,7 @@ sections:
       view: article-grid
       columns: 2
       spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+        padding: ["3rem", "0", "3rem", "0"]
 
   # Gallery (相册)
   - block: markdown
@@ -112,7 +111,7 @@ sections:
     design:
       columns: '1'
       spacing:
-        padding: ["2rem", "0", "2rem", "0"]
+        padding: ["3rem", "0", "3rem", "0"]
 
   # Contact (联系方式)
   - block: contact
@@ -134,7 +133,6 @@ sections:
       autolink: true
     design:
       columns: '2'
-      # ★★★ 关键修改：底部 padding 改为 0 (原为 4rem) ★★★
       spacing:
-        padding: ["2rem", "0", "0", "0"]
+        padding: ["3rem", "0", "0", "0"]
 ---
