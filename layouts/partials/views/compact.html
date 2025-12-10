@@ -6,7 +6,7 @@
   {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
 {{ end }}
 
-{{/* 图片处理：裁剪为 3:2 比例 */}}
+{{/* --- 图片处理：统一裁剪为 3:2 比例 --- */}}
 {{ $resource := ($item.Resources.ByType "image").GetMatch "*featured*" }}
 {{ $image := "" }}
 {{ if $resource }}
@@ -22,13 +22,13 @@
   
   <div class="flex-1 order-2 md:order-1 min-w-0 flex flex-col h-full justify-between">
     <div>
-      <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-snug font-sans">
+      <h3 class="text-2xl font-bold font-serif text-gray-900 dark:text-gray-100 mb-3 leading-tight">
         <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
           {{ $item.Title }}
         </a>
       </h3>
 
-      <div class="text-gray-600 dark:text-gray-400 text-base leading-relaxed mb-4 line-clamp-3">
+      <div class="text-gray-600 dark:text-gray-400 text-base leading-relaxed mb-4 line-clamp-3 font-sans">
         {{ if $item.Params.summary }}
           {{ $item.Params.summary | markdownify | emojify }}
         {{ else }}
@@ -38,6 +38,7 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400 font-medium">
+      
       {{ if not (eq $item.Params.show_date false) }}
         <span>{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
       {{ end }}
@@ -49,27 +50,47 @@
       {{ end }}
 
       {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
+        
         {{ if $item.Params.publication }}
-          <span class="italic text-gray-700 dark:text-gray-300">
+          <span class="italic text-gray-800 dark:text-gray-200">
             {{ $item.Params.publication | markdownify }}
           </span>
         {{ end }}
+        
+        <div class="flex items-center gap-2 ml-2">
+          {{ if $item.Params.doi }}
+             <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800 transition-colors no-underline">
+               DOI ↗
+             </a>
+          {{ end }}
+
+          {{ if $item.Params.url_pdf }}
+             <a href="{{ $item.Params.url_pdf }}" target="_blank" class="text-gray-400 hover:text-red-500 transition-colors" title="Download PDF">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                 <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625z" />
+                 <path d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z" />
+               </svg>
+             </a>
+          {{ end }}
+        </div>
+
       {{ end }}
     </div>
   </div>
 
   {{ if $image }}
   <div class="order-1 md:order-2 w-full md:w-72 flex-shrink-0">
-    <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
-      <div class="aspect-[3/2] w-full bg-gray-100 dark:bg-gray-800">
+    <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
+      <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
         <img src="{{ $image.RelPermalink }}" 
              width="{{ $image.Width }}" 
              height="{{ $image.Height }}"
              alt="{{ $item.Title }}" 
              loading="lazy"
-             class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+             class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
       </div>
     </a>
   </div>
   {{ end }}
+
 </div>
