@@ -46,6 +46,7 @@ sections:
 
   # Recent Publications (最新论文)
   - block: collection
+    id: recent-pubs  # <--- ★★★ 加上这一行，给它一个独一无二的名字
     content:
       title: Recent Publications
       text: ''
@@ -58,6 +59,7 @@ sections:
       view: citation
       spacing:
         padding: ["1rem", "0", "1rem", "0"]
+
 
   # Recent News (最新动态)
   - block: collection
