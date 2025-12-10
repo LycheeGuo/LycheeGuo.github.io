@@ -5,7 +5,7 @@ date: 2022-10-24
 type: landing
 
 design:
-  # 全局间距设置：保持适中
+  # 全局间距设置
   spacing: '1rem'
 
 sections:
@@ -25,7 +25,6 @@ sections:
       avatar:
         size: medium
         shape: circle
-      # Bio板块保持紧凑
       spacing:
         padding: ['0', '0', '0', '0']
 
@@ -34,7 +33,6 @@ sections:
     id: papers
     content:
       title: Featured Publications
-      # ★ 新增 count: 限制显示数量，超过会自动出现 See More
       count: 4 
       filters:
         folders:
@@ -43,7 +41,6 @@ sections:
     design:
       view: article-grid
       columns: 2
-      # ★ 统一间距：适中 (3rem)
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
@@ -52,7 +49,6 @@ sections:
     content:
       title: Recent Publications
       text: ''
-      # ★ 新增 count: 限制显示数量，避免列表过长
       count: 5
       filters:
         folders:
@@ -60,7 +56,6 @@ sections:
         exclude_featured: true
     design:
       view: citation
-      # ★ 统一间距
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
@@ -72,7 +67,6 @@ sections:
       subtitle: ''
       text: ''
       page_type: blog
-      # 这里的 count: 1 是你之前的设置，很紧凑
       count: 2
       filters:
         author: ''
@@ -87,7 +81,6 @@ sections:
     design:
       view: card
       columns: '2'
-      # 保持紧凑
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
@@ -97,7 +90,6 @@ sections:
       title: Projects
       subtitle: ''
       text: ''
-      # ★ 新增 count
       count: 2
       filters:
         folders:
@@ -105,7 +97,6 @@ sections:
     design:
       view: article-grid
       columns: 2
-      # ★ 统一间距
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
@@ -141,6 +132,7 @@ sections:
       autolink: true
     design:
       columns: '2'
+      # ★★★ 关键修改：底部 padding 改为 0 (原为 4rem) ★★★
       spacing:
-        padding: ["3rem", "0", "4rem", "0"]
+        padding: ["3rem", "0", "0", "0"]
 ---
