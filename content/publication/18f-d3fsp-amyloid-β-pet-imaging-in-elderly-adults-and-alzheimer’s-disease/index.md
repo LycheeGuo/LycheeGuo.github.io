@@ -59,7 +59,7 @@ abstract: N-methylderivative of Amyvid (18F-D3FSP) displayed very similar
 draft: false
 featured: false
 image:
-  filename: featued.png
+  filename: ""
   focal_point: Smart
   preview_only: false
 date: 2023-12-25 08:44:50.552000+00:00
