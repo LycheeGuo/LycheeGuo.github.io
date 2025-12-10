@@ -77,3 +77,22 @@ blockquote {
 ============================================= */
 /* .navbar-brand { ... } */
 
+/* =============================================
+   6. News 版块定制 (只显示标题)
+============================================= */
+
+/* 隐藏摘要 (Summary) */
+#news .card-text {
+    display: none !important;
+}
+
+/* 隐藏元数据 (日期、作者、分类等) */
+#news .article-metadata,
+#news .card-subtitle {
+    display: none !important;
+}
+
+/* 调整标题间距，让它看起来更整齐 */
+#news .card-title {
+    margin-bottom: 0 !important;
+}
