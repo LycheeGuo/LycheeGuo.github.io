@@ -3,9 +3,6 @@
 ============================================= */
 /* - Libre Baskerville: 英文正文/标题
    - Noto Serif SC: 中文正文/标题
-   - Long Cang: 狂放签名 (可选，如果之前的方案你还在用)
-   - Monsieur La Doulaise: 华丽英文签名 (可选)
-   如果不使用签名体，可以只保留前两个
 */
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
 
@@ -33,9 +30,6 @@ body {
   line-height: 1.8; /* 保持优雅的行高 */
   -webkit-font-smoothing: antialiased; /* Mac 字体平滑 */
   -moz-osx-font-smoothing: grayscale;
-  
-  /* ⚠️ 删除了 background-color 和 color */
-  /* 让 Hugo Blox 主题自己根据亮/暗模式决定颜色 */
 }
 
 /* 标题设置 */
@@ -43,21 +37,15 @@ h1, h2, h3, .article-title {
   font-weight: 700;
   letter-spacing: -0.015em; /* 保持紧凑的字距 */
   margin-bottom: 0.8em;
-  
-  /* ⚠️ 删除了 color: #111 */
-  /* 这样在暗黑模式下，标题会自动变成白色/浅色 */
 }
 
 /* 引用块设置 */
 blockquote {
   font-style: italic;
-  border-left: 4px solid #ea580c; /* 橙色竖线保留，这很漂亮且在暗色下也醒目 */
+  border-left: 4px solid #ea580c; /* 橙色竖线保留 */
   margin: 1.5rem 0;
   padding: 1em 1em 1em 1.2em;
-  
-  /* ⚠️ 删除了固定的背景色和文字颜色 */
-  /* 恢复主题默认的引用块样式，通常会自动适配暗黑背景 */
-  background: var(--bs-light); /* 使用主题变量 (如果有) 或者留空 */
+  background: var(--bs-light); /* 使用主题变量 */
   color: inherit; 
 }
 
@@ -72,13 +60,7 @@ blockquote {
 }
 
 /* =============================================
-   (可选) 5. Logo 样式
-   如果你之前设置了签名体 Logo，可以在这里加回来
-============================================= */
-/* .navbar-brand { ... } */
-
-/* =============================================
-   News 版块定制：只保留标题
+   5. News 版块定制：只保留标题
 ============================================= */
 
 /* 1. 针对首页 News (Card视图) 和 列表页 News (Compact视图) */
