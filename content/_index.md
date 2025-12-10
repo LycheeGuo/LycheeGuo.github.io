@@ -42,7 +42,7 @@ sections:
       view: article-grid
       columns: 2
       spacing:
-        padding: ["3rem", "0", "3rem", "0"]
+        padding: ["1rem", "0", "1rem", "0"]
 
   # Recent Publications (最新论文)
   - block: collection
@@ -57,7 +57,7 @@ sections:
     design:
       view: citation
       spacing:
-        padding: ["3rem", "0", "3rem", "0"]
+        padding: ["1rem", "0", "1rem", "0"]
 
   # Recent News (最新动态)
   - block: collection
@@ -82,7 +82,7 @@ sections:
       view: card
       columns: '2'
       spacing:
-        padding: ["3rem", "0", "3rem", "0"]
+        padding: ["1rem", "0", "1rem", "0"]
 
   # Projects (项目)
   - block: collection
@@ -98,7 +98,7 @@ sections:
       view: article-grid
       columns: 2
       spacing:
-        padding: ["3rem", "0", "3rem", "0"]
+        padding: ["1rem", "0", "1rem", "0"]
 
   # Gallery (相册)
   - block: markdown
@@ -110,7 +110,7 @@ sections:
     design:
       columns: '1'
       spacing:
-        padding: ["3rem", "0", "3rem", "0"]
+        padding: ["1rem", "0", "1rem", "0"]
 
   # Contact (联系方式)
   - block: contact
