@@ -77,3 +77,24 @@ blockquote {
 .section-blog .article-title {
     margin-bottom: 0 !important;
 }
+
+/* =============================================
+   6. 首页板块内部间距调整 (★ 新增部分)
+   (解决 Recent Publications 和文章之间空隙太大的问题)
+============================================= */
+
+/* 减小标题容器整体的底部留白 */
+.section-heading {
+    margin-bottom: 1.5rem !important; /* 强制改为紧凑间距 (约24px) */
+}
+
+/* 减小标题文字本身的底部留白 */
+.section-heading h1, 
+.section-heading h2 {
+    margin-bottom: 0.5rem !important; /* 标题文字下方留一点点空隙即可 */
+}
+
+/* 如果有副标题(subtitle)，也收紧它的间距 */
+.section-heading p {
+    margin-bottom: 0.5rem !important;
+}
