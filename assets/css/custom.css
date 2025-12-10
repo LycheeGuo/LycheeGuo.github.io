@@ -1,20 +1,15 @@
 /* =============================================
    1. 引入字体库
 ============================================= */
-/* - Libre Baskerville: 英文正文/标题
-   - Noto Serif SC: 中文正文/标题
-*/
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
 
 :root {
-  /* 核心字体栈：英文衬线 + 中文宋体 */
   --font-stack: "Libre Baskerville", "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
 }
 
 /* =============================================
    2. 强制全站字体覆盖
 ============================================= */
-/* 将字体应用到所有元素，但把颜色控制权留给主题 */
 body, h1, h2, h3, h4, h5, h6, 
 p, li, a, span, div, blockquote, 
 input, textarea, button, .article-title {
@@ -22,30 +17,26 @@ input, textarea, button, .article-title {
 }
 
 /* =============================================
-   3. 排版细节优化 (修复暗黑模式)
+   3. 排版细节优化
 ============================================= */
-
-/* 正文设置 */
 body {
-  line-height: 1.8; /* 保持优雅的行高 */
-  -webkit-font-smoothing: antialiased; /* Mac 字体平滑 */
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 标题设置 */
 h1, h2, h3, .article-title {
   font-weight: 700;
-  letter-spacing: -0.015em; /* 保持紧凑的字距 */
+  letter-spacing: -0.015em;
   margin-bottom: 0.8em;
 }
 
-/* 引用块设置 */
 blockquote {
   font-style: italic;
-  border-left: 4px solid #ea580c; /* 橙色竖线保留 */
+  border-left: 4px solid #ea580c;
   margin: 1.5rem 0;
   padding: 1em 1em 1em 1.2em;
-  background: var(--bs-light); /* 使用主题变量 */
+  background: var(--bs-light);
   color: inherit; 
 }
 
@@ -59,3 +50,41 @@ blockquote {
   }
 }
 
+/* =============================================
+   5. News 版块定制 (已更新：允许显示摘要)
+============================================= */
+
+/* ★★★ 关键修改：只隐藏不重要的元数据，不再隐藏正文/摘要 ★★★ */
+#news .article-metadata,         
+#news .card-subtitle,            
+.section-blog .article-metadata { 
+    display: none !important;
+}
+
+/* 调整标题间距 */
+#news .card-title,
+.section-blog .article-title {
+    margin-bottom: 0 !important;
+}
+
+/* =============================================
+   6. 精确调整：Recent Publications 内部间距
+============================================= */
+
+/* 1. 强制让标题下方没有空隙 */
+#recent-pubs .section-heading {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#recent-pubs .section-heading h1, 
+#recent-pubs .section-heading h2 {
+    margin-bottom: 0 !important;
+}
+
+/* 2. 强制让第一篇文章上方也没有空隙 */
+#recent-pubs .universal-wrapper > div:first-child,
+#recent-pubs .media-stream-item:first-child {
+    margin-top: 0 !important;
+    padding-top: 1rem !important; /* 给一点点呼吸空间 */
+}
