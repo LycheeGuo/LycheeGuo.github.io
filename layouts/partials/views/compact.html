@@ -1,0 +1,66 @@
+{{ $item := .item }}
+{{ $link := $item.RelPermalink }}
+{{ $target := "" }}
+{{ if $item.Params.external_link }}
+  {{ $link = $item.Params.external_link }}
+  {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
+{{ end }}
+
+{{/* 获取图片：优先 featured，其次手动指定，再次自动抓取 */}}
+{{ $resource := ($item.Resources.ByType "image").GetMatch "*featured*" }}
+{{ $image := "" }}
+{{ if $resource }}
+  {{/* 裁剪为 300x200 的缩略图，保证大小一致 */}}
+  {{ $image = $resource.Fill "300x200 Center" }}
+{{ else if $item.Params.image.filename }}
+  {{ $imageResource := resources.Get (printf "media/%s" $item.Params.image.filename) }}
+  {{ if $imageResource }}
+     {{ $image = $imageResource.Fill "300x200 Center" }}
+  {{ end }}
+{{ end }}
+
+<div class="group flex flex-col md:flex-row gap-6 py-6 border-b border-gray-100 dark:border-gray-700 last:border-0">
+  <div class="flex-1 flex flex-col justify-start">
+    <h3 class="text-xl font-bold mb-2">
+      <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+        {{ $item.Title }}
+      </a>
+    </h3>
+    
+    {{/* 摘要：优先显示 summary，如果没有则截取正文 */}}
+    <div class="text-gray-600 dark:text-gray-300 mb-3 text-sm line-clamp-3">
+      {{ if $item.Params.summary }}
+        {{ $item.Params.summary | markdownify | emojify }}
+      {{ else }}
+        {{ $item.Summary | markdownify | emojify }}
+      {{ end }}
+    </div>
+
+    <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-4 mt-auto">
+      {{ if not (eq $item.Params.show_date false) }}
+      <span class="flex items-center">
+        📅 {{ $item.Date | time.Format "Jan 2, 2006" }}
+      </span>
+      {{ end }}
+      
+      {{ if $item.Params.publication }}
+      <span class="uppercase tracking-wider border px-1 rounded border-gray-200 dark:border-gray-600">
+        📖 {{ $item.Params.publication | markdownify }}
+      </span>
+      {{ end }}
+    </div>
+  </div>
+
+  {{ if $image }}
+  <div class="w-full md:w-48 flex-shrink-0 mt-4 md:mt-0">
+    <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+      <img src="{{ $image.RelPermalink }}" 
+           width="{{ $image.Width }}" 
+           height="{{ $image.Height }}"
+           alt="{{ $item.Title }}" 
+           loading="lazy"
+           class="w-full h-48 md:h-32 object-cover transform group-hover:scale-105 transition-transform duration-500">
+    </a>
+  </div>
+  {{ end }}
+</div>
