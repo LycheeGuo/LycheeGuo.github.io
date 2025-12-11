@@ -6,7 +6,7 @@
   {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
 {{ end }}
 
-{{/* --- 图片处理逻辑 --- */}}
+{{/* --- 图片处理 --- */}}
 {{ $resource := ($item.Resources.ByType "image").GetMatch "*featured*" }}
 {{ $image := "" }}
 {{ if $resource }}
@@ -18,61 +18,62 @@
   {{ end }}
 {{ end }}
 
-{{/* ★★★ 布局容器：flex-row 保持左右布局，py-5 增加垂直间距 ★★★ */}}
-<div class="group relative flex flex-row gap-4 md:gap-8 items-start border-b border-gray-100 dark:border-gray-800 pb-10 mb-10 last:border-0 last:pb-0 last:mb-0">
+{{/* ★★★ 布局容器：始终保持 flex-row (左右排列)，增加 py-6 间距 ★★★ */}}
+<div class="group relative flex flex-row gap-4 items-start border-b border-gray-100 dark:border-gray-800 pb-8 mb-8 last:border-0 last:pb-0 last:mb-0">
   
   {{/* --- 左侧文字区域 --- */}}
-  {{/* ★★★ 核心修复：min-w-0 (防溢出) 和 break-words (强制换行) ★★★ */}}
-  <div class="flex-1 min-w-0 break-words flex flex-col justify-start">
+  {{/* ★★★ 关键修复：min-w-0 让文字区域能自动收缩，防止撑爆手机屏幕 ★★★ */}}
+  <div class="flex-1 min-w-0 flex flex-col justify-between h-full">
     
-    {{/* 1. 标题：移除了 font-serif，现在字体和正文一致 */}}
-    <h3 class="text-base md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-snug">
-      <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-        {{ $item.Title }}
-      </a>
-    </h3>
+    <div>
+      {{/* 标题：默认字体，限制行高 */}}
+      <h3 class="text-base md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
+        <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+          {{ $item.Title }}
+        </a>
+      </h3>
 
-    {{/* 2. 核心信息区域：Publication 显示作者，Blog/News 显示摘要 */}}
-    <div class="text-sm md:text-base leading-relaxed text-gray-600 dark:text-gray-400 mb-3 font-sans">
-      
-      {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
-        {{/* 论文模式：显示作者 */}}
-        <div class="text-gray-800 dark:text-gray-300 font-medium">
-          {{ if $item.Params.authors }}
-            {{ $authors := slice }}
-            {{ range $item.Params.authors }}
-              {{ if eq . "admin" }}
-                {{ $authors = $authors | append "<b><u>Lizhi Guo</u></b>" }}
-              {{ else }}
-                {{ $authors = $authors | append . }}
+      {{/* 核心信息区域 */}}
+      <div class="text-sm text-gray-600 dark:text-gray-400 mb-2 font-sans leading-relaxed">
+        
+        {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
+          {{/* 论文：显示作者 */}}
+          <div class="text-gray-800 dark:text-gray-300 font-medium">
+            {{ if $item.Params.authors }}
+              {{ $authors := slice }}
+              {{ range $item.Params.authors }}
+                {{ if eq . "admin" }}
+                  {{ $authors = $authors | append "<b><u>Lizhi Guo</u></b>" }}
+                {{ else }}
+                  {{ $authors = $authors | append . }}
+                {{ end }}
               {{ end }}
+              {{ delimit $authors ", " | safeHTML }}
             {{ end }}
-            {{ delimit $authors ", " | safeHTML }}
-          {{ end }}
-        </div>
+          </div>
 
-      {{ else }}
-        {{/* ★★★ News/Blog模式：现在和 Publication 共享同一个容器样式，不再特殊对待，确保对齐 ★★★ */}}
-        {{/* line-clamp-3 限制显示3行，超出省略，防止内容过长 */}}
-        <div class="line-clamp-3">
-          {{ if $item.Params.summary }}
-            {{ $item.Params.summary | markdownify | emojify }}
-          {{ else }}
-            {{ $item.Summary | markdownify | emojify }}
-          {{ end }}
-        </div>
-      {{ end }}
+        {{ else }}
+          {{/* ★★★ News/Blog：显示摘要，限制显示 3 行，超出自动省略 ★★★ */}}
+          <div class="line-clamp-3 md:line-clamp-4">
+            {{ if $item.Params.summary }}
+              {{ $item.Params.summary | markdownify | emojify }}
+            {{ else }}
+              {{ $item.Summary | markdownify | emojify }}
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
     </div>
 
-    {{/* 3. 底部元数据（日期、期刊等） */}}
-    <div class="flex flex-wrap items-center gap-3 text-xs md:text-sm text-gray-500 dark:text-gray-500 mt-auto">
+    {{/* 底部元数据（日期、DOI等） */}}
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-500 mt-2">
       
       {{/* 日期 */}}
       {{ if not (eq $item.Params.show_date false) }}
-        <span>{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
+        <span class="whitespace-nowrap">{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
       {{ end }}
 
-      {{/* 论文特有：期刊名和 DOI */}}
+      {{/* 论文特有信息 */}}
       {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
         {{ if $item.Params.publication }}
           <span class="text-gray-300">•</span>
@@ -81,7 +82,7 @@
           </span>
         {{ end }}
         {{ if $item.Params.doi }}
-           <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
+           <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank" class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
              DOI ↗
            </a>
         {{ end }}
@@ -92,9 +93,10 @@
 
   {{/* --- 右侧图片区域 --- */}}
   {{ if $image }}
-  {{/* ★★★ 图片修复：手机端固定 w-28 (约112px)，不许收缩 (shrink-0) ★★★ */}}
-  <div class="w-28 md:w-72 flex-shrink-0">
+  {{/* ★★★ 图片控制：手机 w-24 (小图)，电脑 w-72 (大图)。shrink-0 防止图片被压扁 ★★★ */}}
+  <div class="w-24 md:w-72 flex-shrink-0">
     <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
+      {{/* 保持 3:2 比例 */}}
       <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
         <img src="{{ $image.RelPermalink }}" 
              width="{{ $image.Width }}" 
