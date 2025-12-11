@@ -79,7 +79,7 @@ sections:
       order: desc
     design:
       view: compact
-      columns: 1
+      columns: '1'
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
