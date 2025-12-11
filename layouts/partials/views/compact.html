@@ -18,12 +18,13 @@
   {{ end }}
 {{ end }}
 
-{{/* ★★★ 布局：保持 flex-row (左右布局)，不要强制上下 ★★★ */}}
+{{/* ★★★ NEWS & PUBLICATION 使用同一布局 ★★★ */}}
 <div class="group relative flex flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
-  
+
   <div class="flex-1 min-w-0 flex flex-col h-full justify-between">
     <div>
-      {{/* ★★★ 字体修复：已删除 font-serif，现在标题也是默认字体了 ★★★ */}}
+
+      {{/* 删除所有 serif，去掉大标题相关 class ★★★ */}}
       <h3 class="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 md:mb-3 leading-snug">
         <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
           {{ $item.Title }}
@@ -31,26 +32,23 @@
       </h3>
 
       <div class="mb-3 text-sm md:text-base leading-relaxed">
-        
-        {{/* 逻辑分支：Publication 显示作者；其他(News/Blog/Project) 显示摘要 */}}
-        
-        {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
+
+        {{/* ★★★ Publications 和 News 都走同一分支——作者优先，其次摘要 ★★★ */}}
+
+        {{ if $item.Params.authors }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
-            {{ if $item.Params.authors }}
-              {{ $authors := slice }}
-              {{ range $item.Params.authors }}
-                {{ if eq . "admin" }}
-                  {{ $authors = $authors | append "<b><u>Lizhi Guo</u></b>" }}
-                {{ else }}
-                  {{ $authors = $authors | append . }}
-                {{ end }}
+            {{ $authors := slice }}
+            {{ range $item.Params.authors }}
+              {{ if eq . "admin" }}
+                {{ $authors = $authors | append "<b><u>Lizhi Guo</u></b>" }}
+              {{ else }}
+                {{ $authors = $authors | append . }}
               {{ end }}
-              {{ delimit $authors ", " | safeHTML }}
             {{ end }}
+            {{ delimit $authors ", " | safeHTML }}
           </div>
-        
+
         {{ else }}
-          {{/* ★★★ News/Blog 现在会进入这里，显示摘要 ★★★ */}}
           <div class="text-gray-600 dark:text-gray-400 line-clamp-2 md:line-clamp-3 font-sans">
             {{ if $item.Params.summary }}
               {{ $item.Params.summary | markdownify | emojify }}
@@ -64,40 +62,38 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-      
-      {{/* 显示日期 */}}
+
       {{ if not (eq $item.Params.show_date false) }}
         <span>{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
       {{ end }}
 
-      {{/* 论文显示期刊/DOI */}}
-      {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
-        {{ if $item.Params.publication }}
-          <span class="text-gray-300">•</span>
-          <span class="italic text-gray-700 dark:text-gray-300">
-            {{ $item.Params.publication | markdownify }}
-          </span>
-        {{ end }}
-        
-        {{ if $item.Params.doi }}
-           <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank" class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
-             DOI ↗
-           </a>
-        {{ end }}
+      {{ if $item.Params.publication }}
+        <span class="text-gray-300">•</span>
+        <span class="italic text-gray-700 dark:text-gray-300">
+          {{ $item.Params.publication | markdownify }}
+        </span>
+      {{ end }}
+
+      {{ if $item.Params.doi }}
+         <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank"
+            class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
+           DOI ↗
+         </a>
       {{ end }}
 
     </div>
   </div>
 
   {{ if $image }}
-  {{/* 图片宽度控制：手机 w-24 (小图)，平板 w-48，电脑 w-72 */}}
-  <div class="w-24 sm:w-48 md:w-72 flex-shrink-0">
-    <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
+  {{/* ★★★ 修复手机溢出：添加 max-w + shrink-0 抑制撑开 ★★★ */}}
+  <div class="w-24 sm:w-48 md:w-72 max-w-[40%] flex-shrink-0 overflow-hidden">
+    <a href="{{ $link }}" {{ $target | safeHTMLAttr }}
+       class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
       <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
-        <img src="{{ $image.RelPermalink }}" 
-             width="{{ $image.Width }}" 
+        <img src="{{ $image.RelPermalink }}"
+             width="{{ $image.Width }}"
              height="{{ $image.Height }}"
-             alt="{{ $item.Title }}" 
+             alt="{{ $item.Title }}"
              loading="lazy"
              class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
       </div>
