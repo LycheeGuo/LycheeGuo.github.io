@@ -6,7 +6,7 @@
   {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
 {{ end }}
 
-{{/* --- 图片处理：统一裁剪为 3:2 比例 --- */}}
+{{/* --- 图片处理 --- */}}
 {{ $resource := ($item.Resources.ByType "image").GetMatch "*featured*" }}
 {{ $image := "" }}
 {{ if $resource }}
@@ -18,11 +18,13 @@
   {{ end }}
 {{ end }}
 
-<div class="group relative flex flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
+{{/* ★★★ 布局修复：flex-col-reverse (手机端竖排，图在上) md:flex-row (电脑端横排) ★★★ */}}
+<div class="group relative flex flex-col-reverse md:flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
   
-  <div class="flex-1 min-w-0 flex flex-col h-full justify-between">
+  <div class="flex-1 min-w-0 flex flex-col h-full justify-between w-full">
     <div>
-      <h3 class="text-lg md:text-2xl font-bold font-serif text-gray-900 dark:text-gray-100 mb-2 md:mb-3 leading-snug">
+      {{/* ★★★ 字体修复：删除了 font-serif，标题将变为默认字体 ★★★ */}}
+      <h3 class="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 md:mb-3 leading-snug">
         <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
           {{ $item.Title }}
         </a>
@@ -30,11 +32,9 @@
 
       <div class="mb-3 text-sm md:text-base leading-relaxed">
         
-        {{/* 逻辑分支：如果是论文(Publication)，显示作者；其他情况（包括 Blog/News 和 Project）显示摘要 */}}
-        
+        {{/* 逻辑分支：论文显示作者，其他(News/Project)显示摘要 */}}
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
-            {{/* 自动替换 admin 为加粗样式 */}}
             {{ if $item.Params.authors }}
               {{ $authors := slice }}
               {{ range $item.Params.authors }}
@@ -49,7 +49,7 @@
           </div>
         
         {{ else }}
-          {{/* ★★★ 修改：Blog/News 和 Project 现在都会进入这里，显示摘要，且字体样式统一 ★★★ */}}
+          {{/* News/Blog 和 Project 显示摘要 */}}
           <div class="text-gray-600 dark:text-gray-400 line-clamp-2 md:line-clamp-3 font-sans">
             {{ if $item.Params.summary }}
               {{ $item.Params.summary | markdownify | emojify }}
@@ -63,13 +63,12 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-      
       {{/* 显示日期 */}}
       {{ if not (eq $item.Params.show_date false) }}
         <span>{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
       {{ end }}
 
-      {{/* 论文特有：显示期刊/会议 */}}
+      {{/* 论文显示期刊/DOI */}}
       {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
         {{ if $item.Params.publication }}
           <span class="text-gray-300">•</span>
@@ -84,12 +83,12 @@
            </a>
         {{ end }}
       {{ end }}
-
     </div>
   </div>
 
   {{ if $image }}
-  <div class="w-24 sm:w-48 md:w-72 flex-shrink-0">
+  {{/* ★★★ 图片修复：w-full (手机端全宽) md:w-72 (电脑端固定宽度) ★★★ */}}
+  <div class="w-full md:w-72 flex-shrink-0">
     <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
       <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
         <img src="{{ $image.RelPermalink }}" 
