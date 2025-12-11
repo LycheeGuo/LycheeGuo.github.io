@@ -23,9 +23,15 @@
     
     animation: spread-flow 10s linear infinite;
   }
+
+  /* ★★★ 核心修复：减小 Recent Publications 标题与内容的间距 ★★★ */
+  /* #recent-pubs 对应你在 _index.md 里设置的 id: recent-pubs */
+  #recent-pubs h2 {
+    margin-bottom: 0.5rem !important; /* 强制覆盖默认的大间距 */
+  }
 </style>
 
-{{/* ★★★ 关键修改：mt-12 改为 mt-6 (减小顶部间距) ★★★ */}}
+{{/* ★★★ 这里的 mt-6 是控制 Footer 顶部的间距，保持不变即可 ★★★ */}}
 <footer class="mx-auto mt-6 pb-6 max-w-7xl px-6 lg:px-8 text-center">
   
   <p class="creeping-colors text-sm mb-1">
