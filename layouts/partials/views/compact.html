@@ -18,31 +18,27 @@
   {{ end }}
 {{ end }}
 
-{{/* 说明：强制将 "news" 类型也视作 publication-style 处理。
-   如果你用的是 Section 名为 "news" 或 Type 为 "news"，都会被识别。 */}}
-{{ $isPubStyle := or (eq $item.Type "publication") (eq $item.Params.type "publication") (eq $item.Type "news") (eq $item.Section "news") (eq $item.Params.type "news") }}
+{{/* ★★★ 布局容器：左文右图 (gap-4)，底部有分割线 ★★★ */}}
+<div class="group relative flex flex-row gap-4 md:gap-8 items-start border-b border-gray-100 dark:border-gray-800 pb-10 mb-10 last:border-0 last:pb-0 last:mb-0">
+  
+  {{/* --- 左侧文字区域 --- */}}
+  {{/* min-w-0 是防止手机端文字溢出的关键！ */}}
+  <div class="flex-1 min-w-0 flex flex-col justify-start">
+    
+    {{/* 1. 标题 */}}
+    <h3 class="text-base md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-snug">
+      <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+        {{ $item.Title }}
+      </a>
+    </h3>
 
-<div class="group relative flex flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
-
-  <div class="flex-1 min-w-0 flex flex-col h-full justify-between">
-    <div>
-
-      {{/* ====== 可选：如果你真的要删除每个 item 的标题（大标题），就把下面 <h3> 整段删除或注释掉。
-            此处我注释掉标题（已删除显示）以满足“删除顶上大标题”的要求。 ======*/}}
-
-      {{/* 
-      <h3 class="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 md:mb-3 leading-snug">
-        <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-          {{ $item.Title }}
-        </a>
-      </h3>
-      */}}
-
-      <div class="mb-3 text-sm md:text-base leading-relaxed">
-
-        {{/* Publication-style: 作者优先，否则显示摘要（强制适用于 news） */}}
-        {{ if and $isPubStyle $item.Params.authors }}
-          <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
+    {{/* 2. 核心信息区域：Publication 显示作者，Blog 显示摘要 */}}
+    <div class="text-sm md:text-base leading-relaxed text-gray-600 dark:text-gray-400 mb-3 font-sans">
+      
+      {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
+        {{/* 论文：显示作者 */}}
+        <div class="text-gray-800 dark:text-gray-300 font-medium">
+          {{ if $item.Params.authors }}
             {{ $authors := slice }}
             {{ range $item.Params.authors }}
               {{ if eq . "admin" }}
@@ -52,60 +48,62 @@
               {{ end }}
             {{ end }}
             {{ delimit $authors ", " | safeHTML }}
-          </div>
+          {{ end }}
+        </div>
 
-        {{ else }}
-          <div class="text-gray-600 dark:text-gray-400 line-clamp-2 md:line-clamp-3 font-sans">
-            {{ if $item.Params.summary }}
-              {{ $item.Params.summary | markdownify | emojify }}
-            {{ else }}
-              {{ $item.Summary | markdownify | emojify }}
-            {{ end }}
-          </div>
-        {{ end }}
-
-      </div>
+      {{ else }}
+        {{/* ★★★ Blog/News：显示摘要，限制行数防止过长 ★★★ */}}
+        <div class="line-clamp-2 md:line-clamp-3">
+          {{ if $item.Params.summary }}
+            {{ $item.Params.summary | markdownify | emojify }}
+          {{ else }}
+            {{ $item.Summary | markdownify | emojify }}
+          {{ end }}
+        </div>
+      {{ end }}
     </div>
 
-    <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-
+    {{/* 3. 底部元数据（日期、期刊等） */}}
+    <div class="flex flex-wrap items-center gap-3 text-xs md:text-sm text-gray-500 dark:text-gray-500 mt-auto">
+      
+      {{/* 日期 */}}
       {{ if not (eq $item.Params.show_date false) }}
         <span>{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
       {{ end }}
 
-      {{ if $item.Params.publication }}
-        <span class="text-gray-300">•</span>
-        <span class="italic text-gray-700 dark:text-gray-300">
-          {{ $item.Params.publication | markdownify }}
-        </span>
-      {{ end }}
-
-      {{ if $item.Params.doi }}
-         <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank"
-            class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
-           DOI ↗
-         </a>
+      {{/* 论文特有：期刊名和 DOI */}}
+      {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
+        {{ if $item.Params.publication }}
+          <span class="text-gray-300">•</span>
+          <span class="italic text-gray-700 dark:text-gray-300">
+            {{ $item.Params.publication | markdownify }}
+          </span>
+        {{ end }}
+        {{ if $item.Params.doi }}
+           <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
+             DOI ↗
+           </a>
+        {{ end }}
       {{ end }}
 
     </div>
   </div>
 
+  {{/* --- 右侧图片区域 --- */}}
   {{ if $image }}
-  {{/* 关键：防止手机溢出 —— 使用 max-w-full + responsive width + flex-shrink-0，保证图片不会撑破容器 */}}
-  <div class="w-24 sm:w-48 md:w-72 max-w-[40%] flex-shrink-0 overflow-hidden">
-    <a href="{{ $link }}" {{ $target | safeHTMLAttr }}
-       class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
+  {{/* w-28 (约112px) 适合手机，md:w-72 (约288px) 适合电脑。shrink-0 防止图片被压扁 */}}
+  <div class="w-28 md:w-72 flex-shrink-0">
+    <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
       <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
-        <img src="{{ $image.RelPermalink }}"
-             width="{{ $image.Width }}"
+        <img src="{{ $image.RelPermalink }}" 
+             width="{{ $image.Width }}" 
              height="{{ $image.Height }}"
-             alt="{{ $item.Title }}"
+             alt="{{ $item.Title }}" 
              loading="lazy"
-             class="w-full h-full max-w-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
+             class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
       </div>
     </a>
   </div>
   {{ end }}
 
 </div>
-
