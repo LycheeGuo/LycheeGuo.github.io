@@ -1,5 +1,5 @@
 ---
-title: Blog
+title: 
 cms_exclude: true
 
 # 1. 必须使用 compact 视图
