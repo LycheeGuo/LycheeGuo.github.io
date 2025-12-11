@@ -18,24 +18,30 @@
   {{ end }}
 {{ end }}
 
-{{/* ★★★ NEWS & PUBLICATION 使用同一布局 ★★★ */}}
+{{/* 说明：强制将 "news" 类型也视作 publication-style 处理。
+   如果你用的是 Section 名为 "news" 或 Type 为 "news"，都会被识别。 */}}
+{{ $isPubStyle := or (eq $item.Type "publication") (eq $item.Params.type "publication") (eq $item.Type "news") (eq $item.Section "news") (eq $item.Params.type "news") }}
+
 <div class="group relative flex flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
 
   <div class="flex-1 min-w-0 flex flex-col h-full justify-between">
     <div>
 
-      {{/* 删除所有 serif，去掉大标题相关 class ★★★ */}}
+      {{/* ====== 可选：如果你真的要删除每个 item 的标题（大标题），就把下面 <h3> 整段删除或注释掉。
+            此处我注释掉标题（已删除显示）以满足“删除顶上大标题”的要求。 ======*/}}
+
+      {{/* 
       <h3 class="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 md:mb-3 leading-snug">
         <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
           {{ $item.Title }}
         </a>
       </h3>
+      */}}
 
       <div class="mb-3 text-sm md:text-base leading-relaxed">
 
-        {{/* ★★★ Publications 和 News 都走同一分支——作者优先，其次摘要 ★★★ */}}
-
-        {{ if $item.Params.authors }}
+        {{/* Publication-style: 作者优先，否则显示摘要（强制适用于 news） */}}
+        {{ if and $isPubStyle $item.Params.authors }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
             {{ $authors := slice }}
             {{ range $item.Params.authors }}
@@ -85,7 +91,7 @@
   </div>
 
   {{ if $image }}
-  {{/* ★★★ 修复手机溢出：添加 max-w + shrink-0 抑制撑开 ★★★ */}}
+  {{/* 关键：防止手机溢出 —— 使用 max-w-full + responsive width + flex-shrink-0，保证图片不会撑破容器 */}}
   <div class="w-24 sm:w-48 md:w-72 max-w-[40%] flex-shrink-0 overflow-hidden">
     <a href="{{ $link }}" {{ $target | safeHTMLAttr }}
        class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
@@ -95,10 +101,11 @@
              height="{{ $image.Height }}"
              alt="{{ $item.Title }}"
              loading="lazy"
-             class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
+             class="w-full h-full max-w-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
       </div>
     </a>
   </div>
   {{ end }}
 
 </div>
+
