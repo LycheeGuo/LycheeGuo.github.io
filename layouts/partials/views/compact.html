@@ -18,7 +18,6 @@
   {{ end }}
 {{ end }}
 
-{{/* 布局：手机 gap-3, pb-5; 桌面 md:gap-10, md:pb-12 */}}
 <div class="group relative flex flex-row gap-3 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-5 md:pb-12 last:border-0 last:pb-0">
   
   <div class="flex-1 min-w-0 flex flex-col h-full justify-between">
@@ -31,7 +30,7 @@
 
       <div class="mb-2 md:mb-3 text-sm md:text-base leading-relaxed">
         
-        {{/* 逻辑分支：论文显示作者；其他（包括Blog）显示摘要 */}}
+        {{/* 逻辑分支：如果是论文，显示作者；如果是其他（包括Blog），显示摘要 */}}
         
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
@@ -50,7 +49,7 @@
           </div>
         
         {{ else }}
-          {{/* ★★★ 关键修改：恢复 Blog 的摘要显示，并限制行数防止过长 ★★★ */}}
+          {{/* ★★★ 恢复 Blog 摘要显示，限制行数防止过长 ★★★ */}}
           <div class="text-gray-600 dark:text-gray-400 line-clamp-2 md:line-clamp-3 font-sans">
             {{ if $item.Params.summary }}
               {{ $item.Params.summary | markdownify | emojify }}
