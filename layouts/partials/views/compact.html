@@ -18,26 +18,24 @@
   {{ end }}
 {{ end }}
 
-{{/* ★★★ 布局容器：始终保持 flex-row (左右排列)，增加 py-6 间距 ★★★ */}}
-<div class="group relative flex flex-row gap-4 items-start border-b border-gray-100 dark:border-gray-800 pb-8 mb-8 last:border-0 last:pb-0 last:mb-0">
+{{/* ★★★ 保持手机 flex-row，但加 overflow-hidden 防爆版 ★★★ */}}
+<div class="group relative flex flex-row gap-4 items-start border-b border-gray-100 dark:border-gray-800 pb-8 mb-8 last:border-0 last:pb-0 last:mb-0 overflow-hidden">
   
   {{/* --- 左侧文字区域 --- */}}
-  {{/* ★★★ 核心修复：min-w-0 是防溢出的关键！告诉浏览器必须在容器内换行，绝不允许撑宽 ★★★ */}}
   <div class="flex-1 min-w-0 flex flex-col justify-between h-full">
     
     <div>
-      {{/* 标题：移除 font-serif，统一使用默认无衬线字体 */}}
-      <h3 class="text-base md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight break-words">
+      <!-- 标题 -->
+      <h3 class="text-base md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
         <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
           {{ $item.Title }}
         </a>
       </h3>
 
-      {{/* 核心信息区域 */}}
-      <div class="text-sm text-gray-600 dark:text-gray-400 mb-2 font-sans leading-relaxed break-words">
+      <!-- 摘要 / 作者 -->
+      <div class="text-sm text-gray-600 dark:text-gray-400 mb-2 font-sans leading-relaxed">
         
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
-          {{/* 论文：显示作者 */}}
           <div class="text-gray-800 dark:text-gray-300 font-medium">
             {{ if $item.Params.authors }}
               {{ $authors := slice }}
@@ -51,9 +49,7 @@
               {{ delimit $authors ", " | safeHTML }}
             {{ end }}
           </div>
-
         {{ else }}
-          {{/* ★★★ News/Blog：显示摘要，限制显示 3 行，超出自动省略 ★★★ */}}
           <div class="line-clamp-3 md:line-clamp-4">
             {{ if $item.Params.summary }}
               {{ $item.Params.summary | markdownify | emojify }}
@@ -65,15 +61,12 @@
       </div>
     </div>
 
-    {{/* 底部元数据（日期、DOI等） */}}
+    <!-- 底部元数据 -->
     <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-500 mt-2">
-      
-      {{/* 日期 */}}
       {{ if not (eq $item.Params.show_date false) }}
         <span class="whitespace-nowrap">{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
       {{ end }}
 
-      {{/* 论文特有信息 */}}
       {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
         {{ if $item.Params.publication }}
           <span class="text-gray-300">•</span>
@@ -87,24 +80,23 @@
            </a>
         {{ end }}
       {{ end }}
-
     </div>
   </div>
 
-  {{/* --- 右侧图片区域 --- */}}
+  {{/* --- 右侧图片区域：手机最大 35%，能缩放；电脑固定 w-72 --- */}}
   {{ if $image }}
-  {{/* ★★★ 图片控制：手机 w-24 (小图)，电脑 w-72 (大图)。shrink-0 防止图片被压扁 ★★★ */}}
-  <div class="w-24 md:w-72 flex-shrink-0">
+  <div class="max-w-[35%] md:w-72 flex-shrink-0">
     <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
-      {{/* 保持 3:2 比例 */}}
+      
       <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
-        <img src="{{ $image.RelPermalink }}" 
-             width="{{ $image.Width }}" 
+        <img src="{{ $image.RelPermalink }}"
+             width="{{ $image.Width }}"
              height="{{ $image.Height }}"
-             alt="{{ $item.Title }}" 
+             alt="{{ $item.Title }}"
              loading="lazy"
              class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
       </div>
+
     </a>
   </div>
   {{ end }}
