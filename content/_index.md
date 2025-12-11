@@ -4,9 +4,7 @@ title: ''
 date: 2022-10-24
 type: landing
 
-design:
-  # 全局间距设置
-  spacing: '1rem'
+
 
 sections:
   - block: resume-biography-3
