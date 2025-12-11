@@ -30,7 +30,7 @@
 
       <div class="mb-3 text-sm md:text-base leading-relaxed">
         
-        {{/* 逻辑分支：如果是论文(Publication)，显示作者；如果是博客(Blog)，什么都不显示(模仿论文样式)；其他情况显示摘要 */}}
+        {{/* 逻辑分支：如果是论文(Publication)，显示作者；其他情况（包括 Blog/News 和 Project）显示摘要 */}}
         
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
@@ -48,11 +48,8 @@
             {{ end }}
           </div>
         
-        {{ else if eq $item.Type "blog" }}
-          {{/* ★★★ 关键修改：Blog 类型这里留空，不显示摘要，解决手机溢出问题，对齐 Publication 样式 ★★★ */}}
-          
         {{ else }}
-          {{/* 其他类型（如 Project）保留摘要 */}}
+          {{/* ★★★ 修改：Blog/News 和 Project 现在都会进入这里，显示摘要，且字体样式统一 ★★★ */}}
           <div class="text-gray-600 dark:text-gray-400 line-clamp-2 md:line-clamp-3 font-sans">
             {{ if $item.Params.summary }}
               {{ $item.Params.summary | markdownify | emojify }}
@@ -87,8 +84,6 @@
            </a>
         {{ end }}
       {{ end }}
-
-      {{/* ★★★ 关键修改：移除了 Blog 的 'min read' 显示，保持干净一致 */}}
 
     </div>
   </div>
