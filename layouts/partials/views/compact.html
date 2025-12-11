@@ -18,12 +18,12 @@
   {{ end }}
 {{ end }}
 
-{{/* ★★★ 布局修复：flex-col-reverse (手机端竖排，图在上) md:flex-row (电脑端横排) ★★★ */}}
-<div class="group relative flex flex-col-reverse md:flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
+{{/* ★★★ 布局：保持 flex-row (左右布局)，不要强制上下 ★★★ */}}
+<div class="group relative flex flex-row gap-4 md:gap-10 items-start border-b border-gray-100 dark:border-gray-800 pb-12 last:border-0 last:pb-0">
   
-  <div class="flex-1 min-w-0 flex flex-col h-full justify-between w-full">
+  <div class="flex-1 min-w-0 flex flex-col h-full justify-between">
     <div>
-      {{/* ★★★ 字体修复：删除了 font-serif，标题将变为默认字体 ★★★ */}}
+      {{/* ★★★ 字体修复：已删除 font-serif，现在标题也是默认字体了 ★★★ */}}
       <h3 class="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 md:mb-3 leading-snug">
         <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
           {{ $item.Title }}
@@ -32,7 +32,8 @@
 
       <div class="mb-3 text-sm md:text-base leading-relaxed">
         
-        {{/* 逻辑分支：论文显示作者，其他(News/Project)显示摘要 */}}
+        {{/* 逻辑分支：Publication 显示作者；其他(News/Blog/Project) 显示摘要 */}}
+        
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
           <div class="text-gray-800 dark:text-gray-300 font-medium font-sans">
             {{ if $item.Params.authors }}
@@ -49,7 +50,7 @@
           </div>
         
         {{ else }}
-          {{/* News/Blog 和 Project 显示摘要 */}}
+          {{/* ★★★ News/Blog 现在会进入这里，显示摘要 ★★★ */}}
           <div class="text-gray-600 dark:text-gray-400 line-clamp-2 md:line-clamp-3 font-sans">
             {{ if $item.Params.summary }}
               {{ $item.Params.summary | markdownify | emojify }}
@@ -63,6 +64,7 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
+      
       {{/* 显示日期 */}}
       {{ if not (eq $item.Params.show_date false) }}
         <span>{{ $item.Date | time.Format "Jan 2, 2006" }}</span>
@@ -83,12 +85,13 @@
            </a>
         {{ end }}
       {{ end }}
+
     </div>
   </div>
 
   {{ if $image }}
-  {{/* ★★★ 图片修复：w-full (手机端全宽) md:w-72 (电脑端固定宽度) ★★★ */}}
-  <div class="w-full md:w-72 flex-shrink-0">
+  {{/* 图片宽度控制：手机 w-24 (小图)，平板 w-48，电脑 w-72 */}}
+  <div class="w-24 sm:w-48 md:w-72 flex-shrink-0">
     <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-700">
       <div class="aspect-[3/2] w-full bg-gray-50 dark:bg-gray-800">
         <img src="{{ $image.RelPermalink }}" 
