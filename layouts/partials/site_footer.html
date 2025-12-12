@@ -39,3 +39,28 @@
   </div>
   
 </footer>
+{{/* --- Nature Style Font Injection --- */}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  /* 定义 Nature 风格字体变量 */
+  :root {
+    /* 英文使用 Libre Baskerville，中文回退到系统衬线体 (如宋体) */
+    --font-nature: 'Libre Baskerville', 'Times New Roman', serif;
+  }
+  
+  /* 强制覆盖全站主要元素的字体 */
+  body, 
+  h1, h2, h3, h4, h5, h6,
+  p, span, li, a, 
+  .prose, .font-sans {
+    font-family: var(--font-nature) !important;
+  }
+
+  /* 针对代码块保留等宽字体 */
+  code, pre, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  }
+</style>
