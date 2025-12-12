@@ -49,6 +49,10 @@ sections:
             font-size: 1.1rem !important;
             margin-bottom: 0.2rem !important;
           }
+          .experience-compact .card-subtitle {
+             color: #666 !important;
+             font-size: 0.9rem !important;
+          }
         </style>
 
   # 2. Experience 板块 (添加了 css_class 以应用上面的样式)
@@ -67,7 +71,6 @@ sections:
     content:
       title: Awards
       username: admin
-
   - block: resume-skills
     content:
       title: Skills & Hobbies
@@ -79,3 +82,4 @@ sections:
     content:
       title: Languages
       username: admin
+---
