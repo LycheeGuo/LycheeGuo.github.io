@@ -1,11 +1,15 @@
 ---
-title: News
+title: ""  
 cms_exclude: true
 
 # 1. 必须使用 compact 视图
 view: compact
 
 design:
-  # 2. 必须设为 '1' (全宽模式，这样才有空间左文右图)
+  # 2. 必须设为 '1' (全宽模式)
   columns: '1' 
 ---
+
+<h2 class="text-3xl font-bold mt-4 mb-14 text-gray-900 dark:text-gray-100">
+  News
+</h2>
