@@ -39,28 +39,42 @@
   </div>
   
 </footer>
-{{/* --- Nature Style Font Injection --- */}}
+{{/* --- Nature Style Font Injection (With Chinese Support) --- */}}
+{{/* 1. 同时引入英文 (Libre Baskerville) 和 中文 (Noto Serif SC) 字体 */}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
-  /* 定义 Nature 风格字体变量 */
   :root {
-    /* 英文使用 Libre Baskerville，中文回退到系统衬线体 (如宋体) */
-    --font-nature: 'Libre Baskerville', 'Times New Roman', serif;
+    /* 定义字体栈 (Font Stack)：
+       1. Libre Baskerville: 英文首选
+       2. Noto Serif SC: 中文首选 (思源宋体)
+       3. STSong, Songti SC: macOS 备用宋体
+       4. SimSun: Windows 备用宋体
+       5. serif: 最终兜底
+    */
+    --font-nature: 'Libre Baskerville', 'Noto Serif SC', 'STSong', 'Songti SC', 'SimSun', serif;
   }
   
   /* 强制覆盖全站主要元素的字体 */
   body, 
   h1, h2, h3, h4, h5, h6,
   p, span, li, a, 
-  .prose, .font-sans {
+  .prose, .font-sans,
+  .text-gray-900, .text-gray-600 { /* 确保覆盖 Tailwind 的颜色类对应的文本 */
     font-family: var(--font-nature) !important;
   }
 
-  /* 针对代码块保留等宽字体 */
+  /* 优化中文阅读体验：增加行高和字间距，更有“论文感” */
+  p {
+    line-height: 1.8 !important; /* Nature 风格通常行间距较宽松 */
+    letter-spacing: 0.01em;      /* 微微增加字间距 */
+    text-align: justify;         /* 两端对齐，更像印刷品 */
+  }
+
+  /* 针对代码块保留等宽字体，不强制衬线体 */
   code, pre, kbd, samp {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   }
 </style>
