@@ -6,71 +6,83 @@ type: landing
 design:
   spacing: '5rem'
 
-# Note: `username` refers to the user's folder name in `content/authors/`
-
 # Page sections
 sections:
-  # 1. 注入自定义样式，将时间轴强行改为紧凑列表
+  # 1. 注入强制 CSS (直接写在 markdown block 里)
   - block: markdown
     content:
       text: |
         <style>
-          /* 针对该页面的 Experience 板块进行样式重写 */
-          .experience-compact .row.experience {
-            margin-bottom: 1.5rem; /* 每段经历之间的间距 */
-            border-bottom: 1px solid #f0f0f0; /* 可选：加个底部分割线 */
-            padding-bottom: 1rem;
+          /* 强制针对 #experience-list 下的内容修改 */
+          
+          /* 1. 隐藏左侧的时间轴（圆点和竖线） */
+          #experience-list .row.experience .col-auto {
+            display: none !important;
           }
-          /* 隐藏时间轴原本的圆点和竖线列，或者将其调整为文字 */
-          .experience-compact .col-auto {
-            width: 100% !important; 
-            text-align: left !important;
-            padding-bottom: 0.2rem;
-            color: #666;
-            font-size: 0.9em;
-            display: block !important;
-          }
-          /* 去掉原来的左边框线条 */
-          .experience-compact .col.py-2 {
+
+          /* 2. 让右侧内容区占满 100% 宽度，并去掉原有的左边距/边框 */
+          #experience-list .row.experience .col {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
             border-left: none !important;
             padding-left: 0 !important;
             padding-top: 0 !important;
           }
-          /* 调整卡片样式，去掉阴影，使其更像列表 */
-          .experience-compact .card {
+
+          /* 3. 调整每个条目的间距和样式，使其像列表 */
+          #experience-list .row.experience {
+            display: block !important; /* 强制块级显示 */
+            margin-bottom: 1.5rem !important;
+            border-bottom: 1px solid #f0f0f0; /* 加一个浅色底部分割线 */
+            padding-bottom: 1rem;
+          }
+
+          /* 4. 去掉卡片的阴影和背景，让它看起来纯净 */
+          #experience-list .card {
             box-shadow: none !important;
             border: none !important;
-            background: none !important;
+            background: transparent !important;
+            margin-bottom: 0 !important;
           }
-          .experience-compact .card-body {
+          #experience-list .card-body {
             padding: 0 !important;
           }
-          .experience-compact h4.card-title {
+
+          /* 5. 调整标题大小，使其更紧凑 */
+          #experience-list h4.card-title {
             font-size: 1.1rem !important;
-            margin-bottom: 0.2rem !important;
+            margin-top: 0 !important;
+            margin-bottom: 0.3rem !important;
+            font-weight: bold;
           }
-          .experience-compact .card-subtitle {
-             color: #666 !important;
-             font-size: 0.9rem !important;
+          
+          /* 6. 调整副标题（机构/职位）颜色 */
+          #experience-list .card-subtitle {
+            font-size: 0.95rem !important;
+            color: #555 !important;
+          }
+          
+          /* 7. 调整描述文字 */
+          #experience-list .card-text {
+            font-size: 0.9rem !important;
+            margin-top: 0.5rem !important;
           }
         </style>
 
-  # 2. Experience 板块 (添加了 css_class 以应用上面的样式)
+  # 2. Experience 板块 (注意这里加了 id: experience-list)
   - block: resume-experience
+    id: experience-list  # <--- 关键：加上这个ID让上面的CSS生效
     content:
       username: admin
     design:
-      # Hugo date format
       date_format: 'January 2006'
-      # Education or Experience section first?
       is_education_first: false
-      # ★★★ 关键点：加上这个 class 来应用上面的 CSS ★★★
-      css_class: experience-compact
 
   - block: resume-awards
     content:
       title: Awards
       username: admin
+  
   - block: resume-skills
     content:
       title: Skills & Hobbies
