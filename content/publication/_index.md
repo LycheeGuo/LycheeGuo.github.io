@@ -9,6 +9,6 @@ design:
   columns: '1'
 ---
 
-<h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+<h2 class="text-3xl font-bold mt-4 mb-14 text-gray-900 dark:text-gray-100">
   Publications
 </h2>
