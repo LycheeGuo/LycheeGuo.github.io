@@ -13,65 +13,101 @@ sections:
     content:
       text: |
         <style>
-          /* 强制针对 #experience-list 下的内容修改 */
-          
-          /* 1. 隐藏左侧的时间轴（圆点和竖线） */
-          #experience-list .row.experience .col-auto {
-            display: none !important;
+          /* --- 核心布局重构 --- */
+          /* 1. 将原本的左右分栏强制改为上下堆叠的 Flex 布局 */
+          #experience-list .row.experience {
+            display: flex !important;
+            flex-direction: column !important; 
+            margin-bottom: 2rem !important; /* 条目间距 */
+            border-bottom: 1px solid #e5e7eb; /* 底部加一条淡灰色的分割线，模仿 Compact 视图 */
+            padding-bottom: 2rem;
           }
 
-          /* 2. 让右侧内容区占满 100% 宽度，并去掉原有的左边距/边框 */
-          #experience-list .row.experience .col {
+          /* 2. 内容区域 (职位/公司/描述) - 利用 order 属性强行提到最前面 */
+          #experience-list .row.experience .col.py-2 {
+            order: 1 !important;
+            width: 100% !important;
             flex: 0 0 100% !important;
             max-width: 100% !important;
-            border-left: none !important;
-            padding-left: 0 !important;
-            padding-top: 0 !important;
+            padding: 0 !important;
+            border: none !important; /* 去掉原本左侧的竖线 */
+            margin-bottom: 0.5rem !important;
           }
 
-          /* 3. 调整每个条目的间距和样式，使其像列表 */
-          #experience-list .row.experience {
-            display: block !important; /* 强制块级显示 */
-            margin-bottom: 1.5rem !important;
-            border-bottom: 1px solid #f0f0f0; /* 加一个浅色底部分割线 */
-            padding-bottom: 1rem;
+          /* 3. 时间区域 (原左侧时间轴) - 利用 order 属性按到下面，变成元数据行 */
+          #experience-list .row.experience .col-auto {
+            order: 2 !important;
+            width: 100% !important;
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            text-align: left !important; /* 左对齐 */
+            padding: 0 !important;
+            margin-top: 0 !important;
+            
+            /* 样式调整：灰色小字 */
+            color: #6b7280 !important; 
+            font-size: 0.875rem !important;
+            font-family: ui-sans-serif, system-ui, sans-serif;
           }
 
-          /* 4. 去掉卡片的阴影和背景，让它看起来纯净 */
+          /* --- 细节清理 --- */
+          
+          /* 4. 暴力隐藏时间轴的圆点和装饰线条 */
+          /* 隐藏 col-auto 里面所有的边框和背景装饰 */
+          #experience-list .row.experience .col-auto div {
+            background: none !important;
+            border: none !important;
+            display: inline-block !important; /* 防止 div 换行 */
+            width: auto !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          /* 隐藏可能存在的特定装饰元素 (视具体主题版本而定) */
+          #experience-list .col-auto .border-left,
+          #experience-list .col-auto .badge,
+          #experience-list .col-auto .rounded-circle {
+             display: none !important;
+          }
+
+          /* 5. 卡片样式“去卡片化”，使其看起来像纯文本列表 */
           #experience-list .card {
             box-shadow: none !important;
-            border: none !important;
             background: transparent !important;
+            border: none !important;
             margin-bottom: 0 !important;
           }
           #experience-list .card-body {
             padding: 0 !important;
           }
 
-          /* 5. 调整标题大小，使其更紧凑 */
+          /* 6. 字体样式微调，模仿 Recent Publications */
           #experience-list h4.card-title {
-            font-size: 1.1rem !important;
-            margin-top: 0 !important;
-            margin-bottom: 0.3rem !important;
-            font-weight: bold;
+            font-size: 1.15rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.25rem !important;
+            color: #111827; /* 深黑色 */
+          }
+          #experience-list h4.card-title a {
+             text-decoration: none !important;
           }
           
-          /* 6. 调整副标题（机构/职位）颜色 */
           #experience-list .card-subtitle {
-            font-size: 0.95rem !important;
-            color: #555 !important;
+            font-size: 1rem !important;
+            color: #4b5563 !important; /* 灰色 */
+            margin-bottom: 0.5rem !important;
           }
           
-          /* 7. 调整描述文字 */
           #experience-list .card-text {
-            font-size: 0.9rem !important;
-            margin-top: 0.5rem !important;
+             color: #374151;
+             font-size: 0.95rem;
+             margin-top: 0.5rem;
           }
         </style>
 
-  # 2. Experience 板块 (注意这里加了 id: experience-list)
+  # 2. Experience 板块 (务必加上 id: experience-list)
   - block: resume-experience
-    id: experience-list  # <--- 关键：加上这个ID让上面的CSS生效
+    id: experience-list
     content:
       username: admin
     design:
