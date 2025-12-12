@@ -10,6 +10,6 @@ design:
   columns: '1' 
 ---
 
-<h2 class="text-3xl font-bold mt-4 mb-14 text-gray-900 dark:text-gray-100">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100" style="margin-top: 0px; margin-bottom: 60px;">
   News
 </h2>
