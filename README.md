@@ -2,7 +2,7 @@
 
 ### Ph.D. Candidate in Psychology @ CUHK
 
-I am a Ph.D. candidate at **The Chinese University of Hong Kong**, supervised by Prof. Helene H. Fung and Prof. Hanna Lu. I am also an incoming Visiting PhD Student at **King’s College London** (Feb 2026) under the guidance of Prof. Dag Aarsland.
+I am a Ph.D. candidate at **The Chinese University of Hong Kong**, supervised by Prof. Helene H. Fung and Prof. Hanna Lu. I am also a Visiting PhD Student at **King’s College London**  under the guidance of Prof. Dag Aarsland.
 
 My research primarily focuses on **the moderating effect of Cognitive Reserve on cognitive aging**. I utilize multi-modal data—including neuroimaging and fluid biomarkers—to investigate the resilience mechanisms that allow individuals to maintain cognitive function despite neuropathology.
 
@@ -25,4 +25,4 @@ I also serve as a reviewer for *Alzheimer’s & Dementia*, *Age and Ageing*, and
 
 ### 📫 Connect with Me
 * 📧 **Email:** [guolz@link.cuhk.edu.hk](mailto:guolz@link.cuhk.edu.hk)
-* 🌐 **Website:** [Link to your personal website if you have one]
+* 🌐 **Website:** [Lizhi Guo (https://www.lizhiguo.me/)]
