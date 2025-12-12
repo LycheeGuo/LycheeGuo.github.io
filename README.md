@@ -25,4 +25,4 @@ I also serve as a reviewer for *Alzheimer’s & Dementia*, *Age and Ageing*, and
 
 ### 📫 Connect with Me
 * 📧 **Email:** [guolz@link.cuhk.edu.hk](mailto:guolz@link.cuhk.edu.hk)
-* 🌐 **Website:** [Lizhi Guo (https://www.lizhiguo.me/)]
+* 🌐 **Website:** [Lizhi Guo](https://www.lizhiguo.me/)
