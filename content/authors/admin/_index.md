@@ -45,6 +45,7 @@ interests:
   - Resilience
   - Social determinant
   - Functional Connectivity
+  - Neuroimaging
   - Alzheimer's disease
 education:
   - area: Ph.D in Psychology
