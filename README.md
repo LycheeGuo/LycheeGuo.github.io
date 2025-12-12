@@ -19,6 +19,7 @@ My work has been published in leading peer-reviewed journals, including:
 * *Alzheimer’s Research & Therapy*
 * *Neurobiology of Aging*
 * *Age and Ageing*
+* *Journal of Affective Disorders*
 * *Archives of Gerontology and Geriatrics*
 
 I also serve as a reviewer for *Alzheimer’s & Dementia*, *Age and Ageing*, and *Depression and Anxiety*.
