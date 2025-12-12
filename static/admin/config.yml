@@ -1,0 +1,48 @@
+backend:
+  name: git-gateway
+  branch: main # 确保这里是您 GitHub 的主分支名称 (main 或 master)
+
+media_folder: "static/uploads"
+public_folder: "/uploads"
+
+# 这里定义左侧菜单和右侧编辑界面
+collections:
+  # 1. 博客文章 (Blog Posts)
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Summary", name: "summary", widget: "text", required: false}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # 2. 项目经历 (Projects)
+  - name: "project"
+    label: "Projects"
+    folder: "content/project"
+    create: true
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    fields:
+      - {label: "Project Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Summary", name: "summary", widget: "text"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # 3. 学术发表 (Publications)
+  - name: "publication"
+    label: "Publications"
+    folder: "content/publication"
+    create: true
+    path: "{{slug}}/index"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Abstract", name: "abstract", widget: "text", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
