@@ -1,6 +1,8 @@
 ---
-title: Articles
-cms_exclude: true  # 这一行很重要，告诉系统这是一个特殊的列表页
+title: 'Publications'
+date: 2024-05-19
+type: landing
+cms_exclude: true
 
 # 视图必须是 compact
 view: compact
