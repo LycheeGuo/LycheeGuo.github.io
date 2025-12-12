@@ -1,8 +1,8 @@
 ---
-# Generate the /admin/ page.
+title: "Content Manager"
+date: 2024-01-01
 type: decap_cms
-private: true
+layout: single
 outputs:
-  - decap_cms_config
   - HTML
 ---
