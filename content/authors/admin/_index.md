@@ -62,7 +62,7 @@ education:
     icon: custom/org-kcl
     date_start: 2025-08-01
     date_end: 2026-02-01
-    summary: >
+    summary: |
       * Visiting research student.
       * Major: Psychiatry
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
