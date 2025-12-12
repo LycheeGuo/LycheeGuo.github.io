@@ -39,7 +39,7 @@ abstract: "Background: Hearing loss (HL) is one major cause of disability and
 draft: false
 featured: false
 image:
-  filename: featured.jpg
+  filename: featured.png
   focal_point: Smart
   preview_only: false
 date: 2025-05-02T11:00:00.000+01:00
