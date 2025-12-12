@@ -1,0 +1,16 @@
+<style>
+  /* 1. 核心代码：强制全站使用 Nature 风格衬线字体 */
+  :root, html, body, 
+  h1, h2, h3, h4, h5, h6, 
+  p, div, span, a, li, button, input, textarea, 
+  .prose, .prose strong, .prose em {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif !important;
+  }
+
+  /* 2. 保留之前的间距设置 (针对 Publications 和 News 标题) */
+  /* 如果您之前在 markdown 文件里加了 style="margin-top:0..."，这部分是双重保险 */
+  h2.text-3xl.font-bold {
+    margin-top: 0 !important;
+    margin-bottom: 60px !important; /* 保持下方大间距 */
+  }
+</style>
