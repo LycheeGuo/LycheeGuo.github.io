@@ -41,9 +41,11 @@ role: PhD Candidate
 avatar_filename: avatar.png
 interests:
   - Cognitive Reserve
-  - Alzheimer's disease
+  - Brain Reserve
+  - Resilience
   - Social determinant
-  - Neuroimaging
+  - Functional Connectivity
+  - Alzheimer's disease
 education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
