@@ -25,64 +25,85 @@
   }
 </style>
 
-{{/* ★★★ 关键修改：mt-12 改为 mt-6 (减小顶部间距) ★★★ */}}
+{{/* 底部区域 */}}
 <footer class="mx-auto mt-6 pb-6 max-w-7xl px-6 lg:px-8 text-center">
-  
   <p class="creeping-colors text-sm mb-1">
     {{- with site.Params.footer.copyright.notice -}}
       {{- replace . "{year}" now.Year | markdownify -}}
     {{- end -}}
   </p>
-  
   <div class="mt-1 text-xl select-none cursor-default">
     🍒 🎡 🌸 🍉 🎄
   </div>
-  
 </footer>
 
-{{/* --- Nature Style Font Injection (With Chinese Support) --- */}}
-{{/* 1. 同时引入英文 (Libre Baskerville) 和 中文 (Noto Serif SC) 字体 */}}
+{{/* --- Nature Style Font & Layout Fixes --- */}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    /* 定义字体栈 (Font Stack)：
-       1. Libre Baskerville: 英文首选
-       2. Noto Serif SC: 中文首选 (思源宋体)
-       3. STSong, Songti SC: macOS 备用宋体
-       4. SimSun: Windows 备用宋体
-       5. serif: 最终兜底
-    */
+    /* 定义字体栈 */
     --font-nature: 'Libre Baskerville', 'Noto Serif SC', 'STSong', 'Songti SC', 'SimSun', serif;
   }
   
-  /* 1. 强制覆盖全站主要元素的字体 */
+  /* 1. 全局字体覆盖 */
   body, 
   h1, h2, h3, h4, h5, h6,
   p, span, li, a, 
   .prose, .font-sans,
-  .text-gray-900, .text-gray-600 { /* 确保覆盖 Tailwind 的颜色类对应的文本 */
+  .text-gray-900, .text-gray-600 { 
     font-family: var(--font-nature) !important;
   }
 
-  /* 2. 优化中文阅读体验：增加行高和字间距，更有“论文感” */
+  /* 2. 优化正文排版（两端对齐 + 宽松行距） */
   p {
-    line-height: 1.8 !important; /* Nature 风格通常行间距较宽松 */
-    letter-spacing: 0.01em;      /* 微微增加字间距 */
-    text-align: justify !important; /* 两端对齐，更像印刷品 */
+    line-height: 1.8 !important;
+    letter-spacing: 0.01em;
+    text-align: justify !important;
   }
 
-  /* ★★★ 3. 修复页脚对齐问题 ★★★ */
-  /* 防止页脚文字被上面的 justify 强制拉伸，保持居中 */
+  /* 3. 修复页脚文字居中 */
   footer p {
     text-align: center !important;
-    line-height: 1.5 !important; /* 页脚行高不需要那么大 */
+    line-height: 1.5 !important;
   }
 
-  /* 4. 针对代码块保留等宽字体，不强制衬线体 */
+  /* 4. 代码块字体保护 */
   code, pre, kbd, samp {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  }
+
+  /* ========================================= */
+  /* ★★★ 布局一致性修复 (Layout Consistency) ★★★ */
+  /* ========================================= */
+
+  /* 强制限制内容页面的最大宽度，解决文字过宽的问题 */
+  .page-body, 
+  .universal-wrapper, 
+  .article-container, 
+  .pub-content,
+  article.container {
+    max-width: 1024px !important; /* 限制宽度为 1024px，与首页视觉保持一致 */
+    margin-left: auto !important; /* 强制居中 */
+    margin-right: auto !important; /* 强制居中 */
+    padding-left: 24px !important; /* 保证移动端左右有间距 */
+    padding-right: 24px !important;
+    width: 100% !important;
+  }
+
+  /* 针对大屏幕（如你的截图环境），进一步优化阅读区域 */
+  /* 避免 Abstract 拉得太长 */
+  @media (min-width: 1280px) {
+     .page-body, 
+     .article-container {
+        max-width: 960px !important; /* 大屏下稍微收窄，增加阅读舒适度 */
+     }
+  }
+
+  /* 修复可能的标题对齐问题 */
+  h1, h2, h3 {
+    text-align: left; /* 标题保持左对齐 */
   }
 </style>
