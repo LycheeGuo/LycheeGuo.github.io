@@ -1,5 +1,6 @@
 {{/* layouts/partials/site_footer.html */}}
 
+{{/* --- 1. 顶部动画样式 (流光字) --- */}}
 <style>
   @keyframes spread-flow {
     0% { background-position: 200% 50%; }
@@ -22,5 +23,92 @@
     -webkit-text-fill-color: transparent;
     
     animation: spread-flow 10s linear infinite;
+  }
+</style>
+
+{{/* --- 2. 页面底部结构 (版权信息在这里！) --- */}}
+<footer class="mx-auto mt-6 pb-6 max-w-7xl px-6 lg:px-8 text-center">
+  
+  {{/* 版权文字 */}}
+  <p class="creeping-colors text-sm mb-1">
+    {{- with site.Params.footer.copyright.notice -}}
+      {{- replace . "{year}" now.Year | markdownify -}}
+    {{- end -}}
+  </p>
+  
+  {{/* 装饰图标 */}}
+  <div class="mt-1 text-xl select-none cursor-default">
+    🍒 🎡 🌸 🍉 🎄
+  </div>
+  
+</footer>
+
+{{/* --- 3. Nature 风格字体与布局修正 (Font & Layout Fixes) --- */}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* 定义字体栈 */
+    --font-nature: 'Libre Baskerville', 'Noto Serif SC', 'STSong', 'Songti SC', 'SimSun', serif;
+  }
+  
+  /* 全局字体覆盖 */
+  body, 
+  h1, h2, h3, h4, h5, h6,
+  p, span, li, a, 
+  .prose, .font-sans,
+  .text-gray-900, .text-gray-600 { 
+    font-family: var(--font-nature) !important;
+  }
+
+  /* 优化正文排版（两端对齐 + 宽松行距） */
+  p {
+    line-height: 1.8 !important;
+    letter-spacing: 0.01em;
+    text-align: justify !important;
+  }
+
+  /* 修复页脚文字居中 (防止被上面的 justify 影响) */
+  footer p {
+    text-align: center !important;
+    line-height: 1.5 !important;
+  }
+
+  /* 代码块字体保护 */
+  code, pre, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  }
+
+  /* ========================================= */
+  /* ★★★ 布局一致性修复 (Layout Consistency) ★★★ */
+  /* ========================================= */
+
+  /* 强制限制内容页面的最大宽度 */
+  .page-body, 
+  .universal-wrapper, 
+  .article-container, 
+  .pub-content,
+  article.container {
+    max-width: 1024px !important; /* 限制宽度 */
+    margin-left: auto !important; /* 居中 */
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    width: 100% !important;
+  }
+
+  /* 大屏幕优化 */
+  @media (min-width: 1280px) {
+     .page-body, 
+     .article-container {
+        max-width: 960px !important;
+     }
+  }
+
+  /* 标题保持左对齐 */
+  h1, h2, h3 {
+    text-align: left;
   }
 </style>
