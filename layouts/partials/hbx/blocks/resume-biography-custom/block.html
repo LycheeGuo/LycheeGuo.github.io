@@ -1,31 +1,53 @@
-{{/* Hugo Blox: Enhanced Resume Biography 3 (With Experience-Style Education) */}}
+{{/* Hugo Blox: Resume Biography 3 (Fixed Avatar & Experience-Style Education) */}}
 {{ $block := . }}
 {{ $username := $block.content.username | default "admin" }}
 {{ $page := site.GetPage (printf "/authors/%s" $username) }}
+
+{{/* 容错处理：尝试不同的路径获取用户页面 */}}
+{{ if not $page }}
+  {{ $page = site.GetPage (printf "authors/%s" $username) }}
+{{ end }}
 
 {{ if not $page }}
   {{ errorf "UserProfile block: Could not find user '%s' at 'content/authors/%s/_index.md'" $username $username }}
 {{ end }}
 
-<div class="flex flex-col md:flex-row gap-12 justify-center px-4 py-12">
+<div class="flex flex-col md:flex-row gap-8 lg:gap-12 px-4 py-12 max-w-[1400px] mx-auto">
   
   {{/* ==================== 左侧：个人资料 (Avatar & Info) ==================== */}}
   <div class="md:w-1/3 lg:w-1/4 flex-shrink-0">
-    <div class="text-center md:text-left sticky top-24">
-       {{/* 1. 头像 */}}
-       {{ if $page.Params.avatar_filename }}
-         {{ $avatar_image := resources.Get (printf "media/%s" $page.Params.avatar_filename) }}
-         {{ if $avatar_image }}
-            {{ $avatar_image := $avatar_image.Fill "400x400 Center" }}
-            <img src="{{ $avatar_image.RelPermalink }}" class="rounded-full w-32 h-32 md:w-48 md:h-48 mx-auto md:mx-0 mb-6 object-cover shadow-lg border-2 border-white dark:border-gray-800">
+    <div class="md:sticky md:top-24 text-center md:text-left">
+       
+       {{/* --- 1. 修复头像逻辑 --- */}}
+       {{ $avatar := ($page.Resources.ByType "image").GetMatch "*avatar*" }}
+       {{ if not $avatar }}
+         {{/* 如果个人文件夹没找到，去 assets/media 找 */}}
+         {{ if $page.Params.avatar_filename }}
+           {{ $avatar = resources.Get (printf "media/%s" $page.Params.avatar_filename) }}
          {{ end }}
        {{ end }}
 
-       {{/* 2. 姓名与头衔 */}}
-       <h2 class="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{{ $page.Title }}</h2>
-       {{ if $page.Params.role }}<p class="text-lg text-gray-600 dark:text-gray-400 mb-6 font-light">{{ $page.Params.role }}</p>{{ end }}
+       {{ if $avatar }}
+         {{ $avatar = $avatar.Fill "400x400 Center" }}
+         <img src="{{ $avatar.RelPermalink }}" alt="Avatar" class="rounded-full w-32 h-32 md:w-48 md:h-48 mx-auto md:mx-0 mb-6 object-cover shadow-lg border-2 border-white dark:border-gray-800">
+       {{ end }}
 
-       {{/* 3. 社交图标 (Socials) */}}
+       {{/* --- 2. 姓名与头衔 --- */}}
+       <h2 class="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{{ $page.Title }}</h2>
+       {{ if $page.Params.role }}
+         <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 font-light">{{ $page.Params.role }}</p>
+       {{ end }}
+       
+       {{/* --- 3. 组织机构 (Organizations) --- */}}
+       {{ if $page.Params.organizations }}
+         <div class="mb-6 text-sm text-gray-600 dark:text-gray-400">
+           {{ range $page.Params.organizations }}
+             <p class="font-medium text-gray-900 dark:text-gray-200">{{ .name }}</p>
+           {{ end }}
+         </div>
+       {{ end }}
+
+       {{/* --- 4. 社交图标 (Socials) --- */}}
        {{ if $page.Params.profiles }}
        <div class="flex flex-wrap gap-4 justify-center md:justify-start mb-8">
          {{ range $page.Params.profiles }}
@@ -41,10 +63,10 @@
        </div>
        {{ end }}
 
-       {{/* 4. 下载简历按钮 */}}
+       {{/* --- 5. 下载简历按钮 --- */}}
        {{ if and $block.content.button.text $block.content.button.url }}
        <div class="mt-4">
-         <a href="{{ $block.content.button.url }}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-full transition-colors shadow-sm">
+         <a href="{{ $block.content.button.url }}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-full transition-colors shadow-sm hover:shadow-md">
            {{ $block.content.button.text }}
          </a>
        </div>
@@ -52,8 +74,8 @@
     </div>
   </div>
 
-  {{/* ==================== 右侧：个人简介 + 教育背景 (图二样式) ==================== */}}
-  <div class="md:w-2/3 lg:w-3/4 max-w-2xl">
+  {{/* ==================== 右侧：个人简介 + 教育背景 (Experience 样式) ==================== */}}
+  <div class="md:w-2/3 lg:w-3/4 flex-1">
     
     {{/* --- 模块 A: 个人简介文本 (Biography) --- */}}
     {{ if $page.Content }}
@@ -62,25 +84,25 @@
     </div>
     {{ end }}
 
-    {{/* --- 模块 B: 教育背景 (Education) - 采用 Experience 样式 --- */}}
+    {{/* --- 模块 B: 教育背景 (Education) - 完美复刻 Experience 样式 --- */}}
     {{ if $page.Params.education }}
     <div class="mb-12">
       <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8 flex items-center">
-        {{/* 这里的图标可以换，例如 fas fa-graduation-cap */}}
         Education
       </h3>
       
       <div class="flex flex-col space-y-8">
         {{ range $page.Params.education }}
           {{/* 每一项教育经历 */}}
-          <div class="flex flex-row gap-4 md:gap-6">
+          <div class="group relative flex flex-row gap-4 md:gap-6 items-start">
             
-            {{/* 1. 左侧 Logo (仿照 Experience 样式) */}}
+            {{/* 1. 左侧 Logo */}}
             <div class="flex-shrink-0 mt-1">
               {{ $icon := .icon }}
               {{ $iconRes := false }}
+              
+              {{/* 逻辑：优先在 assets/media 找 */}}
               {{ if $icon }}
-                 {{/* 尝试加载 svg 或 png */}}
                  {{ $iconPathSvg := printf "media/icons/%s.svg" $icon }}
                  {{ $iconPathPng := printf "media/icons/%s.png" $icon }}
                  {{ if (resources.Get $iconPathSvg) }}
@@ -91,42 +113,42 @@
               {{ end }}
 
               {{ if $iconRes }}
-                <div class="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-2 shadow-sm flex items-center justify-center">
+                <div class="w-14 h-14 rounded-lg bg-white dark:bg-white border border-gray-100 dark:border-gray-700 p-2 shadow-sm flex items-center justify-center overflow-hidden">
                    <img src="{{ $iconRes.RelPermalink }}" alt="{{ .institution }}" class="w-full h-full object-contain">
                 </div>
               {{ else }}
-                {{/* 如果没有图片，显示默认占位图标 */}}
-                <div class="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-indigo-50 dark:bg-gray-800 border border-indigo-100 dark:border-gray-700 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                   <i class="fas fa-university text-xl"></i>
+                {{/* 默认占位符 */}}
+                <div class="w-14 h-14 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-400">
+                   <i class="fas fa-graduation-cap text-2xl"></i>
                 </div>
               {{ end }}
             </div>
 
-            {{/* 2. 右侧内容 (标题、学校、时间、描述) */}}
-            <div class="flex-1 min-w-0">
-              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
+            {{/* 2. 右侧内容区 */}}
+            <div class="flex-1 min-w-0 border-b border-gray-100 dark:border-gray-800 pb-8 last:border-0 last:pb-0">
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
                 <div>
-                  {{/* 专业/学位 (加粗) */}}
+                  {{/* 学位/专业 (作为主标题) */}}
                   <h4 class="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">
                     {{ .area }}
                   </h4>
-                  {{/* 学校名称 (常规) */}}
+                  {{/* 学校名称 */}}
                   <div class="text-base font-medium text-gray-700 dark:text-gray-300 mt-1">
                     {{ .institution }}
                   </div>
                 </div>
 
-                {{/* 时间线 (日期) */}}
-                <div class="mt-2 sm:mt-0 sm:ml-4 text-xs md:text-sm text-gray-500 dark:text-gray-400 font-mono whitespace-nowrap bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded border border-gray-100 dark:border-gray-700">
+                {{/* 时间胶囊 */}}
+                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded self-start md:self-auto whitespace-nowrap">
                   {{ if .date_start }}{{ .date_start | time.Format "Jan 2006" }}{{ end }} 
                   – 
                   {{ if .date_end }}{{ .date_end | time.Format "Jan 2006" }}{{ else }}Present{{ end }}
                 </div>
               </div>
 
-              {{/* 详细描述 (Description) */}}
+              {{/* 描述详情 (markdown 支持) */}}
               {{ if .summary }}
-              <div class="mt-3 text-sm text-gray-600 dark:text-gray-400 prose dark:prose-invert max-w-none leading-relaxed">
+              <div class="mt-4 text-sm text-gray-600 dark:text-gray-400 prose dark:prose-invert max-w-none leading-relaxed">
                 {{ .summary | markdownify | emojify }}
               </div>
               {{ end }}
@@ -138,13 +160,13 @@
     </div>
     {{ end }}
 
-    {{/* --- 模块 C: 兴趣爱好 (Interests) - 保持原有逻辑 --- */}}
+    {{/* --- 模块 C: 兴趣爱好 (Interests) --- */}}
     {{ if $page.Params.interests }}
     <div class="mb-12">
       <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Interests</h3>
       <div class="flex flex-wrap gap-2">
         {{ range $page.Params.interests }}
-        <span class="px-3 py-1 rounded-full bg-indigo-50 dark:bg-gray-800 text-indigo-700 dark:text-indigo-300 text-sm border border-indigo-100 dark:border-gray-700">
+        <span class="px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
           {{ . }}
         </span>
         {{ end }}
