@@ -16,9 +16,7 @@ main:
   - name: News
     url: blog/
     weight: 13
-  - name: Experience
-    url: experience/
-    weight: 20
+  # Experience 入口已删除
   - name: Projects
     url: project/
     weight: 30
@@ -28,4 +26,3 @@ main:
   - name: CV
     url: uploads/resume.pdf
     weight: 40
-
