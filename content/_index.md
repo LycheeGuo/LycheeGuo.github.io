@@ -99,6 +99,16 @@ sections:
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
+  # Awards (从 Experience 页面移过来的)
+  - block: resume-awards
+    content:
+      title: Awards
+      username: admin
+    design:
+      columns: '1'
+      spacing:
+        padding: ["2rem", "0", "2rem", "0"]
+
   # Gallery (相册)
   - block: markdown
     content:
