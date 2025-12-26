@@ -43,7 +43,7 @@ function initParticleBackground() {
     // Create container for particles
     const container = document.createElement('div');
     container.className = 'morphing-shapes';
-    container.style.cssText = 'position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;';
+    container.style.cssText = 'position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: -1;';
     document.body.insertBefore(container, document.body.firstChild);
 
     // Ensure body content stays above particles
