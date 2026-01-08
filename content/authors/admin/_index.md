@@ -95,7 +95,7 @@ profiles:
   - icon: academicons/cv
     url: uploads/resume.pdf
 status:
-  icon: 🫆
+  icon: 🍒
 awards:
   - title: PhD International Mobility for Partnerships and Collaborations Award
     date: 2025-05-25
