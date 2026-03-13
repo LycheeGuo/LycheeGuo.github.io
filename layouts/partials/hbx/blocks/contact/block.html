@@ -1,8 +1,6 @@
 {{/*
 ================================================================================
-==
 ==  在这里修改你的联系信息 / Edit your contact information here
-==
 ================================================================================
 */}}
 
@@ -20,9 +18,9 @@
     )
 }}
 
-{{/* 引入 Leaflet 地图库 */}}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{{/* 【关键修复】换成 Cloudflare 的全球通用 CDN，彻底避开国内打不开的 unpkg */}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
 <section class="py-12 bg-transparent" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -52,10 +50,11 @@
                   zoomControl: false 
                 });
 
-                // 【已修复】：去掉了 {r}，现在瓦片能正常加载了
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+                // 【关键修复】使用高德地图 (AMap) 底图，国内加载速度极快，全彩高清！
+                L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+                  subdomains: ['1', '2', '3', '4'],
                   maxZoom: 19,
-                  attribution: '&copy; CARTO'
+                  attribution: '&copy; 高德地图'
                 }).addTo(map);
 
                 var marker = L.marker([lat, lng]).addTo(map);
