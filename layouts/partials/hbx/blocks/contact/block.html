@@ -20,15 +20,10 @@
     )
 }}
 
-{{/*
---- End of editable section ---
-*/}}
-
 {{/* 引入 Leaflet 地图库 */}}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-{{/* 背景保持透明 */}}
 <section class="py-12 bg-transparent" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
@@ -39,10 +34,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
       {{/* ==================== 左侧：交互式地图 ==================== */}}
-      {{/* 修复点 1: 强制设定 min-height 兜底，防止高度塌陷 */}}
       <div class="w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative z-10" style="min-height: 400px;">
         {{ with $contact.coordinates }}
-          {{/* 修复点 2: 改名叫 custom-contact-map，避开主题自带脚本的自动捕捉；并使用 absolute 撑满整个父容器 */}}
           <div id="custom-contact-map" class="absolute inset-0 z-0"></div>
 
           <script>
@@ -50,10 +43,8 @@
               var lat = {{ .latitude }};
               var lng = {{ .longitude }};
 
-              // 确保元素存在再执行
               var mapContainer = document.getElementById('custom-contact-map');
               if (mapContainer) {
-                // 修复点 3: 绑定到新的 ID
                 var map = L.map('custom-contact-map', {
                   center: [lat, lng],
                   zoom: 16,
@@ -61,7 +52,8 @@
                   zoomControl: false 
                 });
 
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                // 【修复点】：换成了彩色版 (rastertiles/voyager)
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                   maxZoom: 19,
                   attribution: '&copy; CARTO'
                 }).addTo(map);
@@ -86,7 +78,6 @@
                 }
                 map.on('click', onMapClick);
 
-                // 修复点 4: 延迟半秒重新计算尺寸，彻底解决出现“灰块”的渲染 bug
                 setTimeout(function(){
                   map.invalidateSize();
                 }, 500);
