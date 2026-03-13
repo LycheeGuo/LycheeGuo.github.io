@@ -39,56 +39,58 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
       {{/* ==================== 左侧：交互式地图 ==================== */}}
-      <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative z-10">
+      {{/* 修复点 1: 强制设定 min-height 兜底，防止高度塌陷 */}}
+      <div class="w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative z-10" style="min-height: 400px;">
         {{ with $contact.coordinates }}
-          {{/* 地图容器 */}}
-          <div id="map" style="width: 100%; height: 100%;"></div>
+          {{/* 修复点 2: 改名叫 custom-contact-map，避开主题自带脚本的自动捕捉；并使用 absolute 撑满整个父容器 */}}
+          <div id="custom-contact-map" class="absolute inset-0 z-0"></div>
 
           <script>
             document.addEventListener('DOMContentLoaded', function() {
-              // 1. 获取预设坐标
               var lat = {{ .latitude }};
               var lng = {{ .longitude }};
 
-              // 2. 初始化地图
-              var map = L.map('map', {
-                center: [lat, lng],
-                zoom: 16,
-                attributionControl: false, 
-                zoomControl: false 
-              });
+              // 确保元素存在再执行
+              var mapContainer = document.getElementById('custom-contact-map');
+              if (mapContainer) {
+                // 修复点 3: 绑定到新的 ID
+                var map = L.map('custom-contact-map', {
+                  center: [lat, lng],
+                  zoom: 16,
+                  attributionControl: false, 
+                  zoomControl: false 
+                });
 
-              // 3. 添加图层 (使用对国内友好的 CARTO 底图)
-              L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; CARTO'
-              }).addTo(map);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                  maxZoom: 19,
+                  attribution: '&copy; CARTO'
+                }).addTo(map);
 
-              // 4. 添加红色位置标记 (Marker)
-              var marker = L.marker([lat, lng]).addTo(map);
-              
-              // 定义弹窗内容
-              var defaultContent = `
-                <div style="font-size: 14px; line-height: 1.5;">
-                  <strong>{{ $contact.directions }}</strong><br>
-                  {{ $contact.address.street }}
-                </div>
-              `;
-              
-              // 绑定弹窗
-              marker.bindPopup(defaultContent);
+                var marker = L.marker([lat, lng]).addTo(map);
+                
+                var defaultContent = `
+                  <div style="font-size: 14px; line-height: 1.5;">
+                    <strong>{{ $contact.directions }}</strong><br>
+                    {{ $contact.address.street }}
+                  </div>
+                `;
+                
+                marker.bindPopup(defaultContent);
 
-              // 5. 点击地图显示地址 (移除了国内极慢的 Nominatim 解析，改为直接显示经纬度，避免卡顿)
-              var clickPopup = L.popup();
+                var clickPopup = L.popup();
+                function onMapClick(e) {
+                  clickPopup
+                    .setLatLng(e.latlng)
+                    .setContent(`<div style="font-size:13px;">📍 坐标: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</div>`)
+                    .openOn(map);
+                }
+                map.on('click', onMapClick);
 
-              function onMapClick(e) {
-                clickPopup
-                  .setLatLng(e.latlng)
-                  .setContent(`<div style="font-size:13px;">📍 坐标: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</div>`)
-                  .openOn(map);
+                // 修复点 4: 延迟半秒重新计算尺寸，彻底解决出现“灰块”的渲染 bug
+                setTimeout(function(){
+                  map.invalidateSize();
+                }, 500);
               }
-              
-              map.on('click', onMapClick);
             });
           </script>
         {{ else }}
