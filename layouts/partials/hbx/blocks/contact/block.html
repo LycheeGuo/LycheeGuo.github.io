@@ -33,7 +33,6 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
     <div class="mb-10">
-      {{/* 修复点 1: 大标题添加 dark:text-gray-50 */}}
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl">Contact</h2>
     </div>
 
@@ -59,9 +58,10 @@
                 zoomControl: false 
               });
 
-              // 3. 添加图层 (OpenStreetMap)
-              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19
+              // 3. 添加图层 (使用对国内友好的 CARTO 底图)
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; CARTO'
               }).addTo(map);
 
               // 4. 添加红色位置标记 (Marker)
@@ -78,25 +78,14 @@
               // 绑定弹窗
               marker.bindPopup(defaultContent);
 
-              // 5. 点击地图显示地址
+              // 5. 点击地图显示地址 (移除了国内极慢的 Nominatim 解析，改为直接显示经纬度，避免卡顿)
               var clickPopup = L.popup();
 
               function onMapClick(e) {
-                clickPopup.setLatLng(e.latlng).setContent("📍 查询中...").openOn(map);
-
-                var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&zoom=18&addressdetails=1&accept-language=zh-CN,en`;
-
-                fetch(url)
-                  .then(response => response.json())
-                  .then(data => {
-                    var addressName = data.display_name || "未知位置";
-                    var shortName = addressName.split(',').slice(0, 3).join(',');
-                    clickPopup.setContent(`<div style="font-size:13px; max-width:200px;">📍 ${shortName}</div>`);
-                  })
-                  .catch(err => {
-                    console.error(err);
-                    clickPopup.setContent(`📍 ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`);
-                  });
+                clickPopup
+                  .setLatLng(e.latlng)
+                  .setContent(`<div style="font-size:13px;">📍 坐标: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</div>`)
+                  .openOn(map);
               }
               
               map.on('click', onMapClick);
@@ -114,15 +103,12 @@
         {{ with $contact.email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
-            {{/* 修复点 2: 图标背景适配深色模式 (dark:bg-indigo-900 dark:text-indigo-300) */}}
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-300">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5A2.25 2.25 0 012.25 16.5V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15A2.25 2.25 0 002.25 6.75m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
             </span>
           </div>
           <div class="ml-4">
-            {{/* 修复点 3: 标题颜色适配 (dark:text-gray-50) */}}
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-50">Email</h3>
-            {{/* 修复点 4: 内容颜色适配 (dark:text-gray-300) */}}
             <p class="mt-1 text-gray-600 dark:text-gray-300">
               <a href="mailto:{{ . }}" class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition">{{ . }}</a>
             </p>
@@ -154,7 +140,6 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-50">Address</h3>
             <div class="mt-1 text-gray-600 dark:text-gray-300">
-              {{/* 修复点 5: 街道地址适配 (dark:text-gray-200) */}}
               {{ with .street }}<p class="font-medium text-gray-800 dark:text-gray-200">{{ . }}</p>{{ end }}
               <p>{{ .city }}{{ if .region }}, {{ .region }}{{ end }}</p>
               {{ with .country }}<p>{{ . }}</p>{{ end }}
