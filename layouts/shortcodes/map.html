@@ -1,25 +1,20 @@
 {{/* layouts/shortcodes/map.html */}}
 {{ $lat := float (.Get "lat") }}
 {{ $lon := float (.Get "lon") }}
-{{ $delta := 0.005 }}
-{{ $min_lon := sub $lon $delta }}
-{{ $min_lat := sub $lat $delta }}
-{{ $max_lon := add $lon $delta }}
-{{ $max_lat := add $lat $delta }}
+{{ $zoom := default 15 (.Get "zoom") }}
+{{/* 生成唯一 ID 确保同一页面可以加载多个地图 */}}
+{{ $id := delimit (slice "map" .Ordinal) "-" }}
 
-<div style="width: 90vw; position: relative; left: 50%; margin-left: -45vw;" class="h-[60vh] my-12 shadow-2xl rounded-xl overflow-hidden">
-  <iframe 
-    width="100%" 
-    height="100%" 
-    frameborder="0" 
-    scrolling="no" 
-    marginheight="0" 
-    marginwidth="0" 
-    src="https://www.openstreetmap.org/export/embed.html?bbox={{ $min_lon }},{{ $min_lat }},{{ $max_lon }},{{ $max_lat }}&amp;layer=mapnik&amp;marker={{ $lat }},{{ $lon }}" 
-    style="border: 0; display: block;">
-  </iframe>
+{{/* 引入 Leaflet 库 (防止页面其它地方未引入) */}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<div style="width: 90vw; position: relative; left: 50%; margin-left: -45vw;" class="h-[60vh] my-12 shadow-2xl rounded-xl overflow-hidden relative">
   
-  <div class="absolute bottom-4 right-4 z-10">
+  {{/* 动态渲染的地图容器 */}}
+  <div id="{{ $id }}" style="width: 100%; height: 100%; z-index: 1;"></div>
+  
+  <div class="absolute bottom-4 right-4 z-10" style="z-index: 400;">
     <a href="https://www.openstreetmap.org/?mlat={{ $lat }}&amp;mlon={{ $lon }}#map=15/{{ $lat }}/{{ $lon }}" 
        target="_blank" 
        class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow-lg text-sm font-medium hover:bg-gray-50 transition duration-300 no-underline">
@@ -27,3 +22,24 @@
     </a>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 初始化文章内的地图
+    var map_{{ .Ordinal }} = L.map('{{ $id }}', {
+      center: [{{ $lat }}, {{ $lon }}],
+      zoom: {{ $zoom }},
+      attributionControl: false,
+      scrollWheelZoom: false // 关闭滚轮缩放，防止读者向下阅读滚动文章时误触地图缩放
+    });
+
+    // 使用国内友好的 CARTO 底图
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; CARTO'
+    }).addTo(map_{{ .Ordinal }});
+
+    // 添加中心位置图钉
+    L.marker([{{ $lat }}, {{ $lon }}]).addTo(map_{{ .Ordinal }});
+  });
+</script>
