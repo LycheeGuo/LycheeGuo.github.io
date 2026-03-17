@@ -134,8 +134,8 @@ sections:
         country: 'Hong Kong'
         postcode: '' 
       coordinates:
-        latitude: 22.41561573970213
-        longitude: 114.20716648370569
+        latitude: 22.4120
+        longitude: 114.2124
       autolink: true
     design:
       columns: '2'
