@@ -1,6 +1,8 @@
 {{/*
 ================================================================================
+==
 ==  在这里修改你的联系信息 / Edit your contact information here
+==
 ================================================================================
 */}}
 
@@ -13,76 +15,91 @@
         "region"  "New Territories"
     )
     "coordinates" (dict
-        "latitude"  22.4120
-        "longitude"  114.2124
-
+        "latitude"  22.41561573970213
+        "longitude" 114.20716648370569
     )
 }}
 
-{{/* 【关键修复】换成 Cloudflare 的全球通用 CDN，彻底避开国内打不开的 unpkg */}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+{{/*
+--- End of editable section ---
+*/}}
 
+{{/* 引入 Leaflet 地图库 */}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+{{/* 背景保持透明 */}}
 <section class="py-12 bg-transparent" id="contact">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     
     <div class="mb-10">
+      {{/* 修复点 1: 大标题添加 dark:text-gray-50 */}}
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl">Contact</h2>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       
       {{/* ==================== 左侧：交互式地图 ==================== */}}
-      <div class="w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative z-10" style="min-height: 400px;">
+      <div class="h-96 lg:h-auto min-h-[400px] w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50 relative z-10">
         {{ with $contact.coordinates }}
-          <div id="custom-contact-map" class="absolute inset-0 z-0"></div>
+          {{/* 地图容器 */}}
+          <div id="map" style="width: 100%; height: 100%;"></div>
 
           <script>
             document.addEventListener('DOMContentLoaded', function() {
+              // 1. 获取预设坐标
               var lat = {{ .latitude }};
               var lng = {{ .longitude }};
 
-              var mapContainer = document.getElementById('custom-contact-map');
-              if (mapContainer) {
-                var map = L.map('custom-contact-map', {
-                  center: [lat, lng],
-                  zoom: 16,
-                  attributionControl: false, 
-                  zoomControl: false 
-                });
+              // 2. 初始化地图
+              var map = L.map('map', {
+                center: [lat, lng],
+                zoom: 16,
+                attributionControl: false, 
+                zoomControl: false 
+              });
 
-                // 【关键修复】使用高德地图 (AMap) 底图，国内加载速度极快，全彩高清！
-                L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-                  subdomains: ['1', '2', '3', '4'],
-                  maxZoom: 19,
-                  attribution: '&copy; 高德地图'
-                }).addTo(map);
+              // 3. 添加图层 (OpenStreetMap)
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
+              }).addTo(map);
 
-                var marker = L.marker([lat, lng]).addTo(map);
-                
-                var defaultContent = `
-                  <div style="font-size: 14px; line-height: 1.5;">
-                    <strong>{{ $contact.directions }}</strong><br>
-                    {{ $contact.address.street }}
-                  </div>
-                `;
-                
-                marker.bindPopup(defaultContent);
+              // 4. 添加红色位置标记 (Marker)
+              var marker = L.marker([lat, lng]).addTo(map);
+              
+              // 定义弹窗内容
+              var defaultContent = `
+                <div style="font-size: 14px; line-height: 1.5;">
+                  <strong>{{ $contact.directions }}</strong><br>
+                  {{ $contact.address.street }}
+                </div>
+              `;
+              
+              // 绑定弹窗
+              marker.bindPopup(defaultContent);
 
-                var clickPopup = L.popup();
-                function onMapClick(e) {
-                  clickPopup
-                    .setLatLng(e.latlng)
-                    .setContent(`<div style="font-size:13px;">📍 坐标: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</div>`)
-                    .openOn(map);
-                }
-                map.on('click', onMapClick);
+              // 5. 点击地图显示地址
+              var clickPopup = L.popup();
 
-                // 延迟重绘防错位
-                setTimeout(function(){
-                  map.invalidateSize();
-                }, 500);
+              function onMapClick(e) {
+                clickPopup.setLatLng(e.latlng).setContent("📍 查询中...").openOn(map);
+
+                var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&zoom=18&addressdetails=1&accept-language=zh-CN,en`;
+
+                fetch(url)
+                  .then(response => response.json())
+                  .then(data => {
+                    var addressName = data.display_name || "未知位置";
+                    var shortName = addressName.split(',').slice(0, 3).join(',');
+                    clickPopup.setContent(`<div style="font-size:13px; max-width:200px;">📍 ${shortName}</div>`);
+                  })
+                  .catch(err => {
+                    console.error(err);
+                    clickPopup.setContent(`📍 ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`);
+                  });
               }
+              
+              map.on('click', onMapClick);
             });
           </script>
         {{ else }}
@@ -97,12 +114,15 @@
         {{ with $contact.email }}
         <div class="flex items-start">
           <div class="flex-shrink-0">
+            {{/* 修复点 2: 图标背景适配深色模式 (dark:bg-indigo-900 dark:text-indigo-300) */}}
             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-300">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5A2.25 2.25 0 012.25 16.5V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15A2.25 2.25 0 002.25 6.75m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
             </span>
           </div>
           <div class="ml-4">
+            {{/* 修复点 3: 标题颜色适配 (dark:text-gray-50) */}}
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-50">Email</h3>
+            {{/* 修复点 4: 内容颜色适配 (dark:text-gray-300) */}}
             <p class="mt-1 text-gray-600 dark:text-gray-300">
               <a href="mailto:{{ . }}" class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition">{{ . }}</a>
             </p>
@@ -134,6 +154,7 @@
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-50">Address</h3>
             <div class="mt-1 text-gray-600 dark:text-gray-300">
+              {{/* 修复点 5: 街道地址适配 (dark:text-gray-200) */}}
               {{ with .street }}<p class="font-medium text-gray-800 dark:text-gray-200">{{ . }}</p>{{ end }}
               <p>{{ .city }}{{ if .region }}, {{ .region }}{{ end }}</p>
               {{ with .country }}<p>{{ . }}</p>{{ end }}
