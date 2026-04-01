@@ -58,7 +58,7 @@ features:
   privacy_pack:
     enable: true
   map:
-    provider: ' '
+    provider: 'mapnik'
     zoom: 15
 email: 'guolz@link.cuhk.edu.hk' 
 
