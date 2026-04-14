@@ -8,6 +8,7 @@ authors:
   - Xin Zhou
   - Yiying Wang
   - Tengfei Guo
+publication: "*Alzheimer's & Dementia*"
 abstract: >-
   Background
 
