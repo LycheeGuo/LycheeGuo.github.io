@@ -30,7 +30,7 @@ abstract: >-
 draft: false
 featured: false
 image:
-  filename: featured
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 date: 2025-12-25T00:00:00.000+08:00
