@@ -24,7 +24,7 @@ sections:
       spacing:
         padding: ['0', '0', '0', '0']
 
-  # Featured Publications (精选论文 - 正常间距)
+  # Featured Publications 
   - block: collection
     id: papers
     content:
@@ -40,9 +40,9 @@ sections:
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
-  # Recent Publications (最新论文 - ★★★ 紧凑模式 ★★★)
+  # Recent Publications 
   - block: collection
-    id: recent-pubs  # <--- ★★★ 这一行必须有！否则 CSS 也就是没用的！ ★★★
+    id: recent-pubs  
     content:
       title: Recent Publications
       text: ''
@@ -54,9 +54,9 @@ sections:
     design:
       view: citation
       spacing:
-        padding: ["0.5rem", "0", "1rem", "0"] # 我帮你把顶部 padding 改得更小了 (0.5rem)
+        padding: ["0.5rem", "0", "1rem", "0"] 
 
-  # Recent News (最新动态)
+  # Recent News 
   - block: collection
     id: news
     content:
@@ -81,7 +81,7 @@ sections:
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
-  # Projects (项目)
+  # Projects 
   - block: collection
     content:
       title: Projects
@@ -97,7 +97,7 @@ sections:
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
-  # Awards (从 Experience 页面移过来的)
+  # Awards 
   - block: resume-awards
     content:
       title: Awards
@@ -107,7 +107,7 @@ sections:
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
-  # Gallery (相册)
+  # Gallery 
   - block: markdown
     content:
       title: Gallery
@@ -119,7 +119,7 @@ sections:
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
-  # Contact (联系方式)
+  # Contact 
   - block: contact
     id: contact
     content:
