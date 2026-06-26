@@ -13,17 +13,6 @@ Prior to my doctoral studies, I worked as a Research Assistant at the **Shenzhen
 * 🧬 **Multi-modal Biomarkers** (Neuroimaging & Fluid)
 * 👥 **Psychosocial Aging** (Social Isolation & Loneliness)
 
-### 📝 Selected Publications & Service
-My work has been published in leading peer-reviewed journals, including:
-* *Alzheimer’s & Dementia*
-* *Alzheimer’s Research & Therapy*
-* *Neurobiology of Aging*
-* *Age and Ageing*
-* *Journal of Affective Disorders*
-* *Archives of Gerontology and Geriatrics*
-
-I also serve as a reviewer for *Alzheimer’s & Dementia*, *Age and Ageing*, and *Depression and Anxiety*.
-
 ### 📫 Connect with Me
 * 📧 **Email:** [guolz@link.cuhk.edu.hk](mailto:guolz@link.cuhk.edu.hk)
 * 🌐 **Website:** [Lizhi Guo](https://www.lizhiguo.me/)
