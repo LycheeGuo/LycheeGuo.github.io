@@ -40,6 +40,8 @@ tags:
   - ESI Highly Cited Paper (Top 1% in Clinical Medicine)
 categories:
   - ESI Highly Cited Paper (Top 1% in Clinical Medicine)
+projects:
+  - Social Relationship
 image:
   filename: featured.png
   focal_point: Smart
