@@ -38,15 +38,7 @@
         {{ if or (eq $item.Type "publication") (eq $item.Params.type "publication") }}
           <div class="text-gray-800 dark:text-gray-300 font-medium">
             {{ if $item.Params.authors }}
-              {{ $authors := slice }}
-              {{ range $item.Params.authors }}
-                {{ if eq . "admin" }}
-                  {{ $authors = $authors | append "<b><u>Lizhi Guo</u></b>" }}
-                {{ else }}
-                  {{ $authors = $authors | append . }}
-                {{ end }}
-              {{ end }}
-              {{ delimit $authors ", " | safeHTML }}
+              {{ range $idx, $author := $item.Params.authors }}{{ if $idx }}, {{ end }}{{ if eq $author "admin" }}<strong class="font-bold text-gray-900 dark:text-gray-100"><u>Lizhi Guo</u></strong>{{ else }}{{ $author }}{{ end }}{{ end }}
             {{ end }}
           </div>
         {{ else }}
@@ -74,11 +66,16 @@
             {{ $item.Params.publication | markdownify }}
           </span>
         {{ end }}
-        {{ if $item.Params.doi }}
-           <a href="https://doi.org/{{ $item.Params.doi }}" target="_blank" class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100 transition-colors no-underline">
-             DOI ↗
-           </a>
+        {{ with $item.Params.doi }}
+          {{ $doi := trim (printf "%v" .) " " }}
+          {{ $doi = replaceRE "^https?://(dx\\.)?doi\\.org/" "" $doi }}
+          {{ if $doi }}
+          <a href="https://doi.org/{{ $doi }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded px-2 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-900 no-underline">DOI</a>
+          {{ end }}
         {{ end }}
+        {{ with $item.Params.url_pdf }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded px-2 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-900 no-underline">PDF</a>{{ end }}
+        {{ with $item.Resources.GetMatch "cite.bib" }}<a href="{{ .RelPermalink }}" download class="inline-flex items-center rounded px-2 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-900 no-underline">BibTeX</a>{{ end }}
+        {{ with $item.Params.url_code }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded px-2 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-900 no-underline">Code</a>{{ end }}
       {{ end }}
     </div>
   </div>
