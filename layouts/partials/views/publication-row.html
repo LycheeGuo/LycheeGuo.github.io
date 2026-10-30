@@ -1,0 +1,45 @@
+{{/* Compact, image-free citation row used only on the Publications page. */}}
+{{- $item := .item -}}
+{{- $link := $item.RelPermalink -}}
+{{- $external := false -}}
+{{- with $item.Params.external_link -}}
+  {{- $link = . -}}
+  {{- $external = true -}}
+{{- end -}}
+<article class="academic-pub-item">
+  <div class="academic-pub-year">{{ $item.Date | time.Format "2006" }}</div>
+  <div class="academic-pub-detail">
+    <h3 class="academic-pub-paper-title">
+      <a href="{{ $link }}"{{ if $external }} target="_blank" rel="noopener noreferrer"{{ end }}>{{ $item.Title }}</a>
+    </h3>
+    {{ with $item.Params.authors }}
+    <p class="academic-pub-authors">
+      {{- range $index, $author := . -}}
+        {{- if $index }}, {{ end -}}
+        {{- if eq $author "admin" -}}<strong>Lizhi Guo</strong>{{- else -}}{{ $author }}{{- end -}}
+      {{- end -}}
+    </p>
+    {{ end }}
+    <div class="academic-pub-bottom">
+      {{ with $item.Params.publication }}<span class="academic-pub-journal">{{ . | markdownify }}</span>{{ end }}
+      <div class="academic-pub-actions">
+        {{- with $item.Params.doi -}}
+          {{- $doi := trim (printf "%v" .) " " -}}
+          {{- $doi = replaceRE "^https?://(dx\\.)?doi\\.org/" "" $doi -}}
+          {{- if $doi -}}
+            <a class="academic-pub-link" href="https://doi.org/{{ $doi }}" target="_blank" rel="noopener noreferrer" aria-label="Open DOI for {{ $item.Title }}">DOI</a>
+          {{- end -}}
+        {{- end -}}
+        {{- with $item.Params.url_pdf -}}
+          <a class="academic-pub-link" href="{{ . }}" target="_blank" rel="noopener noreferrer" aria-label="Read PDF for {{ $item.Title }}">PDF</a>
+        {{- end -}}
+        {{- with $item.Resources.GetMatch "cite.bib" -}}
+          <a class="academic-pub-link" href="{{ .RelPermalink }}" download aria-label="Download BibTeX for {{ $item.Title }}">BibTeX</a>
+        {{- end -}}
+        {{- with $item.Params.url_code -}}
+          <a class="academic-pub-link" href="{{ . }}" target="_blank" rel="noopener noreferrer" aria-label="Open research code for {{ $item.Title }}">Code</a>
+        {{- end -}}
+      </div>
+    </div>
+  </div>
+</article>
