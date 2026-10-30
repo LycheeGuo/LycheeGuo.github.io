@@ -1,14 +1,19 @@
 ---
-title: ""
+title: Publications
+summary: Peer-reviewed publications and conference abstracts by Lizhi Guo.
+type: landing
 cms_exclude: true
+sections:
+  - block: markdown
+    id: publications
+    content:
+      title: Publications
+      text: |-
+        Peer-reviewed journal papers and conference abstracts, grouped by authorship and publication type. **Lizhi Guo** is highlighted in each citation. Items are listed from newest to oldest.
 
-# 视图必须是 compact
-view: compact
-
-design:
-  columns: '1'
+        {{< publications >}}
+    design:
+      columns: '1'
+      spacing:
+        padding: ["2rem", "0", "3rem", "0"]
 ---
-
-<h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100" style="margin-top: 0px; margin-bottom: 60px;">
-  Publications
-</h2>
