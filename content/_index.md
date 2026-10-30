@@ -107,18 +107,6 @@ sections:
       spacing:
         padding: ["2rem", "0", "2rem", "0"]
 
-  # Gallery 
-  - block: markdown
-    content:
-      title: Gallery
-      subtitle: ''
-      text: |-
-        {{< gallery album="demo" >}}
-    design:
-      columns: '1'
-      spacing:
-        padding: ["2rem", "0", "2rem", "0"]
-
   # Contact 
   - block: contact
     id: contact
