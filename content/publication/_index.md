@@ -9,8 +9,6 @@ sections:
     content:
       title: Publications
       text: |-
-        Peer-reviewed journal papers and conference abstracts, grouped by authorship and publication type. **Lizhi Guo** is highlighted in each citation. Items are listed from newest to oldest.
-
         {{< publications >}}
     design:
       columns: '1'
