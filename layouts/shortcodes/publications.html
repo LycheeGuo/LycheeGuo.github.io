@@ -14,6 +14,32 @@
     {{- $coauthored = $coauthored | append . -}}
   {{- end -}}
 {{- end -}}
+<style>
+.academic-pub-wrap{width:min(1060px,calc(100vw - 48px));max-width:none;position:relative;left:50%;transform:translateX(-50%);font-size:16px}
+.academic-pub-wrap .academic-pub-intro{font-size:15px;line-height:1.75;color:#64748b;max-width:760px;margin:0 0 22px}
+.academic-pub-wrap .academic-pub-item{display:grid;grid-template-columns:70px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid #e5e7eb}
+.academic-pub-wrap .academic-pub-year{font-size:14px;color:#64748b;font-variant-numeric:tabular-nums;padding-top:3px}
+.academic-pub-wrap .academic-pub-detail{min-width:0}
+.academic-pub-wrap .academic-pub-paper-title{font-size:17px;font-weight:650;line-height:1.5;letter-spacing:-.01em;margin:0 0 9px}
+.academic-pub-wrap .academic-pub-paper-title a{text-decoration:none!important;color:#172033}
+.academic-pub-wrap .academic-pub-paper-title a:hover{color:#4f46e5}
+.academic-pub-wrap .academic-pub-authors{font-size:14px;line-height:1.65;color:#475569;margin:0 0 9px;overflow-wrap:anywhere}
+.academic-pub-wrap .academic-pub-authors strong{color:#1e293b;font-weight:700}
+.academic-pub-wrap .academic-pub-bottom{display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px}
+.academic-pub-wrap .academic-pub-journal{font-size:14px;color:#64748b}
+.academic-pub-wrap .academic-pub-actions{display:flex;flex-wrap:wrap;gap:7px}
+.academic-pub-wrap .academic-pub-link{font-size:12px;font-weight:600;color:#4f46e5;text-decoration:none!important;border:1px solid #c7d2fe;border-radius:6px;padding:3px 9px;line-height:1.55}
+.academic-pub-wrap .academic-pub-link:hover{background:#eef2ff}
+.dark .academic-pub-wrap .academic-pub-item{border-color:#334155}
+.dark .academic-pub-wrap .academic-pub-paper-title a,.dark .academic-pub-wrap .academic-pub-authors strong{color:#f1f5f9}
+.dark .academic-pub-wrap .academic-pub-authors{color:#cbd5e1}
+.dark .academic-pub-wrap .academic-pub-journal,.dark .academic-pub-wrap .academic-pub-year,.dark .academic-pub-wrap .academic-pub-intro{color:#94a3b8}
+.dark .academic-pub-wrap .academic-pub-link{color:#a5b4fc;border-color:#475569}
+.dark .academic-pub-wrap .academic-pub-link:hover{background:#312e81}
+@media(max-width:640px){.academic-pub-wrap{width:calc(100vw - 36px)}.academic-pub-wrap .academic-pub-item{grid-template-columns:1fr;gap:3px;padding:20px 0}.academic-pub-wrap .academic-pub-paper-title{font-size:16px}.academic-pub-wrap .academic-pub-authors{font-size:13px}.academic-pub-wrap .academic-pub-intro{font-size:14px}}
+</style>
+<div class="academic-pub-wrap">
+<p class="academic-pub-intro">Peer-reviewed journal publications and conference abstracts, organized by authorship and publication type. Lizhi Guo is highlighted in the author lists.</p>
 <nav aria-label="Publication groups" class="not-prose flex flex-wrap gap-2 mb-8 text-sm">
   <a href="#first-author-publications" class="inline-flex rounded-full px-3 py-2 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500">First-author ({{ len $first }})</a>
   <a href="#coauthored-publications" class="inline-flex rounded-full px-3 py-2 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500">Co-authored ({{ len $coauthored }})</a>
@@ -32,10 +58,12 @@
   </div>
   {{- if .items }}
     {{- range .items }}
-      {{- partial "views/compact.html" (dict "item" .) -}}
+      {{- partial "views/publication-row.html" (dict "item" .) -}}
     {{- end }}
   {{- else }}
     <p class="text-gray-500 dark:text-gray-400">No items in this category yet.</p>
   {{- end }}
 </section>
 {{- end }}
+
+</div>
