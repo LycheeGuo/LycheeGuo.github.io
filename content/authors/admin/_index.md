@@ -50,6 +50,7 @@ interests:
 education:
   - area: Ph.D in Psychology
     institution: The Chinese University of Hong Kong
+    url: https://www.cuhk.edu.hk
     icon: custom/org-cuhk
     date_start: 2023-08-01
     date_end: 2027-06-30
@@ -59,6 +60,7 @@ education:
       * Supervisor: [Prof. Helene Hoi-Lam FUNG](https://cumotivationandemotion.psy.cuhk.edu.hk/blog/), [Prof. Hanna Lu](https://thebrainx.com/)
   - area: Visiting Ph.D student
     institution: King's College London
+    url: https://www.kcl.ac.uk
     icon: custom/org-kcl
     date_start: 2025-08-01
     date_end: 2026-02-01
@@ -68,6 +70,7 @@ education:
       * Supervisor: [Prof. Dag Aarsland](https://www.kcl.ac.uk/people/dag-aarsland)
   - area: M.Ed in Applied Psychology
     institution: Tianjin University
+    url: https://en.tju.edu.cn/
     icon: custom/org-tju
     date_start: 2019-09-01
     date_end: 2022-01-30
@@ -76,6 +79,7 @@ education:
       * Supervisor: [Prof. Bin Yu](https://bin-team.netlify.app/)
   - area: B.E in Material Forming & Control Engineering
     institution: Jilin University
+    url: https://en.jlu.edu.cn/
     icon: custom/org-x
     date_start: 2014-09-01
     date_end: 2018-06-30
