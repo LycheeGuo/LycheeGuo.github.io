@@ -1,0 +1,41 @@
+{{/* Automatically classify publication pages by type and first-listed author. */}}
+{{- $all := where site.RegularPages "Section" "publication" -}}
+{{- $first := slice -}}
+{{- $coauthored := slice -}}
+{{- $abstracts := slice -}}
+{{- range $all.ByDate.Reverse -}}
+  {{- $authors := .Params.authors -}}
+  {{- $types := .Params.publication_types -}}
+  {{- if and $types (in $types "paper-conference") -}}
+    {{- $abstracts = $abstracts | append . -}}
+  {{- else if and $authors (eq (index $authors 0) "admin") -}}
+    {{- $first = $first | append . -}}
+  {{- else -}}
+    {{- $coauthored = $coauthored | append . -}}
+  {{- end -}}
+{{- end -}}
+<nav aria-label="Publication groups" class="not-prose flex flex-wrap gap-2 mb-8 text-sm">
+  <a href="#first-author-publications" class="inline-flex rounded-full px-3 py-2 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500">First-author ({{ len $first }})</a>
+  <a href="#coauthored-publications" class="inline-flex rounded-full px-3 py-2 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500">Co-authored ({{ len $coauthored }})</a>
+  <a href="#conference-abstracts" class="inline-flex rounded-full px-3 py-2 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500">Conference abstracts ({{ len $abstracts }})</a>
+</nav>
+{{- $groups := slice
+  (dict "id" "first-author-publications" "title" "First-author Publications" "items" $first)
+  (dict "id" "coauthored-publications" "title" "Co-authored Publications" "items" $coauthored)
+  (dict "id" "conference-abstracts" "title" "Conference Abstracts" "items" $abstracts)
+-}}
+{{- range $groups }}
+<section id="{{ .id }}" aria-labelledby="{{ .id }}-heading" class="not-prose scroll-mt-24 mb-12">
+  <div class="flex items-baseline justify-between gap-4 border-b-2 border-indigo-100 dark:border-indigo-900 pb-3 mb-6">
+    <h2 id="{{ .id }}-heading" class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">{{ .title }}</h2>
+    <span class="text-sm text-gray-500 dark:text-gray-400">{{ len .items }} {{ if eq (len .items) 1 }}item{{ else }}items{{ end }}</span>
+  </div>
+  {{- if .items }}
+    {{- range .items }}
+      {{- partial "views/compact.html" (dict "item" .) -}}
+    {{- end }}
+  {{- else }}
+    <p class="text-gray-500 dark:text-gray-400">No items in this category yet.</p>
+  {{- end }}
+</section>
+{{- end }}
