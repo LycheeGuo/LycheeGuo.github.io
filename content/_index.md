@@ -108,7 +108,7 @@ sections:
         padding: ["2rem", "0", "2rem", "0"]
 
   # Gallery 
-  - block: markdown
+ # - block: markdown
     content:
       title: Gallery
       subtitle: ''
