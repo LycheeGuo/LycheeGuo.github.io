@@ -115,8 +115,7 @@ awards:
     awarder: Ministry of Education of China
     icon: hero/currency-yen
     summary: >
-      Awarded the prestigious National Scholarship for outstanding academic
-      performance during postgraduate studies.
+      Recipient of the highest national honor awarded to graduate students by the Ministry of Education of China, recognizing top-tier research output and academic distinction.
   - title: Outstanding Master's Thesis
     date: 2022-01-01
     awarder: Tianjin University
