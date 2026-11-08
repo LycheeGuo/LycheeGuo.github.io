@@ -98,8 +98,8 @@ profiles:
     url: https://orcid.org/0000-0002-5701-0416
   - icon: academicons/cv
     url: uploads/resume.pdf
-status:
-  icon: 🫵
+# status:
+#  icon: 🫵
 awards:
   - title: PhD International Mobility for Partnerships and Collaborations Award
     date: 2025-05-25
