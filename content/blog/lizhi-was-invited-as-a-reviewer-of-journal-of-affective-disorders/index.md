@@ -9,4 +9,4 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-Lizhi has been invited as a reviewer of ***Journal of Affective Disorders***.
+Lizhi was invited as a reviewer of ***Journal of Affective Disorders***.
